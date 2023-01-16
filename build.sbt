@@ -14,7 +14,7 @@ ThisBuild / developers := List(
     url = url("https://innovenso.com")
   )
 )
-ThisBuild / description := "The Innovenso Townplanner is a set of libraries used to document a company's enterprise architecture."
+ThisBuild / description := "Domain model for the Innozu Enterprise Architecture tool."
 ThisBuild / licenses := List(
   "GNU General Public License v3" -> new URL(
     "https://www.gnu.org/licenses/gpl-3.0.txt"
