@@ -8,7 +8,6 @@ import com.innovenso.townplanner.model.meta._
 case class ItPlatform(
     key: Key = Key("it platform"),
     sortKey: SortKey = SortKey.next,
-    title: String,
     properties: Map[Key, Property] = Map.empty[Key, Property]
 ) extends Element
     with HasDescription
@@ -65,7 +64,8 @@ case class ItPlatformConfigurer(
     modelComponent: ItPlatform,
     propertyAdder: CanAddProperties,
     relationshipAdder: CanAddRelationships
-) extends CanConfigureDescription[ItPlatform]
+) extends CanConfigureTitle[ItPlatform]
+    with CanConfigureDescription[ItPlatform]
     with CanConfigureCompositionSource[ItPlatform]
     with CanConfigureArchitectureVerdict[ItPlatform]
     with CanConfigureLinks[ItPlatform]

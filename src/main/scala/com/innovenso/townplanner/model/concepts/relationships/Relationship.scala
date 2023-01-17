@@ -2,7 +2,12 @@ package com.innovenso.townplanner.model.concepts.relationships
 
 import com.innovenso.townplanner.model.concepts.CanBeImplementedByTechnologies
 import com.innovenso.townplanner.model.concepts.properties._
-import com.innovenso.townplanner.model.language.{CanAddModelComponents, Concept, Element, HasModelComponents}
+import com.innovenso.townplanner.model.language.{
+  CanAddModelComponents,
+  Concept,
+  Element,
+  HasModelComponents
+}
 import com.innovenso.townplanner.model.meta._
 
 trait Relationship
@@ -21,7 +26,6 @@ trait Relationship
 
   def key: Key
 
-  def title: String
   def bidirectional: Boolean
   def source: Key
   def target: Key
@@ -265,7 +269,8 @@ case class RelationshipConfigurer(
     modelComponent: Relationship,
     propertyAdder: CanAddProperties,
     relationshipAdder: CanAddRelationships
-) extends CanConfigureDescription[Relationship]
+) extends CanConfigureTitle[Relationship]
+    with CanConfigureDescription[Relationship]
     with CanConfigureFatherTime[Relationship]
     with CanConfigureImplementationTarget[Relationship] {
 

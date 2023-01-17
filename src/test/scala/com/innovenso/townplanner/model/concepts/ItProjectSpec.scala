@@ -8,32 +8,26 @@ import org.scalatest.flatspec.AnyFlatSpec
 class ItProjectSpec extends AnyFlatSpec with GivenWhenThen {
   "IT Projects" can "be added to the town plan" in new EnterpriseArchitectureContext {
     Given("an enterprise")
-    val innovenso: Enterprise = ea has Enterprise(title = "Innovenso")
+    val innovenso: Enterprise = samples.enterprise
     And("some individuals")
-    val jurgen: Person = ea has Person(title = "Jurgen Lust")
-    val virginie: Person =
-      ea has Person(title = "Virginie Héloire")
+    val jurgen: Person = samples.person
+    val virginie: Person = samples.person
     And("some capabilities")
 
     val paymentsCapability: BusinessCapability =
-      ea describes BusinessCapability(title = "Handle Payments") as { it =>
-        it serves innovenso
-      }
+      samples.capability(Some(innovenso))
     And("some architecture building blocks")
 
     val psp: ArchitectureBuildingBlock =
-      ea describes ArchitectureBuildingBlock(title = "PSP") as { it =>
-        it has Description("Payment Service Provider")
-        it realizes paymentsCapability
-      }
+      samples.buildingBlock(Some(paymentsCapability))
     And("a system")
-    val paypal: ItSystem = ea describes ItSystem(title = "PayPal") as { it =>
-      it realizes psp
-    }
+    val paypal: ItSystem =
+      samples.system(withContainers = false, realizedBuildingBlock = Some(psp))
 
     When("a project is added to the town plan")
     val pspImplementationProject: ItProject =
-      ea describes ItProject(title = "PSP Implementation") as { it =>
+      ea describes ItProject() as { it =>
+        it has Title("PSP implementation")
         it has Description(
           "one vendor should be chosen to handle all our payments"
         )
@@ -89,7 +83,8 @@ class ItProjectSpec extends AnyFlatSpec with GivenWhenThen {
 
     And("milestones are added to the project")
     val adyenImplementation: ItProjectMilestone =
-      ea describes ItProjectMilestone(title = "AdYen") as { it =>
+      ea describes ItProjectMilestone() as { it =>
+        it has Title("AdYen")
         it isPartOf pspImplementationProject
         it is Due() on Today
       }

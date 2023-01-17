@@ -2,18 +2,22 @@ package com.innovenso.townplanner.model.concepts.relationships
 
 import com.innovenso.townplanner.model.concepts.properties.{
   CanAddProperties,
-  Property
+  Property,
+  Title
 }
 import com.innovenso.townplanner.model.meta.Key
+
+import scala.collection.immutable.Map
 
 case class Knowledge(
     key: Key = Key("knowing"),
     source: Key,
     target: Key,
-    title: String = "has knowledge of",
     level: KnowledgeLevel = Knowledgeable,
     bidirectional: Boolean = false,
-    properties: Map[Key, Property] = Map.empty[Key, Property]
+    properties: Map[Key, Property] = Map(
+      Key.fromString("title") -> Title("has knowledge of")
+    )
 ) extends Relationship {
   val relationshipType: RelationshipType = RelationshipType(
     "knowledge",
@@ -53,9 +57,8 @@ trait CanConfigureKnowledgeSource[ModelComponentType <: CanKnow] {
       Knowledge(
         source = modelComponent.key,
         target = target.key,
-        title = title,
         level = level
-      )
+      ).withTitle(Title(title)).asInstanceOf[Knowledge]
     )
 
   def knows(
@@ -95,9 +98,8 @@ trait CanConfigureKnowledgeTarget[ModelComponentType <: CanBeKnown] {
       Knowledge(
         source = target.key,
         target = modelComponent.key,
-        title = title,
         level = level
-      )
+      ).withTitle(Title(title)).asInstanceOf[Knowledge]
     )
 }
 

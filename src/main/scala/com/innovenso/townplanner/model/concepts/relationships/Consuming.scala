@@ -2,17 +2,21 @@ package com.innovenso.townplanner.model.concepts.relationships
 
 import com.innovenso.townplanner.model.concepts.properties.{
   CanAddProperties,
-  Property
+  Property,
+  Title
 }
 import com.innovenso.townplanner.model.meta.Key
+
+import scala.collection.immutable.Map
 
 case class Consuming(
     key: Key = Key("consuming"),
     source: Key,
     target: Key,
-    title: String = "consumes",
     bidirectional: Boolean = false,
-    properties: Map[Key, Property] = Map.empty[Key, Property]
+    properties: Map[Key, Property] = Map(
+      Key.fromString("title") -> Title("consumes")
+    )
 ) extends Relationship {
   val relationshipType: RelationshipType = RelationshipType(
     "consumes",
@@ -41,9 +45,8 @@ trait CanConfigureConsumingSource[ModelComponentType <: CanConsume] {
     relationshipAdder.hasRelationship(
       Consuming(
         source = modelComponent.key,
-        target = target.key,
-        title = title
-      )
+        target = target.key
+      ).withTitle(Title(title)).asInstanceOf[Consuming]
     )
 }
 
@@ -59,8 +62,7 @@ trait CanConfigureConsumingTarget[ModelComponentType <: CanBeConsumed] {
     relationshipAdder.hasRelationship(
       Consuming(
         source = target.key,
-        target = modelComponent.key,
-        title = title
-      )
+        target = modelComponent.key
+      ).withTitle(Title(title)).asInstanceOf[Consuming]
     )
 }

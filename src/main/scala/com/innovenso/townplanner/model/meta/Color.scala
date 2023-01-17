@@ -19,6 +19,8 @@ case class Color(red: Int, green: Int, blue: Int)(name: String) {
   private def applyAlpha(value: Int, alpha: Int): Int = {
     (255 - (alpha.toFloat / 100) * (255 - value)).toInt
   }
+
+  override def toString: String = s"$hex ($name)"
 }
 
 object Color {

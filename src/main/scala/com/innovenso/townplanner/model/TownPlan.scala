@@ -31,28 +31,10 @@ case class TownPlan(
     with HasItSystemIntegrations
     with HasProjects
     with HasFlowViews
-    with HasSystemContainerViews
-    with HasSystemIntegrationViews
-    with HasPlatformSystemViews
-    with HasBusinessCapabilityMaps
-    with HasBusinessCapabilityPositions
-    with HasArchitectureBuildingBlockRealizationViews
-    with HasIntegrationMaps
-    with HasFullTownPlanViews
-    with HasSystemIntegrationInteractionViews
-    with HasProjectMilestoneImpactViews
-    with HasDecisionImpactViews
-    with HasTechnologyRadars
-    with HasArchitectureDecisionRecords
-    with HasKnowledgeMatrices
     with HasTags
-    with HasProjectMilestoneTransitionSystemContainerViews
-    with HasProjectMilestoneOverviews
     with HasPlatformLayers
     with HasDataObjects
-    with HasDataModelViews
     with HasRisks
-    with HasRiskRegister
 
 case class EnterpriseArchitecture()
     extends CanAddModelComponents
@@ -71,25 +53,7 @@ case class EnterpriseArchitecture()
     with CanAddItSystemIntegrations
     with CanAddFlowViews
     with CanAddProjects
-    with CanAddSystemContainerViews
-    with CanAddSystemIntegrationViews
-    with CanAddPlatformSystemViews
-    with CanAddBusinessCapabilityMaps
-    with CanAddBusinessCapabilityPositions
-    with CanAddArchitectureBuildingBlockRealizationViews
-    with CanAddIntegrationMaps
-    with CanAddFullTownPlanViews
-    with CanAddSystemIntegrationInteractionViews
-    with CanAddProjectMilestoneImpactViews
-    with CanAddDecisionImpactViews
-    with CanAddTechnologyRadars
-    with CanAddArchitectureDecisionRecords
-    with CanAddKnowledgeMatrices
     with CanAddTags
-    with CanAddProjectMilestoneTransitionSystemContainerViews
-    with CanAddProjectMilestoneOverviews
     with CanAddPlatformLayers
     with CanAddDataObjects
-    with CanAddDataModelViews
     with CanAddRisks
-    with CanAddRiskRegister

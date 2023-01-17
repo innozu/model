@@ -1,7 +1,15 @@
 package com.innovenso.townplanner.model.views
 
-import com.innovenso.townplanner.model.concepts.properties.{Message, Request, Response}
-import com.innovenso.townplanner.model.concepts.views.{CompiledFlowView, FlowView}
+import com.innovenso.townplanner.model.concepts.properties.{
+  Message,
+  Request,
+  Response,
+  Title
+}
+import com.innovenso.townplanner.model.concepts.views.{
+  CompiledFlowView,
+  FlowView
+}
 import com.innovenso.townplanner.model.concepts._
 import org.scalatest.GivenWhenThen
 import org.scalatest.flatspec.AnyFlatSpec
@@ -51,18 +59,18 @@ class FlowViewSpec extends AnyFlatSpec with GivenWhenThen {
     val tech2: Technology = samples.framework
 
     When("a flow fiew is requested")
-    val flowView: FlowView = ea needs FlowView(title = "The Flow View") and {
-      that =>
-        that has Request(
-          "1"
-        ) containing query using tech1 using tech2 from microservice to database
-        that has Request(
-          "2"
-        ) containing query using tech2 from microservice to ms2
-        that has Request("3") from microservice to ms3
-        that has Request("4") from ms3 to ms4
-        that has Request("5") from ms4 to stream
-        that has Request("6") from ui1 to ms4
+    val flowView: FlowView = ea needs FlowView() and { that =>
+      that has Title("Flow View")
+      that has Request(
+        "1"
+      ) containing query using tech1 using tech2 from microservice to database
+      that has Request(
+        "2"
+      ) containing query using tech2 from microservice to ms2
+      that has Request("3") from microservice to ms3
+      that has Request("4") from ms3 to ms4
+      that has Request("5") from ms4 to stream
+      that has Request("6") from ui1 to ms4
     }
     val compiledFlowView: CompiledFlowView = townPlan.flowView(flowView.key).get
     Then("each system has the correct number of containers")
@@ -85,24 +93,25 @@ class FlowViewSpec extends AnyFlatSpec with GivenWhenThen {
 
   "A flow view" can "be added to the town plan" in new EnterpriseArchitectureContext {
     Given("some systems")
-    val system1: ItSystem = ea has ItSystem(title = "A System")
-    val system2: ItSystem = ea has ItSystem(title = "Another System")
+    val system1: ItSystem = samples.system()
+    val system2: ItSystem = samples.system()
     And("a user")
-    val user: Actor = ea has Actor(title = "A user")
+    val user: Actor = samples.actor
     And("a container")
     val container1: Microservice =
-      ea describes Microservice(title = "A microservice") as { it =>
+      ea describes Microservice() as { it =>
+        it has Title("a microservice")
         it isPartOf system1
       }
 
     When("a flow view is requested")
-    val flowView: FlowView = ea needs FlowView(title = "The Flow View") and {
-      it =>
-        it has Request("once ") from user to container1
-        it has Request("upon ") from container1 to system2
-        it has Response("a ") from system2 to container1
-        it has Message("midnight ") from container1 to system1
-        it has Response("dreary") from container1 to user
+    val flowView: FlowView = ea needs FlowView() and { it =>
+      it has Title("The Flow View")
+      it has Request("once ") from user to container1
+      it has Request("upon ") from container1 to system2
+      it has Response("a ") from system2 to container1
+      it has Message("midnight ") from container1 to system1
+      it has Response("dreary") from container1 to user
     }
 
     Then("it should exist")

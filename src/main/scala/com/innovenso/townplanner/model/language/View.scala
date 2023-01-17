@@ -48,8 +48,9 @@ trait ViewCompiler[ViewType <: View, CompiledViewType <: CompiledView[
   def groupTitle(forConceptKey: Key): String = source
     .component(forConceptKey, classOf[Concept])
     .map(_.title)
+    .map(_.value)
     .getOrElse("Unknown Concept")
-  def viewTitle: String = view.title
+  def viewTitle: String = view.title.value
 
   def viewComponents(
       componentList: Iterable[_ <: ModelComponent]

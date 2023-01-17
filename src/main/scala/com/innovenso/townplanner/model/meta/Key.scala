@@ -21,6 +21,8 @@ case class Key(value: String) {
     .replaceAll("7", "Seven")
     .replaceAll("8", "Eight")
     .replaceAll("9", "Nine")
+
+  override def toString: String = value
 }
 
 object Key {

@@ -2,6 +2,8 @@ package com.innovenso.townplanner.model.meta
 
 sealed trait Severity {
   def name: String
+
+  override def toString: String = name
 }
 
 case object Amber extends Severity {

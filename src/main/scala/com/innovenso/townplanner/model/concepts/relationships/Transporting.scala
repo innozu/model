@@ -2,17 +2,21 @@ package com.innovenso.townplanner.model.concepts.relationships
 
 import com.innovenso.townplanner.model.concepts.properties.{
   CanAddProperties,
-  Property
+  Property,
+  Title
 }
 import com.innovenso.townplanner.model.meta.Key
+
+import scala.collection.immutable.Map
 
 case class Transporting(
     key: Key = Key("transporting"),
     source: Key,
     target: Key,
-    title: String = "transports",
     bidirectional: Boolean = false,
-    properties: Map[Key, Property] = Map.empty[Key, Property]
+    properties: Map[Key, Property] = Map(
+      Key.fromString("title") -> Title("transports")
+    )
 ) extends Relationship {
   val relationshipType: RelationshipType = RelationshipType(
     "transporting",
@@ -41,9 +45,8 @@ trait CanConfigureTransportingSource[ModelComponentType <: CanTransport] {
     relationshipAdder.hasRelationship(
       Transporting(
         source = modelComponent.key,
-        target = target.key,
-        title = title
-      )
+        target = target.key
+      ).withTitle(Title(title)).asInstanceOf[Transporting]
     )
 }
 
@@ -59,8 +62,7 @@ trait CanConfigureTransportingTarget[ModelComponentType <: CanBeTransported] {
     relationshipAdder.hasRelationship(
       Transporting(
         source = target.key,
-        target = modelComponent.key,
-        title = title
-      )
+        target = modelComponent.key
+      ).withTitle(Title(title)).asInstanceOf[Transporting]
     )
 }

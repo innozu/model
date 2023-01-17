@@ -11,12 +11,15 @@ import com.innovenso.townplanner.model.concepts.relationships.{
 import com.innovenso.townplanner.model.language._
 import com.innovenso.townplanner.model.meta._
 
+import scala.collection.immutable.Map
+
 case class FlowView(
     key: Key = Key("view"),
     sortKey: SortKey = SortKey.next,
-    title: String,
     withStepCounter: Boolean = true,
-    properties: Map[Key, Property] = Map.empty[Key, Property]
+    properties: Map[Key, Property] = Map(
+      Key.fromString("title") -> Title("Flow View")
+    )
 ) extends TimelessView
     with HasDescription
     with HasInteractions
@@ -155,7 +158,8 @@ case class FlowViewConfigurer(
     modelComponent: FlowView,
     propertyAdder: CanAddProperties,
     relationshipAdder: CanAddRelationships
-) extends CanConfigureDescription[FlowView]
+) extends CanConfigureTitle[FlowView]
+    with CanConfigureDescription[FlowView]
     with CanConfigureLinks[FlowView]
     with CanConfigureExternalIds[FlowView]
     with CanConfigureInteractions[FlowView] {

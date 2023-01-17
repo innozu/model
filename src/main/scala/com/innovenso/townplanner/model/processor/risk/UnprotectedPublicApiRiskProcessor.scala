@@ -14,13 +14,16 @@ import com.innovenso.townplanner.model.concepts.properties.{
   NoAuthentication,
   NoDDosProtection,
   NoRateLimiting,
-  PublicScope
+  PublicScope,
+  Title
 }
 import com.innovenso.townplanner.model.processor.TownPlanProcessor
+import fish.genius.logging.Loggable
 
 case class UnprotectedPublicApiRiskProcessor()(implicit
     ea: EnterpriseArchitecture
-) extends TownPlanProcessor {
+) extends TownPlanProcessor
+    with Loggable {
   override def process(): Unit = {
     risksForPublicUnprotectedApis()
     risksForPublicApisWithoutDdosProtection()
@@ -37,15 +40,15 @@ case class UnprotectedPublicApiRiskProcessor()(implicit
     containersWithPublicApis.filter(c =>
       c.api.get.authentication match {
         case none: NoAuthentication => true
-        case _ => false
+        case _                      => false
       }
     )
 
   val containersWithPublicApisWithoutRateLimiting: List[ItContainer] =
-    containersWithPublicApis.filter( c =>
+    containersWithPublicApis.filter(c =>
       c.api.get.rateLimiting match {
         case none: NoRateLimiting => true
-        case _ => false
+        case _                    => false
       }
     )
 
@@ -59,13 +62,13 @@ case class UnprotectedPublicApiRiskProcessor()(implicit
 
   def risksForPublicUnprotectedApis(): Unit =
     containersWithUnprotectedPublicApis.foreach(unprotectedContainer => {
-      println(
+      debug(
         s"adding risk for public API without authentication on IT Container ${unprotectedContainer.title}"
       )
       ea describes Risk(
-        title = s"${unprotectedContainer.title}: no authentication",
         typeOfRisk = SecurityVulnerability
       ) as { it =>
+        it has Title(s"${unprotectedContainer.title}: no authentication")
         it ratesImpactAs Hazardous(
           "exposing vulnerable APIs, especially those containing personal or sensitive data, would have a major impact on the organisation"
         )
@@ -81,13 +84,13 @@ case class UnprotectedPublicApiRiskProcessor()(implicit
 
   def risksForPublicApisWithoutRateLimiting(): Unit =
     containersWithPublicApisWithoutRateLimiting.foreach(unlimitedContainer => {
-      println(
+      debug(
         s"adding risk for public API without rate limiting on IT Container ${unlimitedContainer.title}"
       )
       ea describes Risk(
-        title = s"${unlimitedContainer.title}: no rate limiting",
         typeOfRisk = SecurityVulnerability
       ) as { it =>
+        it has Title(s"${unlimitedContainer.title}: no rate limiting")
         it ratesImpactAs Major(
           "when a public API has no rate limiting, it is open to potential brute force attacks."
         )
@@ -104,13 +107,13 @@ case class UnprotectedPublicApiRiskProcessor()(implicit
   def risksForPublicApisWithoutDdosProtection(): Unit =
     containersWithPublicApisWithoutDdosProtection.foreach(
       unprotectedContainer => {
-        println(
+        debug(
           s"adding risk for public API without DDoS protection on IT Container ${unprotectedContainer.title}"
         )
         ea describes Risk(
-          title = s"${unprotectedContainer.title}: no DDoS protection",
           typeOfRisk = SecurityVulnerability
         ) as { it =>
+          it has Title(s"${unprotectedContainer.title}: no DDoS protection")
           it ratesImpactAs Major(
             "when a public API has no DDoS protect, it is vulnerable to distributed denial of service attacks, which risks bringing the entire system down."
           )

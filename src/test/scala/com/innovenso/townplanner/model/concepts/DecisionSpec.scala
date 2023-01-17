@@ -7,25 +7,16 @@ import org.scalatest.flatspec.AnyFlatSpec
 
 class DecisionSpec extends AnyFlatSpec with GivenWhenThen {
   "Decisions" can "be added to the town plan" in new EnterpriseArchitectureContext {
-    val innovenso: Enterprise = ea has Enterprise(title = "Innovenso")
-    val jurgen: Person = ea has Person(title = "Jurgen Lust")
-    val virginie: Person =
-      ea has Person(title = "Virginie Héloire")
-    val paymentsCapability: BusinessCapability =
-      ea describes BusinessCapability(title = "Handle Payments") as { it =>
-        it serves innovenso
-      }
-    val psp: ArchitectureBuildingBlock =
-      ea describes ArchitectureBuildingBlock(title = "PSP") as { it =>
-        it has Description("Payment Service Provider")
-        it realizes paymentsCapability
-      }
-    val paypal: ItSystem = ea describes ItSystem(title = "PayPal") as { it =>
-      it realizes psp
-    }
+    val innovenso: Enterprise = samples.enterprise
+    val jurgen: Person = samples.person
+    val virginie: Person = samples.person
+    val paymentsCapability: BusinessCapability = samples.capability(Some(innovenso))
+    val psp: ArchitectureBuildingBlock = samples.buildingBlock(Some(paymentsCapability))
+    val paypal: ItSystem = samples.system(realizedBuildingBlock = Some(psp))
 
     val pspSelection: Decision =
-      ea describes Decision(title = "PSP Vendor Selection") as { it =>
+      ea describes Decision() as { it =>
+        it has Title("PSP Vendor Selection")
         it has Description(
           "one vendor should be chosen to handle all our payments"
         )
@@ -79,7 +70,8 @@ class DecisionSpec extends AnyFlatSpec with GivenWhenThen {
       }
 
     val adyen: DecisionOption =
-      ea describes DecisionOption(title = "AdYen") as { it =>
+      ea describes DecisionOption() as { it =>
+        it has Title("AdYen")
         it isPartOf pspSelection
         it scores ExceedsExpectations(description =
           "very nice"

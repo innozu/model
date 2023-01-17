@@ -2,9 +2,12 @@ package com.innovenso.townplanner.model.concepts.relationships
 
 import com.innovenso.townplanner.model.concepts.properties.{
   CanAddProperties,
-  Property
+  Property,
+  Title
 }
 import com.innovenso.townplanner.model.meta.Key
+
+import scala.collection.immutable.Map
 
 trait RACI extends Relationship
 
@@ -12,9 +15,10 @@ case class Responsible(
     key: Key = Key("raci"),
     source: Key,
     target: Key,
-    title: String = "is responsible for",
     bidirectional: Boolean = false,
-    properties: Map[Key, Property] = Map.empty[Key, Property]
+    properties: Map[Key, Property] = Map(
+      Key.fromString("title") -> Title("is responsible for")
+    )
 ) extends RACI {
   val relationshipType: RelationshipType = RelationshipType(
     "is responsible for",
@@ -33,9 +37,10 @@ case class Accountable(
     key: Key = Key(),
     source: Key,
     target: Key,
-    title: String = "is accountable for",
     bidirectional: Boolean = false,
-    properties: Map[Key, Property] = Map.empty[Key, Property]
+    properties: Map[Key, Property] = Map(
+      Key.fromString("title") -> Title("is accountable for")
+    )
 ) extends RACI {
   val relationshipType: RelationshipType = RelationshipType(
     "is accountable for",
@@ -51,9 +56,10 @@ case class Consulted(
     key: Key = Key(),
     source: Key,
     target: Key,
-    title: String = "is consulted about",
     bidirectional: Boolean = false,
-    properties: Map[Key, Property] = Map.empty[Key, Property]
+    properties: Map[Key, Property] = Map(
+      Key.fromString("title") -> Title("is consulted about")
+    )
 ) extends RACI {
   val relationshipType: RelationshipType = RelationshipType(
     "is consulted about",
@@ -69,9 +75,10 @@ case class Informed(
     key: Key = Key(),
     source: Key,
     target: Key,
-    title: String = "is informed about",
     bidirectional: Boolean = false,
-    properties: Map[Key, Property] = Map.empty[Key, Property]
+    properties: Map[Key, Property] = Map(
+      Key.fromString("title") -> Title("is informed about")
+    )
 ) extends RACI {
   val relationshipType: RelationshipType = RelationshipType(
     "is informed about",
@@ -105,9 +112,8 @@ trait CanConfigureRaciSource[ModelComponentType <: CanBeRaci] {
     relationshipAdder.hasRelationship(
       Responsible(
         source = modelComponent.key,
-        target = target.key,
-        title = title
-      )
+        target = target.key
+      ).withTitle(Title(title)).asInstanceOf[Responsible]
     )
 
   def hasAccountabilityFor(
@@ -127,9 +133,8 @@ trait CanConfigureRaciSource[ModelComponentType <: CanBeRaci] {
     relationshipAdder.hasRelationship(
       Accountable(
         source = modelComponent.key,
-        target = target.key,
-        title = title
-      )
+        target = target.key
+      ).withTitle(Title(title)).asInstanceOf[Accountable]
     )
 
   def hasBeenConsultedAbout(
@@ -147,7 +152,9 @@ trait CanConfigureRaciSource[ModelComponentType <: CanBeRaci] {
       title: String = "is consulted about"
   ): Relationship =
     relationshipAdder.hasRelationship(
-      Consulted(source = modelComponent.key, target = target.key, title = title)
+      Consulted(source = modelComponent.key, target = target.key)
+        .withTitle(Title(title))
+        .asInstanceOf[Consulted]
     )
 
   def hasBeenInformedAbout(
@@ -165,7 +172,9 @@ trait CanConfigureRaciSource[ModelComponentType <: CanBeRaci] {
       title: String = "is informed about"
   ): Relationship =
     relationshipAdder.hasRelationship(
-      Informed(source = modelComponent.key, target = target.key, title = title)
+      Informed(source = modelComponent.key, target = target.key)
+        .withTitle(Title(title))
+        .asInstanceOf[Informed]
     )
 
 }
@@ -192,9 +201,8 @@ trait CanConfigureRaciTarget[ModelComponentType <: CanHaveRaci] {
     relationshipAdder.hasRelationship(
       Responsible(
         source = target.key,
-        target = modelComponent.key,
-        title = title
-      )
+        target = modelComponent.key
+      ).withTitle(Title(title)).asInstanceOf[Responsible]
     )
 
   def hasAccountable(
@@ -214,9 +222,8 @@ trait CanConfigureRaciTarget[ModelComponentType <: CanHaveRaci] {
     relationshipAdder.hasRelationship(
       Accountable(
         source = target.key,
-        target = modelComponent.key,
-        title = title
-      )
+        target = modelComponent.key
+      ).withTitle(Title(title)).asInstanceOf[Accountable]
     )
 
   def consulted(
@@ -234,7 +241,9 @@ trait CanConfigureRaciTarget[ModelComponentType <: CanHaveRaci] {
       title: String = "is consulted about"
   ): Relationship =
     relationshipAdder.hasRelationship(
-      Consulted(source = target.key, target = modelComponent.key, title = title)
+      Consulted(source = target.key, target = modelComponent.key)
+        .withTitle(Title(title))
+        .asInstanceOf[Consulted]
     )
 
   def informed(
@@ -252,7 +261,9 @@ trait CanConfigureRaciTarget[ModelComponentType <: CanHaveRaci] {
       title: String = "is informed about"
   ): Relationship =
     relationshipAdder.hasRelationship(
-      Informed(source = target.key, target = modelComponent.key, title = title)
+      Informed(source = target.key, target = modelComponent.key)
+        .withTitle(Title(title))
+        .asInstanceOf[Informed]
     )
 
 }

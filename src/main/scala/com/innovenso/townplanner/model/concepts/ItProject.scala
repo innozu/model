@@ -8,7 +8,6 @@ import com.innovenso.townplanner.model.meta._
 case class ItProject(
     key: Key = Key("project"),
     sortKey: SortKey = SortKey.next,
-    title: String,
     properties: Map[Key, Property] = Map.empty[Key, Property]
 ) extends Element
     with HasDescription
@@ -40,7 +39,6 @@ case class ItProject(
 case class ItProjectMilestone(
     key: Key = Key("project milestone"),
     sortKey: SortKey = SortKey.next,
-    title: String,
     properties: Map[Key, Property] = Map.empty[Key, Property]
 ) extends Element
     with HasDescription
@@ -133,7 +131,8 @@ case class ItProjectConfigurer(
     modelComponent: ItProject,
     propertyAdder: CanAddProperties,
     relationshipAdder: CanAddRelationships
-) extends CanConfigureDescription[ItProject]
+) extends CanConfigureTitle[ItProject]
+    with CanConfigureDescription[ItProject]
     with CanConfigureLinks[ItProject]
     with CanConfigureDataProtectionConcerns[ItProject]
     with CanConfigureSecurityImpact[ItProject]
@@ -163,7 +162,8 @@ case class ItProjectMilestoneConfigurer(
     modelComponent: ItProjectMilestone,
     propertyAdder: CanAddProperties,
     relationshipAdder: CanAddRelationships
-) extends CanConfigureDescription[ItProjectMilestone]
+) extends CanConfigureTitle[ItProjectMilestone]
+    with CanConfigureDescription[ItProjectMilestone]
     with CanConfigureLinks[ItProjectMilestone]
     with CanConfigureDataProtectionConcerns[ItProjectMilestone]
     with CanConfigureSecurityImpact[ItProjectMilestone]

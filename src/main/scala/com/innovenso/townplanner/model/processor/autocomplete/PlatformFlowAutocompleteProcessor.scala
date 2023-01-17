@@ -1,15 +1,18 @@
 package com.innovenso.townplanner.model.processor.autocomplete
 
 import com.innovenso.townplanner.model.EnterpriseArchitecture
+import com.innovenso.townplanner.model.concepts.properties.Title
 import com.innovenso.townplanner.model.concepts.relationships.Flow
 import com.innovenso.townplanner.model.concepts.{ItPlatform, ItSystem}
 import com.innovenso.townplanner.model.language.Element
 import com.innovenso.townplanner.model.meta.Key
 import com.innovenso.townplanner.model.processor.TownPlanProcessor
+import fish.genius.logging.Loggable
 
 case class PlatformFlowAutocompleteProcessor()(implicit
     ea: EnterpriseArchitecture
-) extends TownPlanProcessor {
+) extends TownPlanProcessor
+    with Loggable {
   override def process(): Unit = {
     flowsToBeCreated.foreach(sf => {
       val sourceElement: Option[Element] =
@@ -19,14 +22,16 @@ case class PlatformFlowAutocompleteProcessor()(implicit
       val title: String = sf._3
 
       if (sourceElement.isDefined && targetElement.isDefined) {
-        println(
+        debug(
           s"autocompleting relationship: ${sourceElement
               .map(_.title)
               .getOrElse("UNKNOWN")} -- ${title} --> ${targetElement.map(_.title).getOrElse("UNKNOWN")}"
         )
-        ea hasRelationship Flow(source = sf._1, target = sf._2, title = sf._3)
+        ea hasRelationship Flow(source = sf._1, target = sf._2)
+          .withTitle(Title(sf._3))
+          .asInstanceOf[Flow]
       } else {
-        println(
+        debug(
           s"not autocompleting relationship: source ${sourceElement} or target ${targetElement} does not exist"
         )
       }

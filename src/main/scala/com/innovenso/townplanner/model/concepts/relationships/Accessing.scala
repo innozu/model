@@ -2,7 +2,8 @@ package com.innovenso.townplanner.model.concepts.relationships
 
 import com.innovenso.townplanner.model.concepts.properties.{
   CanAddProperties,
-  Property
+  Property,
+  Title
 }
 import com.innovenso.townplanner.model.meta.Key
 
@@ -10,9 +11,10 @@ case class Accessing(
     key: Key = Key("accessing"),
     source: Key,
     target: Key,
-    title: String = "accesses",
     bidirectional: Boolean = false,
-    properties: Map[Key, Property] = Map.empty[Key, Property]
+    properties: Map[Key, Property] = Map(
+      Key.fromString("title") -> Title("accesses")
+    )
 ) extends Relationship {
   val relationshipType: RelationshipType = RelationshipType(
     "accessing",
@@ -40,9 +42,8 @@ trait CanConfigureAccessingSource[ModelComponentType <: CanAccess] {
     relationshipAdder.hasRelationship(
       Accessing(
         source = modelComponent.key,
-        target = target.key,
-        title = title
-      )
+        target = target.key
+      ).withTitle(Title(title)).asInstanceOf[Accessing]
     )
 }
 
@@ -56,10 +57,9 @@ trait CanConfigureAccessingTarget[ModelComponentType <: CanBeAccessed] {
       title: String
   ): Relationship =
     relationshipAdder.hasRelationship(
-      Processing(
+      Accessing(
         source = target.key,
-        target = modelComponent.key,
-        title = title
-      )
+        target = modelComponent.key
+      ).withTitle(Title(title)).asInstanceOf[Accessing]
     )
 }

@@ -1,18 +1,20 @@
 package com.innovenso.townplanner.model.concepts
 
-import com.innovenso.townplanner.model.concepts.properties.{BeInvestedIn, Description}
+import com.innovenso.townplanner.model.concepts.properties.{
+  BeInvestedIn,
+  Description,
+  Title
+}
 import org.scalatest.GivenWhenThen
 import org.scalatest.flatspec.AnyFlatSpec
 
 class ArchitectureBuildingBlockSpec extends AnyFlatSpec with GivenWhenThen {
   "Architecture Building Blocks" can "be added to the town plan" in new EnterpriseArchitectureContext {
-    val innovenso: Enterprise = ea has Enterprise(title = "Innovenso")
-    val marketing: BusinessCapability =
-      ea describes BusinessCapability(title = "Marketing") as { it =>
-        it serves innovenso
-      }
+    val innovenso: Enterprise = samples.enterprise
+    val marketing: BusinessCapability = samples.capability(Some(innovenso))
     val cdp: ArchitectureBuildingBlock =
-      ea describes ArchitectureBuildingBlock(title = "CDP") as { it =>
+      ea describes ArchitectureBuildingBlock() as { it =>
+        it has Title("CDP")
         it should BeInvestedIn()
         it has Description("Customer Data Platform")
         it has Description(

@@ -2,17 +2,21 @@ package com.innovenso.townplanner.model.concepts.relationships
 
 import com.innovenso.townplanner.model.concepts.properties.{
   CanAddProperties,
-  Property
+  Property,
+  Title
 }
 import com.innovenso.townplanner.model.meta.Key
+
+import scala.collection.immutable.Map
 
 case class Implementation(
     key: Key = Key("implementing"),
     source: Key,
     target: Key,
-    title: String = "implements",
     bidirectional: Boolean = false,
-    properties: Map[Key, Property] = Map.empty[Key, Property]
+    properties: Map[Key, Property] = Map(
+      Key.fromString("title") -> Title("implements")
+    )
 ) extends Relationship {
   val relationshipType: RelationshipType = RelationshipType(
     "implementation",
@@ -48,9 +52,8 @@ trait CanConfigureImplementationSource[ModelComponentType <: CanImplement] {
     relationshipAdder.hasRelationship(
       Implementation(
         source = modelComponent.key,
-        target = target.key,
-        title = title
-      )
+        target = target.key
+      ).withTitle(Title(title)).asInstanceOf[Implementation]
     )
 }
 
@@ -76,8 +79,7 @@ trait CanConfigureImplementationTarget[ModelComponentType <: CanBeImplemented] {
     relationshipAdder.hasRelationship(
       Implementation(
         source = target.key,
-        target = modelComponent.key,
-        title = title
-      )
+        target = modelComponent.key
+      ).withTitle(Title(title)).asInstanceOf[Implementation]
     )
 }

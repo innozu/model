@@ -1,6 +1,6 @@
 package com.innovenso.townplanner.model.concepts
 
-import com.innovenso.townplanner.model.concepts.properties.{BeInvestedIn, Catastrophic, Description, ResilienceMeasure}
+import com.innovenso.townplanner.model.concepts.properties.{BeInvestedIn, Catastrophic, Description, ResilienceMeasure, Title}
 import com.innovenso.townplanner.model.meta.Color
 import org.scalatest.GivenWhenThen
 import org.scalatest.flatspec.AnyFlatSpec
@@ -8,16 +8,15 @@ import org.scalatest.flatspec.AnyFlatSpec
 class ItSystemSpec extends AnyFlatSpec with GivenWhenThen {
   "IT Systems" can "be added to the town plan" in new EnterpriseArchitectureContext {
     Given("a platform")
-    val platform: ItPlatform = ea has ItPlatform(title = "The Platform")
+    val platform: ItPlatform = samples.platform()
     And("some layers")
-    val green: PlatformLayer =
-      ea has PlatformLayer(title = "Green", color = Color(0, 255, 0)("green"))
-    val red: PlatformLayer =
-      ea has PlatformLayer(title = "Red", color = Color(255, 0, 0)("Red"))
+    val green: PlatformLayer = samples.platformLayer
+    val red: PlatformLayer = samples.platformLayer
 
     When("a system is described")
-    val itSystem: ItSystem = ea describes ItSystem(title = "The System") as {
+    val itSystem: ItSystem = ea describes ItSystem() as {
       it =>
+        it has Title("The System")
         it has Description("It does things")
         it should BeInvestedIn()
         it ratesFailureAs Catastrophic(consequences = "people die")

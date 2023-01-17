@@ -2,10 +2,19 @@ package com.innovenso.townplanner.model.meta
 
 trait Layer {
   def name: String
+
+  override def toString: String = name
 }
 
 object Layer {
-  val values: List[Layer] = List(StrategyLayer, BusinessLayer, ApplicationLayer, TechnologyLayer, ImplementationLayer, MotivationLayer)
+  val values: List[Layer] = List(
+    StrategyLayer,
+    BusinessLayer,
+    ApplicationLayer,
+    TechnologyLayer,
+    ImplementationLayer,
+    MotivationLayer
+  )
 }
 
 case object StrategyLayer extends Layer {
@@ -34,4 +43,3 @@ case object MotivationLayer extends Layer {
 case object OtherLayer extends Layer {
   val name = "Other"
 }
-

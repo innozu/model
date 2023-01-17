@@ -8,7 +8,6 @@ import com.innovenso.townplanner.model.meta._
 case class Decision(
     key: Key = Key("adr"),
     sortKey: SortKey = SortKey.next,
-    title: String,
     status: DecisionStatus = NotStarted,
     outcome: String = "",
     properties: Map[Key, Property] = Map.empty[Key, Property]
@@ -41,7 +40,6 @@ case class Decision(
 case class DecisionOption(
     key: Key = Key("adr option"),
     sortKey: SortKey = SortKey.next,
-    title: String,
     verdict: DecisionOptionVerdict = UnderInvestigation(),
     properties: Map[Key, Property] = Map.empty[Key, Property]
 ) extends Element
@@ -173,7 +171,8 @@ case class DecisionConfigurer(
     modelComponent: Decision,
     propertyAdder: CanAddProperties,
     relationshipAdder: CanAddRelationships
-) extends CanConfigureDescription[Decision]
+) extends CanConfigureTitle[Decision]
+    with CanConfigureDescription[Decision]
     with CanConfigureLinks[Decision]
     with CanConfigureDataProtectionConcerns[Decision]
     with CanConfigureSecurityImpact[Decision]
@@ -203,7 +202,8 @@ case class DecisionOptionConfigurer(
     modelComponent: DecisionOption,
     propertyAdder: CanAddRequirementScores,
     relationshipAdder: CanAddRelationships
-) extends CanConfigureDescription[DecisionOption]
+) extends CanConfigureTitle[DecisionOption]
+  with CanConfigureDescription[DecisionOption]
     with CanConfigureLinks[DecisionOption]
     with CanConfigureSWOT[DecisionOption]
     with CanConfigureDataProtectionConcerns[DecisionOption]

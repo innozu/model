@@ -11,7 +11,6 @@ import com.innovenso.townplanner.model.meta._
 case class Tag(
     key: Key = Key("tag"),
     sortKey: SortKey = SortKey.next,
-    title: String,
     color: Color = Color.random,
     properties: Map[Key, Property] = Map.empty[Key, Property]
 ) extends Concept
@@ -42,7 +41,8 @@ trait HasTags extends HasModelComponents {
 case class TagConfigurer(
     modelComponent: Tag,
     propertyAdder: CanAddProperties
-) extends CanConfigureDescription[Tag] {
+) extends CanConfigureTitle[Tag]
+    with CanConfigureDescription[Tag] {
   def as(
       body: TagConfigurer => Any
   ): Tag = {

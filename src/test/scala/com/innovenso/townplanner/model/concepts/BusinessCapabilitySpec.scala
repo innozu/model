@@ -1,20 +1,20 @@
 package com.innovenso.townplanner.model.concepts
 
-import com.innovenso.townplanner.model.concepts.properties.Description
+import com.innovenso.townplanner.model.concepts.properties.{Description, Title}
 import com.innovenso.townplanner.model.meta.Color
 import org.scalatest.GivenWhenThen
 import org.scalatest.flatspec.AnyFlatSpec
 
 class BusinessCapabilitySpec extends AnyFlatSpec with GivenWhenThen {
   "Business Capabilities" can "be added to the town plan" in new EnterpriseArchitectureContext {
-    val innovenso: Enterprise = ea has Enterprise(title = "Innovenso")
+    val innovenso: Enterprise = samples.enterprise
 
-    val green: Tag =
-      ea has Tag(title = "Green", color = Color(0, 255, 0)("green"))
-    val red: Tag = ea has Tag(title = "Red", color = Color(255, 0, 0)("Red"))
+    val green: Tag = samples.tag
+    val red: Tag = samples.tag
 
     val marketing: BusinessCapability =
-      ea describes BusinessCapability(title = "Marketing") as { it =>
+      ea describes BusinessCapability() as { it =>
+        it has Title("Marketing")
         it has Description(
           "One of the most important capabilities of a modern enterprise"
         )
@@ -24,9 +24,9 @@ class BusinessCapabilitySpec extends AnyFlatSpec with GivenWhenThen {
       }
 
     val customerSegmentation: BusinessCapability =
-      ea describes BusinessCapability(title = "Customer Segmentation") as {
-        it =>
-          it serves marketing
+      ea describes BusinessCapability() as { it =>
+        it has Title("Customer Segmentation")
+        it serves marketing
       }
 
     assert(exists(innovenso))

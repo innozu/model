@@ -8,7 +8,8 @@ class ItPlatformSpec extends AnyFlatSpec with GivenWhenThen {
   "IT Platforms" can "be added to the town plan" in new EnterpriseArchitectureContext {
     When("a platform is added to the town plan")
     val thePlatform: ItPlatform =
-      ea describes ItPlatform(title = "The Platform") as { it =>
+      ea describes ItPlatform() as { it =>
+        it has Title("The Platform")
         it has Description("a description")
         it should BeInvestedIn()
         it has Strength("It is there")

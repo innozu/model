@@ -8,6 +8,8 @@ case class Description(
   val key: Key = Key("description")
   val sortKey: SortKey = SortKey.next
   val canBePlural: Boolean = true
+
+  override def toString: String = value
 }
 
 trait HasDescription extends HasProperties {

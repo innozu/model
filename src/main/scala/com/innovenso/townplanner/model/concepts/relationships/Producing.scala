@@ -2,17 +2,21 @@ package com.innovenso.townplanner.model.concepts.relationships
 
 import com.innovenso.townplanner.model.concepts.properties.{
   CanAddProperties,
-  Property
+  Property,
+  Title
 }
 import com.innovenso.townplanner.model.meta.Key
+
+import scala.collection.immutable.Map
 
 case class Producing(
     key: Key = Key("producing"),
     source: Key,
     target: Key,
-    title: String = "produces",
     bidirectional: Boolean = false,
-    properties: Map[Key, Property] = Map.empty[Key, Property]
+    properties: Map[Key, Property] = Map(
+      Key.fromString("title") -> Title("produces")
+    )
 ) extends Relationship {
   val relationshipType: RelationshipType = RelationshipType(
     "produces",
@@ -41,9 +45,8 @@ trait CanConfigureProducingSource[ModelComponentType <: CanProduce] {
     relationshipAdder.hasRelationship(
       Producing(
         source = modelComponent.key,
-        target = target.key,
-        title = title
-      )
+        target = target.key
+      ).withTitle(Title(title)).asInstanceOf[Producing]
     )
 }
 
@@ -59,8 +62,7 @@ trait CanConfigureProducingTarget[ModelComponentType <: CanBeProduced] {
     relationshipAdder.hasRelationship(
       Producing(
         source = target.key,
-        target = modelComponent.key,
-        title = title
-      )
+        target = modelComponent.key
+      ).withTitle(Title(title)).asInstanceOf[Producing]
     )
 }

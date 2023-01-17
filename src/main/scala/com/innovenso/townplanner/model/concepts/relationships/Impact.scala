@@ -2,9 +2,12 @@ package com.innovenso.townplanner.model.concepts.relationships
 
 import com.innovenso.townplanner.model.concepts.properties.{
   CanAddProperties,
-  Property
+  Property,
+  Title
 }
 import com.innovenso.townplanner.model.meta.Key
+
+import scala.collection.immutable.Map
 
 sealed trait Impact extends Relationship
 
@@ -12,9 +15,10 @@ case class CreateImpact(
     key: Key = Key("impacting"),
     source: Key,
     target: Key,
-    title: String = "creates",
     bidirectional: Boolean = false,
-    properties: Map[Key, Property] = Map.empty[Key, Property]
+    properties: Map[Key, Property] = Map(
+      Key.fromString("title") -> Title("creates")
+    )
 ) extends Impact {
   val relationshipType: RelationshipType = RelationshipType(
     "creates",
@@ -33,9 +37,10 @@ case class RemoveImpact(
     key: Key = Key(),
     source: Key,
     target: Key,
-    title: String = "removes",
     bidirectional: Boolean = false,
-    properties: Map[Key, Property] = Map.empty[Key, Property]
+    properties: Map[Key, Property] = Map(
+      Key.fromString("title") -> Title("removes")
+    )
 ) extends Impact {
   val relationshipType: RelationshipType = RelationshipType(
     "removes",
@@ -51,9 +56,10 @@ case class ChangeImpact(
     key: Key = Key(),
     source: Key,
     target: Key,
-    title: String = "changes",
     bidirectional: Boolean = false,
-    properties: Map[Key, Property] = Map.empty[Key, Property]
+    properties: Map[Key, Property] = Map(
+      Key.fromString("title") -> Title("changes")
+    )
 ) extends Impact {
   val relationshipType: RelationshipType = RelationshipType(
     "changes",
@@ -69,9 +75,10 @@ case class KeepImpact(
     key: Key = Key(),
     source: Key,
     target: Key,
-    title: String = "keeps",
     bidirectional: Boolean = false,
-    properties: Map[Key, Property] = Map.empty[Key, Property]
+    properties: Map[Key, Property] = Map(
+      Key.fromString("title") -> Title("keeps")
+    )
 ) extends Impact {
   val relationshipType: RelationshipType = RelationshipType(
     "keeps",
@@ -105,9 +112,8 @@ trait CanConfigureImpactSource[ModelComponentType <: CanImpact] {
     relationshipAdder.hasRelationship(
       RemoveImpact(
         source = modelComponent.key,
-        target = target.key,
-        title = title
-      )
+        target = target.key
+      ).withTitle(Title(title)).asInstanceOf[RemoveImpact]
     )
 
   def isChanging(
@@ -127,9 +133,8 @@ trait CanConfigureImpactSource[ModelComponentType <: CanImpact] {
     relationshipAdder.hasRelationship(
       ChangeImpact(
         source = modelComponent.key,
-        target = target.key,
-        title = title
-      )
+        target = target.key
+      ).withTitle(Title(title)).asInstanceOf[ChangeImpact]
     )
 
   def isCreating(
@@ -149,9 +154,8 @@ trait CanConfigureImpactSource[ModelComponentType <: CanImpact] {
     relationshipAdder.hasRelationship(
       CreateImpact(
         source = modelComponent.key,
-        target = target.key,
-        title = title
-      )
+        target = target.key
+      ).withTitle(Title(title)).asInstanceOf[CreateImpact]
     )
 
   def isKeeping(
@@ -171,8 +175,7 @@ trait CanConfigureImpactSource[ModelComponentType <: CanImpact] {
     relationshipAdder.hasRelationship(
       KeepImpact(
         source = modelComponent.key,
-        target = target.key,
-        title = title
-      )
+        target = target.key
+      ).withTitle(Title(title)).asInstanceOf[KeepImpact]
     )
 }

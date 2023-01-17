@@ -2,17 +2,21 @@ package com.innovenso.townplanner.model.concepts.relationships
 
 import com.innovenso.townplanner.model.concepts.properties.{
   CanAddProperties,
-  Property
+  Property,
+  Title
 }
 import com.innovenso.townplanner.model.meta.Key
+
+import scala.collection.immutable.Map
 
 case class Processing(
     key: Key = Key("processing"),
     source: Key,
     target: Key,
-    title: String = "processes",
     bidirectional: Boolean = false,
-    properties: Map[Key, Property] = Map.empty[Key, Property]
+    properties: Map[Key, Property] = Map(
+      Key.fromString("title") -> Title("processes")
+    )
 ) extends Relationship {
   val relationshipType: RelationshipType = RelationshipType(
     "processing",
@@ -40,9 +44,8 @@ trait CanConfigureProcessingSource[ModelComponentType <: CanProcess] {
     relationshipAdder.hasRelationship(
       Processing(
         source = modelComponent.key,
-        target = target.key,
-        title = title
-      )
+        target = target.key
+      ).withTitle(Title(title)).asInstanceOf[Processing]
     )
 }
 
@@ -58,8 +61,7 @@ trait CanConfigureProcessingTarget[ModelComponentType <: CanBeProcessed] {
     relationshipAdder.hasRelationship(
       Processing(
         source = target.key,
-        target = modelComponent.key,
-        title = title
-      )
+        target = modelComponent.key
+      ).withTitle(Title(title)).asInstanceOf[Processing]
     )
 }

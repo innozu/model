@@ -32,7 +32,8 @@ class UnprotectedPublicApiRiskProcessorSpec
       )
     And("containers with API")
     val container1: ItContainer =
-      ea describes Microservice(title = "API without authentication") as { it =>
+      ea describes Microservice() as { it =>
+        it has Title("API without authentication")
         it has API(
           scope = PublicScope(),
           authentication = NoAuthentication(),
@@ -41,7 +42,8 @@ class UnprotectedPublicApiRiskProcessorSpec
         it isPartOf system1
       }
     val container2: ItContainer =
-      ea describes Microservice(title = "API without rate limiting") as { it =>
+      ea describes Microservice() as { it =>
+        it has Title("API without rate limiting")
         it has API(
           scope = PublicScope(),
           rateLimiting = NoRateLimiting(),
@@ -50,14 +52,14 @@ class UnprotectedPublicApiRiskProcessorSpec
         it isPartOf system2
       }
     val container3: ItContainer =
-      ea describes Microservice(title = "API without DDoS protection") as {
-        it =>
-          it has API(
-            scope = PublicScope(),
-            ddoSProtection = NoDDosProtection(),
-            style = RestAPI()
-          )
-          it isPartOf system2
+      ea describes Microservice() as { it =>
+        it has Title("API without DDoS protection")
+        it has API(
+          scope = PublicScope(),
+          ddoSProtection = NoDDosProtection(),
+          style = RestAPI()
+        )
+        it isPartOf system2
       }
 
     When("the Unprotected Public API Risk processor is run")

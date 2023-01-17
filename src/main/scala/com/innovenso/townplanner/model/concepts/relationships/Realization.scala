@@ -2,17 +2,21 @@ package com.innovenso.townplanner.model.concepts.relationships
 
 import com.innovenso.townplanner.model.concepts.properties.{
   CanAddProperties,
-  Property
+  Property,
+  Title
 }
 import com.innovenso.townplanner.model.meta.Key
+
+import scala.collection.immutable.Map
 
 case class Realization(
     key: Key = Key("realizing"),
     source: Key,
     target: Key,
-    title: String = "triggers",
     bidirectional: Boolean = false,
-    properties: Map[Key, Property] = Map.empty[Key, Property]
+    properties: Map[Key, Property] = Map(
+      Key.fromString("title") -> Title("realizes")
+    )
 ) extends Relationship {
   val relationshipType: RelationshipType = RelationshipType(
     "realization",
@@ -49,9 +53,8 @@ trait CanConfigureRealizationSource[ModelComponentType <: CanRealize] {
     relationshipAdder.hasRelationship(
       Realization(
         source = modelComponent.key,
-        target = target.key,
-        title = title
-      )
+        target = target.key
+      ).withTitle(Title(title)).asInstanceOf[Realization]
     )
 }
 
@@ -77,8 +80,7 @@ trait CanConfigureRealizationTarget[ModelComponentType <: CanBeRealized] {
     relationshipAdder.hasRelationship(
       Realization(
         source = target.key,
-        target = modelComponent.key,
-        title = title
-      )
+        target = modelComponent.key
+      ).withTitle(Title(title)).asInstanceOf[Realization]
     )
 }

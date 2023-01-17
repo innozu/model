@@ -2,17 +2,21 @@ package com.innovenso.townplanner.model.concepts.relationships
 
 import com.innovenso.townplanner.model.concepts.properties.{
   CanAddProperties,
-  Property
+  Property,
+  Title
 }
 import com.innovenso.townplanner.model.meta.Key
+
+import scala.collection.immutable.Map
 
 case class Owning(
     key: Key = Key("owning"),
     source: Key,
     target: Key,
-    title: String = "owns",
     bidirectional: Boolean = false,
-    properties: Map[Key, Property] = Map.empty[Key, Property]
+    properties: Map[Key, Property] = Map(
+      Key.fromString("title") -> Title("owns")
+    )
 ) extends Relationship {
   val relationshipType: RelationshipType = RelationshipType(
     "owning",
@@ -40,9 +44,8 @@ trait CanConfigureOwningSource[ModelComponentType <: CanOwn] {
     relationshipAdder.hasRelationship(
       Owning(
         source = modelComponent.key,
-        target = target.key,
-        title = title
-      )
+        target = target.key
+      ).withTitle(Title(title)).asInstanceOf[Owning]
     )
 }
 
@@ -58,8 +61,7 @@ trait CanConfigureOwningTarget[ModelComponentType <: CanBeOwned] {
     relationshipAdder.hasRelationship(
       Owning(
         source = target.key,
-        target = modelComponent.key,
-        title = title
-      )
+        target = modelComponent.key
+      ).withTitle(Title(title)).asInstanceOf[Owning]
     )
 }

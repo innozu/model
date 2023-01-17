@@ -10,4 +10,6 @@ case object ThisYear extends Year {
 
 trait Year {
   def value: Int
+
+  override def toString: String = s"$value"
 }

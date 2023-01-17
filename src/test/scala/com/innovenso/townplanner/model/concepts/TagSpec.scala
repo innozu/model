@@ -8,7 +8,8 @@ class TagSpec extends AnyFlatSpec with GivenWhenThen {
   "Tags" can "be added to the town plan" in new EnterpriseArchitectureContext {
     When("a tag is added to the town plan")
     val theTag: Tag =
-      ea describes Tag(title = "The Tag") as { it =>
+      ea describes Tag() as { it =>
+        it has Title("The Tag")
         it has Description("a description")
       }
 

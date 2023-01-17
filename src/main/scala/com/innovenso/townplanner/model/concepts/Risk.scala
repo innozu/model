@@ -8,7 +8,6 @@ import com.innovenso.townplanner.model.meta._
 case class Risk(
     key: Key = Key("risk"),
     sortKey: SortKey = SortKey.next,
-    title: String,
     typeOfRisk: TypeOfRisk,
     properties: Map[Key, Property] = Map.empty[Key, Property]
 ) extends Element
@@ -55,7 +54,8 @@ case class RiskConfigurer(
     modelComponent: Risk,
     propertyAdder: CanAddProperties,
     relationshipAdder: CanAddRelationships
-) extends CanConfigureDescription[Risk]
+) extends CanConfigureTitle[Risk]
+    with CanConfigureDescription[Risk]
     with CanConfigureLinks[Risk]
     with CanConfigureAssociations[Risk]
     with CanConfigureContext[Risk]

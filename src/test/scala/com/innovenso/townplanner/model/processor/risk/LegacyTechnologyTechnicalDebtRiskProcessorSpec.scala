@@ -31,26 +31,31 @@ class LegacyTechnologyTechnicalDebtRiskProcessorSpec
         containingPlatform = Some(platform2)
       )
     And("some technologies")
-    val tech1 = ea describes Language(title = "Deprecated Language") as { it =>
+    val tech1 = ea describes Language() as { it =>
+      it has Title("deprecated language")
       it should BeEliminated()
     }
-    val tech2 = ea describes Language(title = "Modern Language") as { it =>
+    val tech2 = ea describes Language() as { it =>
+      it has Title("Modern Language")
       it should BeInvestedIn()
     }
     And("containers with API")
     val container1: ItContainer =
-      ea describes Microservice(title = "implementing everything") as { it =>
+      ea describes Microservice() as { it =>
+        it has Title("microservice")
         it isImplementedBy tech1
         it isImplementedBy tech2
         it isPartOf system1
       }
     val container2: ItContainer =
-      ea describes Microservice(title = "implementing deprecated") as { it =>
+      ea describes Microservice() as { it =>
+        it has Title("microservice 2")
         it isPartOf system2
         it isImplementedBy tech1
       }
     val container3: ItContainer =
-      ea describes Microservice(title = "implementing modern") as { it =>
+      ea describes Microservice() as { it =>
+        it has Title("microservice 3")
         it isPartOf system2
         it isImplementedBy tech2
       }

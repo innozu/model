@@ -10,7 +10,6 @@ import scala.annotation.tailrec
 case class BusinessCapability(
     key: Key = Key("capability"),
     sortKey: SortKey = SortKey.next,
-    title: String,
     properties: Map[Key, Property] = Map.empty[Key, Property]
 ) extends Element
     with HasDescription
@@ -137,7 +136,8 @@ case class BusinessCapabilityMapConfigurerConfigurer(
     modelComponent: BusinessCapability,
     propertyAdder: CanAddProperties,
     relationshipAdder: CanAddRelationships
-) extends CanConfigureDescription[BusinessCapability]
+) extends CanConfigureTitle[BusinessCapability]
+    with CanConfigureDescription[BusinessCapability]
     with CanConfigureLinks[BusinessCapability]
     with CanConfigureExternalIds[BusinessCapability]
     with CanConfigureSWOT[BusinessCapability]

@@ -10,7 +10,6 @@ case class ItSystemIntegration(
     source: Key = Key(),
     target: Key = Key(),
     sortKey: SortKey = SortKey.next,
-    title: String,
     properties: Map[Key, Property] = Map.empty[Key, Property]
 ) extends Element
     with HasDescription
@@ -78,7 +77,8 @@ case class ItSystemIntegrationConfigurer(
     modelComponent: ItSystemIntegration,
     propertyAdder: CanAddProperties,
     relationshipAdder: CanAddRelationships
-) extends CanConfigureDescription[ItSystemIntegration]
+) extends CanConfigureTitle[ItSystemIntegration]
+    with CanConfigureDescription[ItSystemIntegration]
     with CanConfigureArchitectureVerdict[ItSystemIntegration]
     with CanConfigureCriticality[ItSystemIntegration]
     with CanConfigureLinks[ItSystemIntegration]

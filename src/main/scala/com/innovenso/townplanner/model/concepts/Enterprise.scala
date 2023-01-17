@@ -8,7 +8,6 @@ import com.innovenso.townplanner.model.meta._
 case class Enterprise(
     key: Key = Key("enterprise"),
     sortKey: SortKey = SortKey.next,
-    title: String,
     properties: Map[Key, Property] = Map.empty[Key, Property]
 ) extends Element
     with HasDescription
@@ -37,7 +36,8 @@ case class EnterpriseConfigurer(
     modelComponent: Enterprise,
     propertyAdder: CanAddProperties,
     relationshipAdder: CanAddRelationships
-) extends CanConfigureDescription[Enterprise]
+) extends CanConfigureTitle[Enterprise]
+    with CanConfigureDescription[Enterprise]
     with CanConfigureLinks[Enterprise]
     with CanConfigureSWOT[Enterprise]
     with CanConfigureCompositionSource[Enterprise]

@@ -2,7 +2,8 @@ package com.innovenso.townplanner.model.concepts.relationships
 
 import com.innovenso.townplanner.model.concepts.properties.{
   CanAddProperties,
-  Property
+  Property,
+  Title
 }
 import com.innovenso.townplanner.model.meta.Key
 
@@ -10,9 +11,10 @@ case class Association(
     key: Key = Key("association"),
     source: Key,
     target: Key,
-    title: String = "is associated with",
     bidirectional: Boolean = false,
-    properties: Map[Key, Property] = Map.empty[Key, Property]
+    properties: Map[Key, Property] = Map(
+      Key.fromString("title") -> Title("is associated with")
+    )
 ) extends Relationship {
   val relationshipType: RelationshipType = RelationshipType(
     "association",
@@ -50,8 +52,7 @@ trait CanConfigureAssociations[ModelComponentType <: CanBeAssociated] {
     relationshipAdder.hasRelationship(
       Association(
         source = modelComponent.key,
-        target = target.key,
-        title = title
-      )
+        target = target.key
+      ).withTitle(Title(title)).asInstanceOf[Association]
     )
 }

@@ -41,7 +41,6 @@ trait ItContainer
 case class Microservice(
     key: Key = Key("microservice"),
     sortKey: SortKey = SortKey.next,
-    title: String,
     properties: Map[Key, Property] = Map.empty[Key, Property]
 ) extends ItContainer {
   val containerType: String = "microservice"
@@ -53,7 +52,6 @@ case class Microservice(
 case class Database(
     key: Key = Key("database"),
     sortKey: SortKey = SortKey.next,
-    title: String,
     properties: Map[Key, Property] = Map.empty[Key, Property]
 ) extends ItContainer {
   val containerType: String = "database"
@@ -65,7 +63,6 @@ case class Database(
 case class Service(
     key: Key = Key("service"),
     sortKey: SortKey = SortKey.next,
-    title: String,
     properties: Map[Key, Property] = Map.empty[Key, Property]
 ) extends ItContainer {
   val containerType: String = "service"
@@ -77,7 +74,6 @@ case class Service(
 case class Function(
     key: Key = Key("function"),
     sortKey: SortKey = SortKey.next,
-    title: String,
     properties: Map[Key, Property] = Map.empty[Key, Property]
 ) extends ItContainer {
   val containerType: String = "function"
@@ -89,7 +85,6 @@ case class Function(
 case class Filesystem(
     key: Key = Key("filesystem"),
     sortKey: SortKey = SortKey.next,
-    title: String,
     properties: Map[Key, Property] = Map.empty[Key, Property]
 ) extends ItContainer {
   val containerType: String = "file system"
@@ -101,7 +96,6 @@ case class Filesystem(
 case class Queue(
     key: Key = Key("queue"),
     sortKey: SortKey = SortKey.next,
-    title: String,
     properties: Map[Key, Property] = Map.empty[Key, Property]
 ) extends ItContainer {
   val containerType: String = "queue"
@@ -113,7 +107,6 @@ case class Queue(
 case class Topic(
     key: Key = Key("topic"),
     sortKey: SortKey = SortKey.next,
-    title: String,
     properties: Map[Key, Property] = Map.empty[Key, Property]
 ) extends ItContainer {
   val containerType: String = "topic"
@@ -125,7 +118,6 @@ case class Topic(
 case class EventStream(
     key: Key = Key("event stream"),
     sortKey: SortKey = SortKey.next,
-    title: String,
     properties: Map[Key, Property] = Map.empty[Key, Property]
 ) extends ItContainer {
   val containerType: String = "event stream"
@@ -137,7 +129,6 @@ case class EventStream(
 case class Gateway(
     key: Key = Key("gateway"),
     sortKey: SortKey = SortKey.next,
-    title: String,
     properties: Map[Key, Property] = Map.empty[Key, Property]
 ) extends ItContainer {
   val containerType: String = "gateway"
@@ -149,7 +140,6 @@ case class Gateway(
 case class Proxy(
     key: Key = Key("proxy"),
     sortKey: SortKey = SortKey.next,
-    title: String,
     properties: Map[Key, Property] = Map.empty[Key, Property]
 ) extends ItContainer {
   val containerType: String = "proxy"
@@ -161,7 +151,6 @@ case class Proxy(
 case class Firewall(
     key: Key = Key("firewall"),
     sortKey: SortKey = SortKey.next,
-    title: String,
     properties: Map[Key, Property] = Map.empty[Key, Property]
 ) extends ItContainer {
   val containerType: String = "firewall"
@@ -173,7 +162,6 @@ case class Firewall(
 case class Cache(
     key: Key = Key("cache"),
     sortKey: SortKey = SortKey.next,
-    title: String,
     properties: Map[Key, Property] = Map.empty[Key, Property]
 ) extends ItContainer {
   val containerType: String = "cache"
@@ -185,7 +173,6 @@ case class Cache(
 case class WebUI(
     key: Key = Key("web UI"),
     sortKey: SortKey = SortKey.next,
-    title: String,
     properties: Map[Key, Property] = Map.empty[Key, Property]
 ) extends ItContainer {
   val containerType: String = "web UI"
@@ -197,7 +184,6 @@ case class WebUI(
 case class MobileUI(
     key: Key = Key("mobile UI"),
     sortKey: SortKey = SortKey.next,
-    title: String,
     properties: Map[Key, Property] = Map.empty[Key, Property]
 ) extends ItContainer {
   val containerType: String = "mobile UI"
@@ -209,7 +195,6 @@ case class MobileUI(
 case class WatchUI(
     key: Key = Key("watch UI"),
     sortKey: SortKey = SortKey.next,
-    title: String,
     properties: Map[Key, Property] = Map.empty[Key, Property]
 ) extends ItContainer {
   val containerType: String = "watch UI"
@@ -221,7 +206,6 @@ case class WatchUI(
 case class DesktopUI(
     key: Key = Key("desktop UI"),
     sortKey: SortKey = SortKey.next,
-    title: String,
     properties: Map[Key, Property] = Map.empty[Key, Property]
 ) extends ItContainer {
   val containerType: String = "desktop UI"
@@ -233,7 +217,6 @@ case class DesktopUI(
 case class TerminalUI(
     key: Key = Key("terminal UI"),
     sortKey: SortKey = SortKey.next,
-    title: String,
     properties: Map[Key, Property] = Map.empty[Key, Property]
 ) extends ItContainer {
   val containerType: String = "terminal UI"
@@ -245,7 +228,6 @@ case class TerminalUI(
 case class SmartTVUI(
     key: Key = Key("smart TV UI"),
     sortKey: SortKey = SortKey.next,
-    title: String,
     properties: Map[Key, Property] = Map.empty[Key, Property]
 ) extends ItContainer {
   val containerType: String = "smart TV UI"
@@ -257,7 +239,6 @@ case class SmartTVUI(
 case class Batch(
     key: Key = Key("batch"),
     sortKey: SortKey = SortKey.next,
-    title: String,
     properties: Map[Key, Property] = Map.empty[Key, Property]
 ) extends ItContainer {
   val containerType: String = "batch"
@@ -269,7 +250,6 @@ case class Batch(
 case class GenericContainer(
     key: Key = Key("container"),
     sortKey: SortKey = SortKey.next,
-    title: String,
     containerType: String = "container",
     containerLayer: ItContainerLayer = ServiceLayer,
     properties: Map[Key, Property] = Map.empty[Key, Property]
@@ -302,7 +282,8 @@ case class ItContainerConfigurer[ContainerType <: ItContainer](
     modelComponent: ContainerType,
     propertyAdder: CanAddProperties,
     relationshipAdder: CanAddRelationships
-) extends CanConfigureDescription[ContainerType]
+) extends CanConfigureTitle[ContainerType]
+    with CanConfigureDescription[ContainerType]
     with CanConfigureArchitectureVerdict[ContainerType]
     with CanConfigureLinks[ContainerType]
     with CanConfigureExternalIds[ContainerType]

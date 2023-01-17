@@ -8,11 +8,12 @@ import com.innovenso.townplanner.model.concepts._
 import com.innovenso.townplanner.model.language.Element
 import com.innovenso.townplanner.model.meta._
 import com.thedeanda.lorem.LoremIpsum
+import fish.genius.logging.Loggable
 
 import java.security.SecureRandom
 import java.util.{Currency, Locale, UUID}
 
-case class SampleFactory(ea: EnterpriseArchitecture) {
+case class SampleFactory(ea: EnterpriseArchitecture) extends Loggable {
   private val random = new SecureRandom()
   private val lorem = LoremIpsum.getInstance()
 
@@ -47,15 +48,18 @@ case class SampleFactory(ea: EnterpriseArchitecture) {
   def monetaryAmount: MonetaryAmount =
     MonetaryAmount(randomDouble(1000), Currency.getInstance("EUR"))
 
-  def actor: Actor = ea describes Actor(title = title) as { it =>
+  def actor: Actor = ea describes Actor() as { it =>
+    it has Title(title)
     it has Description(description)
   }
 
-  def person: Person = ea describes Person(title = title) as { it =>
+  def person: Person = ea describes Person() as { it =>
+    it has Title(title)
     it has Description(description)
   }
 
-  def team: Team = ea describes Team(title = title) as { it =>
+  def team: Team = ea describes Team() as { it =>
+    it has Title(title)
     it has Description(description)
   }
 
@@ -67,17 +71,17 @@ case class SampleFactory(ea: EnterpriseArchitecture) {
     ea has Knowledge(
       source = person.key,
       target = technology.key,
-      title = title,
       level = level
     )
 
-  def teamMember(team: Team): Person = ea describes Person(title = name) as {
-    it =>
-      it has Description(description)
-      it isPartOf team
+  def teamMember(team: Team): Person = ea describes Person() as { it =>
+    it has Title(name)
+    it has Description(description)
+    it isPartOf team
   }
 
-  def tag: Tag = ea describes Tag(title = title) as { it =>
+  def tag: Tag = ea describes Tag() as { it =>
+    it has Title(title)
     it has Description(description)
   }
 
@@ -88,30 +92,34 @@ case class SampleFactory(ea: EnterpriseArchitecture) {
     case 4 => BeMigrated(description)
   }
 
-  def language: Language = ea describes Language(title = title) as { it =>
+  def language: Language = ea describes Language() as { it =>
+    it has Title(title)
     it has Description(description)
     it should verdict
   }
 
-  def framework: Framework = ea describes Framework(title = title) as { it =>
+  def framework: Framework = ea describes Framework() as { it =>
+    it has Title(title)
     it has Description(description)
     it should verdict
   }
 
-  def tool: Tool = ea describes Tool(title = title) as { it =>
+  def tool: Tool = ea describes Tool() as { it =>
+    it has Title(title)
     it has Description(description)
     it should verdict
   }
 
-  def technique: Technique = ea describes Technique(title = title) as { it =>
+  def technique: Technique = ea describes Technique() as { it =>
+    it has Title(title)
     it has Description(description)
     it should verdict
   }
 
-  def platformTechnology: Platform = ea describes Platform(title = title) as {
-    it =>
-      it has Description(description)
-      it should verdict
+  def platformTechnology: Platform = ea describes Platform() as { it =>
+    it has Title(title)
+    it has Description(description)
+    it should verdict
   }
 
   def microservice(
@@ -120,7 +128,8 @@ case class SampleFactory(ea: EnterpriseArchitecture) {
   ): Microservice = {
     val implementingLanguage = language
     val implementingFramework = framework
-    ea describes Microservice(title = name.getOrElse(title)) as { it =>
+    ea describes Microservice() as { it =>
+      it has Title(name.getOrElse(title))
       it has Description(description)
       it isImplementedBy implementingLanguage
       it isImplementedBy implementingFramework
@@ -131,7 +140,8 @@ case class SampleFactory(ea: EnterpriseArchitecture) {
 
   def database(system: ItSystem, name: Option[String] = None): Database = {
     val implementingLanguage = language
-    ea describes Database(title = name.getOrElse(title)) as { it =>
+    ea describes Database() as { it =>
+      it has Title(name.getOrElse(title))
       it has Description(description)
       it isImplementedBy implementingLanguage
       it isPartOf (system)
@@ -140,7 +150,8 @@ case class SampleFactory(ea: EnterpriseArchitecture) {
 
   def queue(system: ItSystem, name: Option[String] = None): Queue = {
     val implementingLanguage = language
-    ea describes Queue(title = name.getOrElse(title)) as { it =>
+    ea describes Queue() as { it =>
+      it has Title(name.getOrElse(title))
       it has Description(description)
       it isImplementedBy implementingLanguage
       it isPartOf (system)
@@ -150,7 +161,8 @@ case class SampleFactory(ea: EnterpriseArchitecture) {
   def ui(system: ItSystem, name: Option[String] = None): WebUI = {
     val implementingLanguage = language
     val implementingFramework = framework
-    ea describes WebUI(title = name.getOrElse(title)) as { it =>
+    ea describes WebUI() as { it =>
+      it has Title(name.getOrElse(title))
       it has Description(description)
       it isImplementedBy implementingLanguage
       it isImplementedBy implementingFramework
@@ -158,7 +170,8 @@ case class SampleFactory(ea: EnterpriseArchitecture) {
     }
   }
 
-  def enterprise: Enterprise = ea describes Enterprise(title = title) as { it =>
+  def enterprise: Enterprise = ea describes Enterprise() as { it =>
+    it has Title(title)
     it has Description(description)
     it has Website(url, title)
     it has Wiki(url, title)
@@ -176,7 +189,8 @@ case class SampleFactory(ea: EnterpriseArchitecture) {
       parentCapability: Option[BusinessCapability] = None,
       tags: List[Tag] = Nil
   ): BusinessCapability =
-    ea describes BusinessCapability(title = title) as { it =>
+    ea describes BusinessCapability() as { it =>
+      it has Title(title)
       it has Description(description)
       if (servedEnterprise.isDefined) it serves servedEnterprise.get
       if (parentCapability.isDefined) it serves parentCapability.get
@@ -191,9 +205,8 @@ case class SampleFactory(ea: EnterpriseArchitecture) {
   ): List[BusinessCapability] = if (currentLevel > maxLevel) Nil
   else
     (1 to randomInt(5)).toList.flatMap(it => {
-      val cap = ea describes BusinessCapability(title =
-        s"${parentCapability.map(_.title).getOrElse("")}${it}"
-      ) as { it =>
+      val cap = ea describes BusinessCapability() as { it =>
+        it has Title(s"${parentCapability.map(_.title).getOrElse("")}${it}")
         it has Description(description)
         it has Description(description)
         if (servedEnterprise.isDefined) it serves servedEnterprise.get
@@ -205,7 +218,8 @@ case class SampleFactory(ea: EnterpriseArchitecture) {
   def buildingBlock(
       realizedCapability: Option[BusinessCapability] = None
   ): ArchitectureBuildingBlock =
-    ea describes ArchitectureBuildingBlock(title = title) as { it =>
+    ea describes ArchitectureBuildingBlock() as { it =>
+      it has Title(title)
       it has Description(description)
       if (realizedCapability.isDefined) it realizes realizedCapability.get
     }
@@ -214,18 +228,21 @@ case class SampleFactory(ea: EnterpriseArchitecture) {
       realizedBuildingBlock: Option[ArchitectureBuildingBlock] = None,
       name: Option[String] = None
   ): ItPlatform =
-    ea describes ItPlatform(title = name.getOrElse(title)) as { it =>
+    ea describes ItPlatform() as { it =>
+      it has Title(name.getOrElse(title))
       it has Description(description)
       if (realizedBuildingBlock.isDefined) it realizes realizedBuildingBlock.get
     }
 
   def platformLayer: PlatformLayer =
-    ea describes PlatformLayer(title = title, color = Color.random) as { it =>
+    ea describes PlatformLayer(color = Color.random) as { it =>
+      it has Title(title)
       it has Description(description)
     }
 
   def project(forEnterprise: Option[Enterprise] = None): ItProject = {
-    val theProject = ea describes ItProject(title = title) as { it =>
+    val theProject = ea describes ItProject() as { it =>
+      it has Title(title)
       if (forEnterprise.nonEmpty) it serves forEnterprise.get
       (1 to randomInt(5)).foreach(_ => it has Description(description))
 
@@ -254,15 +271,15 @@ case class SampleFactory(ea: EnterpriseArchitecture) {
 
     val integrations = systems.tail.map(s => integration(s, systems.head))
 
-    val illustration = ea needs FlowView(title = title) and { it =>
+    val illustration = ea needs FlowView() and { it =>
       systems.foreach(system =>
         it has Request(title) from system to systems.head
       )
     }
 
     ea describes ItProjectMilestone(
-      title = title
     ) as { it =>
+      it has Title(title)
       it isPartOf forProject
       (1 to randomInt(5)).foreach(_ => it has Description(description))
       (1 to randomInt(5)).foreach(_ =>
@@ -356,12 +373,11 @@ case class SampleFactory(ea: EnterpriseArchitecture) {
       val constraints = (1 to randomInt(5)).map(_ =>
         it has Constraint(title = title, description = description)
       )
-      (1 to randomInt(5)).foreach(_ => it has Website(title = title, url = url))
+      (1 to randomInt(5)).foreach(_ => it has Website(url = url))
       it dealsWith PrivacyCompliance(description)
       it dealsWith PCICompliance(description)
       it dealsWith HealthDataCompliance(description)
       it has HighImpact on Confidentiality(description = description)
-      it has MediumImpact on Integrity(description = description)
       it has LowImpact on Availability(description = description)
 
       stakeholders.foreach(them => it hasStakeholder them)
@@ -406,10 +422,10 @@ case class SampleFactory(ea: EnterpriseArchitecture) {
     val principles = (1 to randomInt(5)).map(_ => principle(forEnterprise))
 
     val theDecision = ea describes Decision(
-      title = title,
       outcome = description,
       status = status
     ) as { it =>
+      it has Title(title)
       (1 to randomInt(5)).foreach(_ => it has Description(description))
       (1 to randomInt(5)).foreach(_ =>
         it has CurrentState(description = description, title = title)
@@ -445,7 +461,7 @@ case class SampleFactory(ea: EnterpriseArchitecture) {
       val constraints = (1 to randomInt(5)).map(_ =>
         it has Constraint(title = title, description = description)
       )
-      (1 to randomInt(5)).foreach(_ => it has Website(title = title, url = url))
+      (1 to randomInt(5)).foreach(_ => it has Website(url = url))
       it dealsWith PrivacyCompliance(description)
       it dealsWith PCICompliance(description)
       it dealsWith HealthDataCompliance(description)
@@ -467,15 +483,13 @@ case class SampleFactory(ea: EnterpriseArchitecture) {
       systems.foreach(s => it changes s)
     }
 
-    println(theDecision)
+    debug(s"$theDecision")
 
     (1 to randomInt(6)).foreach(_ =>
-      ea describes DecisionOption(title = title) as { option =>
+      ea describes DecisionOption() as { option =>
         option isPartOf theDecision
         (1 to randomInt(5)).foreach(_ => option has Description(description))
-        (1 to randomInt(5)).foreach(_ =>
-          option has Website(title = title, url = url)
-        )
+        (1 to randomInt(5)).foreach(_ => option has Website(url = url))
         (1 to randomInt(5)).foreach(_ =>
           option has Strength(description = description)
         )
@@ -537,13 +551,15 @@ case class SampleFactory(ea: EnterpriseArchitecture) {
   }
 
   def person(forEnterprise: Option[Enterprise] = None): Person =
-    ea describes Person(title = name) as { it =>
+    ea describes Person() as { it =>
       if (forEnterprise.isDefined) it serves forEnterprise.get
+      it has Title(name)
       it has Description(description)
     }
 
   def principle(forEnterprise: Option[Enterprise] = None): Principle =
-    ea describes DesignPrinciple(title = title) as { it =>
+    ea describes DesignPrinciple() as { it =>
+      it has Title(title)
       it has Description(description)
       if (forEnterprise.isDefined) it serves forEnterprise.get
     }
@@ -557,23 +573,23 @@ case class SampleFactory(ea: EnterpriseArchitecture) {
       tags: List[Tag] = Nil,
       name: Option[String] = None
   ): ItSystem = {
-    val theSystem = ea describes ItSystem(title = name.getOrElse(title)) as {
-      it =>
-        it has Description(description)
+    val theSystem = ea describes ItSystem() as { it =>
+      it has Title(name.getOrElse(title))
+      it has Description(description)
 
-        if (containingPlatform.isDefined) {
-          it isPartOf containingPlatform.get
-        }
+      if (containingPlatform.isDefined) {
+        it isPartOf containingPlatform.get
+      }
 
-        if (realizedBuildingBlock.isDefined) {
-          it realizes realizedBuildingBlock.get
-        }
+      if (realizedBuildingBlock.isDefined) {
+        it realizes realizedBuildingBlock.get
+      }
 
-        fatherTime.foreach(f => it has f on f.date)
+      fatherTime.foreach(f => it has f on f.date)
 
-        onPlatformLayer.foreach(pl => it isOn pl)
+      onPlatformLayer.foreach(pl => it isOn pl)
 
-        tags.foreach(tag => it isTagged tag)
+      tags.foreach(tag => it isTagged tag)
     }
 
     if (withContainers) {
@@ -583,10 +599,18 @@ case class SampleFactory(ea: EnterpriseArchitecture) {
       val q = queue(theSystem)
       val d = database(theSystem)
 
-      ea hasRelationship Flow(source = u.key, target = ms1.key, title = title)
-      ea hasRelationship Flow(source = ms1.key, target = ms2.key, title = title)
-      ea hasRelationship Flow(source = ms1.key, target = d.key, title = title)
-      ea hasRelationship Flow(source = ms2.key, target = q.key, title = title)
+      ea hasRelationship Flow(source = u.key, target = ms1.key)
+        .withTitle(Title(title))
+        .asInstanceOf[Flow]
+      ea hasRelationship Flow(source = ms1.key, target = ms2.key)
+        .withTitle(Title(title))
+        .asInstanceOf[Flow]
+      ea hasRelationship Flow(source = ms1.key, target = d.key)
+        .withTitle(Title(title))
+        .asInstanceOf[Flow]
+      ea hasRelationship Flow(source = ms2.key, target = q.key)
+        .withTitle(Title(title))
+        .asInstanceOf[Flow]
     }
 
     theSystem
@@ -599,27 +623,27 @@ case class SampleFactory(ea: EnterpriseArchitecture) {
   ): Relationship =
     ea hasRelationship Flow(
       source = source.key,
-      target = target.key,
-      title = name.getOrElse(title)
-    )
+      target = target.key
+    ).withTitle(Title(name.getOrElse(title))).asInstanceOf[Flow]
 
   def integration(
       system1: ItSystem,
       system2: ItSystem,
       fatherTime: Set[FatherTime] = Set()
   ): ItSystemIntegration = {
-    val illustration1: FlowView = ea needs FlowView(title = title) and { it =>
+    val illustration1: FlowView = ea needs FlowView() and { it =>
+      it has Title(title)
       it has Request(title) from system1 to system2
       it has Response(title) from system2 to system1
     }
 
-    val illustration2: FlowView = ea needs FlowView(title = title) and { it =>
+    val illustration2: FlowView = ea needs FlowView() and { it =>
+      it has Title(title)
       it has Message(title) from system1 to system2
     }
 
-    ea describes ItSystemIntegration(title =
-      title
-    ) between system1 and system2 as { it =>
+    ea describes ItSystemIntegration() between system1 and system2 as { it =>
+      it has Title(title)
       it has Description(description)
       fatherTime.foreach(f => it has f on f.date)
 
@@ -644,7 +668,8 @@ case class SampleFactory(ea: EnterpriseArchitecture) {
   def decommissioned(year: Int, month: Int, day: Int): Decommissioned =
     Decommissioned(date = Day(year, month, day), description = description)
 
-  def entity: Entity = ea describes Entity(title = title) as { it =>
+  def entity: Entity = ea describes Entity() as { it =>
+    it has Title(title)
     it has Description(description)
     it isClassified PublicData
     (1 to randomInt(10)).foreach(_ =>
@@ -659,7 +684,8 @@ case class SampleFactory(ea: EnterpriseArchitecture) {
   }
 
   def aggregateRoot: AggregateRoot =
-    ea describes AggregateRoot(title = title) as { it =>
+    ea describes AggregateRoot() as { it =>
+      it has Title(title)
       it has Description(description)
       it isClassified PersonalData
       (1 to randomInt(10)).foreach(_ =>
@@ -673,22 +699,23 @@ case class SampleFactory(ea: EnterpriseArchitecture) {
       )
     }
 
-  def valueObject: ValueObject = ea describes ValueObject(title = title) as {
-    it =>
-      it has Description(description)
-      it isClassified SensitiveData
-      (1 to randomInt(10)).foreach(_ =>
-        it has DataAttribute(
-          name = title,
-          description = Some(description),
-          required = true,
-          multiple = false,
-          dataType = Some(word)
-        )
+  def valueObject: ValueObject = ea describes ValueObject() as { it =>
+    it has Title(title)
+    it has Description(description)
+    it isClassified SensitiveData
+    (1 to randomInt(10)).foreach(_ =>
+      it has DataAttribute(
+        name = title,
+        description = Some(description),
+        required = true,
+        multiple = false,
+        dataType = Some(word)
       )
+    )
   }
 
-  def event: Event = ea describes Event(title = title) as { it =>
+  def event: Event = ea describes Event() as { it =>
+    it has Title(title)
     it has Description(description)
     it isClassified ConfidentialData
     (1 to randomInt(3)).foreach(_ =>
@@ -702,7 +729,8 @@ case class SampleFactory(ea: EnterpriseArchitecture) {
     )
   }
 
-  def command: Command = ea describes Command(title = title) as { it =>
+  def command: Command = ea describes Command() as { it =>
+    it has Title(title)
     it has Description(description)
     it isClassified PublicData
     (1 to randomInt(3)).foreach(_ =>
@@ -716,7 +744,8 @@ case class SampleFactory(ea: EnterpriseArchitecture) {
     )
   }
 
-  def query: Query = ea describes Query(title = title) as { it =>
+  def query: Query = ea describes Query() as { it =>
+    it has Title(title)
     it has Description(description)
     (1 to randomInt(3)).foreach(_ =>
       it has DataAttribute(
@@ -729,7 +758,8 @@ case class SampleFactory(ea: EnterpriseArchitecture) {
     )
   }
 
-  def projection: Projection = ea describes Projection(title = title) as { it =>
+  def projection: Projection = ea describes Projection() as { it =>
+    it has Title(title)
     it has Description(description)
     (1 to randomInt(3)).foreach(_ =>
       it has DataAttribute(
@@ -760,9 +790,9 @@ case class SampleFactory(ea: EnterpriseArchitecture) {
       typeOfRisk: TypeOfRisk,
       name: Option[String] = None
   ): Risk = ea describes Risk(
-    title = name.getOrElse(title),
     typeOfRisk = typeOfRisk
   ) as { it =>
+    it has Title(name.getOrElse(title))
     it has Description(description)
     it has CurrentState(description = description)
     it has Consequence(description = description)

@@ -3,7 +3,9 @@ package com.innovenso.townplanner.model.concepts
 import com.innovenso.townplanner.model.concepts.properties.{
   CanAddProperties,
   CanConfigureDescription,
+  CanConfigureTitle,
   HasDescription,
+  HasTitle,
   Property
 }
 import com.innovenso.townplanner.model.language.{Concept, HasModelComponents}
@@ -12,7 +14,6 @@ import com.innovenso.townplanner.model.meta._
 case class PlatformLayer(
     key: Key = Key("platform layer"),
     sortKey: SortKey = SortKey.next,
-    title: String,
     order: Int = 0,
     color: Color = Color.random,
     properties: Map[Key, Property] = Map.empty[Key, Property]
@@ -38,7 +39,8 @@ trait HasPlatformLayers extends HasModelComponents {
 case class PlatformLayerConfigurer(
     modelComponent: PlatformLayer,
     propertyAdder: CanAddProperties
-) extends CanConfigureDescription[PlatformLayer] {
+) extends CanConfigureTitle[PlatformLayer]
+    with CanConfigureDescription[PlatformLayer] {
   def as(
       body: PlatformLayerConfigurer => Any
   ): PlatformLayer = {

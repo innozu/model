@@ -1,23 +1,14 @@
 package com.innovenso.townplanner.model.processor.risk
 
 import com.innovenso.townplanner.model.EnterpriseArchitecture
-import com.innovenso.townplanner.model.concepts.{
-  ItContainer,
-  Risk,
-  TechnicalDebt,
-  Technology
-}
-import com.innovenso.townplanner.model.concepts.properties.{
-  BeEliminated,
-  CounterMeasure,
-  Description,
-  Minor
-}
+import com.innovenso.townplanner.model.concepts.{ItContainer, Risk, TechnicalDebt, Technology}
+import com.innovenso.townplanner.model.concepts.properties.{BeEliminated, CounterMeasure, Description, Minor, Title}
 import com.innovenso.townplanner.model.processor.TownPlanProcessor
+import fish.genius.logging.Loggable
 
 case class LegacyTechnologyTechnicalDebtRiskProcessor()(implicit
     ea: EnterpriseArchitecture
-) extends TownPlanProcessor {
+) extends TownPlanProcessor with Loggable {
   override def process(): Unit = createRiskForContainersWithLegacyTechnologies()
 
   val legacyTechnologies: List[Technology] =
@@ -37,13 +28,13 @@ case class LegacyTechnologyTechnicalDebtRiskProcessor()(implicit
 
   def createRiskForContainersWithLegacyTechnologies()
       : Unit = containersImplementingLegacyTechnologies.foreach(tc => {
-    println(
+    debug(
       s"creating Technical Debt for IT Container ${tc._2} using Technology ${tc._1}"
     )
     ea describes Risk(
-      title = s"${tc._2.title}: legacy technology ${tc._1.title}",
       typeOfRisk = TechnicalDebt
     ) as { it =>
+      it has Title(s"${tc._2.title}: legacy technology ${tc._1.title}")
       it has Description(
         s"IT Container ${tc._2.title} still uses technology ${tc._1.title}, even though this technology has been deprecated."
       )

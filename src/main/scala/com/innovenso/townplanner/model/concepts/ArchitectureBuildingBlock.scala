@@ -8,7 +8,6 @@ import com.innovenso.townplanner.model.meta._
 case class ArchitectureBuildingBlock(
     key: Key = Key("building block"),
     sortKey: SortKey = SortKey.next,
-    title: String,
     properties: Map[Key, Property] = Map.empty[Key, Property]
 ) extends Element
     with HasDescription
@@ -75,7 +74,8 @@ case class ArchitectureBuildingBlockConfigurer(
     modelComponent: ArchitectureBuildingBlock,
     propertyAdder: CanAddProperties,
     relationshipAdder: CanAddRelationships
-) extends CanConfigureDescription[ArchitectureBuildingBlock]
+) extends CanConfigureTitle[ArchitectureBuildingBlock]
+    with CanConfigureDescription[ArchitectureBuildingBlock]
     with CanConfigureLinks[ArchitectureBuildingBlock]
     with CanConfigureExternalIds[ArchitectureBuildingBlock]
     with CanConfigureSWOT[ArchitectureBuildingBlock]

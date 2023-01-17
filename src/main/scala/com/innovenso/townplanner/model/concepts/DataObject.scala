@@ -36,7 +36,6 @@ trait DataObject
 case class Entity(
     key: Key = Key("entity"),
     sortKey: SortKey = SortKey.next,
-    title: String,
     properties: Map[Key, Property] = Map.empty[Key, Property]
 ) extends DataObject {
   val dataObjectType: String = "entity"
@@ -47,7 +46,6 @@ case class Entity(
 case class ValueObject(
     key: Key = Key("value object"),
     sortKey: SortKey = SortKey.next,
-    title: String,
     properties: Map[Key, Property] = Map.empty[Key, Property]
 ) extends DataObject {
   val dataObjectType: String = "value object"
@@ -59,7 +57,6 @@ case class ValueObject(
 case class AggregateRoot(
     key: Key = Key("aggregate root"),
     sortKey: SortKey = SortKey.next,
-    title: String,
     properties: Map[Key, Property] = Map.empty[Key, Property]
 ) extends DataObject {
   val dataObjectType: String = "aggretate root"
@@ -71,7 +68,6 @@ case class AggregateRoot(
 case class Command(
     key: Key = Key("command"),
     sortKey: SortKey = SortKey.next,
-    title: String,
     properties: Map[Key, Property] = Map.empty[Key, Property]
 ) extends DataObject {
   val dataObjectType: String = "command"
@@ -83,7 +79,6 @@ case class Command(
 case class Event(
     key: Key = Key("event"),
     sortKey: SortKey = SortKey.next,
-    title: String,
     properties: Map[Key, Property] = Map.empty[Key, Property]
 ) extends DataObject {
   val dataObjectType: String = "event"
@@ -95,7 +90,6 @@ case class Event(
 case class Query(
     key: Key = Key("query"),
     sortKey: SortKey = SortKey.next,
-    title: String,
     properties: Map[Key, Property] = Map.empty[Key, Property]
 ) extends DataObject {
   val dataObjectType: String = "query"
@@ -107,7 +101,6 @@ case class Query(
 case class Projection(
     key: Key = Key("projection"),
     sortKey: SortKey = SortKey.next,
-    title: String,
     properties: Map[Key, Property] = Map.empty[Key, Property]
 ) extends DataObject {
   val dataObjectType: String = "projection"
@@ -126,7 +119,8 @@ case class DataObjectConfigurer[DataObjectType <: DataObject](
     modelComponent: DataObjectType,
     propertyAdder: CanAddProperties,
     relationshipAdder: CanAddRelationships
-) extends CanConfigureDescription[DataObjectType]
+) extends CanConfigureTitle[DataObjectType]
+    with CanConfigureDescription[DataObjectType]
     with CanConfigureLinks[DataObjectType]
     with CanConfigureExternalIds[DataObjectType]
     with CanConfigureFatherTime[DataObjectType]

@@ -22,7 +22,6 @@ sealed trait Principle
 
 case class CorporatePrinciple(
     key: Key = Key("corporate principle"),
-    title: String,
     properties: Map[Key, Property] = Map.empty[Key, Property]
 ) extends Principle {
   val principleType: String = "Corporate Principle"
@@ -33,7 +32,6 @@ case class CorporatePrinciple(
 
 case class DesignPrinciple(
     key: Key = Key("design principle"),
-    title: String,
     properties: Map[Key, Property] = Map.empty[Key, Property]
 ) extends Principle {
   val principleType: String = "Design Principle"
@@ -56,7 +54,8 @@ case class PrincipleConfigurer[PrincipleType <: Principle](
     modelComponent: PrincipleType,
     propertyAdder: CanAddProperties,
     relationshipAdder: CanAddRelationships
-) extends CanConfigureDescription[Principle]
+) extends CanConfigureTitle[Principle]
+    with CanConfigureDescription[Principle]
     with CanConfigureLinks[Principle]
     with CanConfigureSWOT[Principle]
     with CanConfigureServingSource[Principle]

@@ -4,17 +4,22 @@ import com.innovenso.townplanner.model.concepts.properties.{
   CanAddProperties,
   CanConfigureDescription,
   CanConfigureFatherTime,
-  Property
+  CanConfigureTitle,
+  Property,
+  Title
 }
 import com.innovenso.townplanner.model.meta.Key
+
+import scala.collection.immutable.Map
 
 case class Flow(
     key: Key = Key("flowing"),
     source: Key,
     target: Key,
-    title: String = "uses",
     bidirectional: Boolean = false,
-    properties: Map[Key, Property] = Map.empty[Key, Property]
+    properties: Map[Key, Property] = Map(
+      Key.fromString("title") -> Title("uses")
+    )
 ) extends Relationship {
   val relationshipType: RelationshipType = RelationshipType(
     "flow",
@@ -35,7 +40,8 @@ case class FlowConfigurer(
     propertyAdder: CanAddProperties,
     relationshipAdder: CanAddRelationships,
     title: Option[String] = None
-) extends CanConfigureDescription[Flow]
+) extends CanConfigureTitle[Flow]
+    with CanConfigureDescription[Flow]
     with CanConfigureFatherTime[Flow]
     with CanConfigureImplementationTarget[Flow] {
   val modelComponent: Flow = flow
@@ -54,6 +60,7 @@ case class FlowConfigurer(
 
   def and(body: FlowConfigurer => Unit): Relationship = {
     relationshipAdder.hasRelationship(flow)
+    this.has(Title(title.getOrElse("")))
     body.apply(this)
     propertyAdder.townPlan
       .relationship(flow.key, flow.getClass)
@@ -62,6 +69,7 @@ case class FlowConfigurer(
 
   def period: Relationship = {
     relationshipAdder.hasRelationship(flow)
+    this.has(Title(title.getOrElse("")))
     propertyAdder.townPlan
       .relationship(flow.key, flow.getClass)
       .get
@@ -77,11 +85,11 @@ trait CanConfigureFlowSource[ModelComponentType <: CanBeFlowSource] {
     FlowConfigurer(
       flow = Flow(
         source = modelComponent.key,
-        target = modelComponent.key,
-        title = title
+        target = modelComponent.key
       ),
       propertyAdder = propertyAdder,
-      relationshipAdder = relationshipAdder
+      relationshipAdder = relationshipAdder,
+      Some(title)
     )
   }
 
@@ -109,7 +117,9 @@ trait CanConfigureFlowSource[ModelComponentType <: CanBeFlowSource] {
       title: String
   ): Relationship =
     relationshipAdder.hasRelationship(
-      Flow(source = modelComponent.key, target = target.key, title = title)
+      Flow(source = modelComponent.key, target = target.key)
+        .withTitle(Title(title))
+        .asInstanceOf[Flow]
     )
 
 }
@@ -123,11 +133,11 @@ trait CanConfigureFlowTarget[ModelComponentType <: CanBeFlowTarget] {
     FlowConfigurer(
       flow = Flow(
         source = modelComponent.key,
-        target = modelComponent.key,
-        title = title
+        target = modelComponent.key
       ),
       propertyAdder = propertyAdder,
-      relationshipAdder = relationshipAdder
+      relationshipAdder = relationshipAdder,
+      Some(title)
     )
   }
 
@@ -154,7 +164,9 @@ trait CanConfigureFlowTarget[ModelComponentType <: CanBeFlowTarget] {
       title: String
   ): Relationship =
     relationshipAdder.hasRelationship(
-      Flow(source = target.key, target = modelComponent.key, title = title)
+      Flow(source = target.key, target = modelComponent.key)
+        .withTitle(Title(title))
+        .asInstanceOf[Flow]
     )
 
 }

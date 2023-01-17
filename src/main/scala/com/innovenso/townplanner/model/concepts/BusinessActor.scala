@@ -30,52 +30,52 @@ sealed trait BusinessActor
 case class Actor(
     key: Key = Key("actor"),
     sortKey: SortKey = SortKey.next,
-    title: String,
     properties: Map[Key, Property] = Map.empty[Key, Property]
 ) extends BusinessActor {
   def withProperty(property: Property): Actor =
     copy(properties = this.properties + (property.key -> property))
   val modelComponentType: ModelComponentType = ModelComponentType(
-    "Business Actor", classOf[Actor]
+    "Business Actor",
+    classOf[Actor]
   )
 }
 
 case class Person(
     key: Key = Key("person"),
     sortKey: SortKey = SortKey.next,
-    title: String,
     properties: Map[Key, Property] = Map.empty[Key, Property]
 ) extends BusinessActor {
   def withProperty(property: Property): Person =
     copy(properties = this.properties + (property.key -> property))
   val modelComponentType: ModelComponentType = ModelComponentType(
-    "Person", classOf[Person]
+    "Person",
+    classOf[Person]
   )
 }
 
 case class Organisation(
     key: Key = Key("organisation"),
     sortKey: SortKey = SortKey.next,
-    title: String,
     properties: Map[Key, Property] = Map.empty[Key, Property]
 ) extends BusinessActor {
   def withProperty(property: Property): Organisation =
     copy(properties = this.properties + (property.key -> property))
   val modelComponentType: ModelComponentType = ModelComponentType(
-    "Organisation", classOf[Organisation]
+    "Organisation",
+    classOf[Organisation]
   )
 }
 
 case class Team(
     key: Key = Key("team"),
     sortKey: SortKey = SortKey.next,
-    title: String,
     properties: Map[Key, Property] = Map.empty[Key, Property]
 ) extends BusinessActor {
   def withProperty(property: Property): Team =
     copy(properties = this.properties + (property.key -> property))
   val modelComponentType: ModelComponentType = ModelComponentType(
-    "Team", classOf[Team]
+    "Team",
+    classOf[Team]
   )
 }
 
@@ -126,7 +126,8 @@ case class BusinessActorConfigurer[BusinessActorType <: BusinessActor](
     modelComponent: BusinessActorType,
     propertyAdder: CanAddProperties,
     relationshipAdder: CanAddRelationships
-) extends CanConfigureDescription[BusinessActorType]
+) extends CanConfigureTitle[BusinessActorType]
+    with CanConfigureDescription[BusinessActorType]
     with CanConfigureLinks[BusinessActorType]
     with CanConfigureExternalIds[BusinessActorType]
     with CanConfigureSWOT[BusinessActorType]

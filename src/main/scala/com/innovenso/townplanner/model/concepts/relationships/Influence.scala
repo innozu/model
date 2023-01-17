@@ -2,17 +2,21 @@ package com.innovenso.townplanner.model.concepts.relationships
 
 import com.innovenso.townplanner.model.concepts.properties.{
   CanAddProperties,
-  Property
+  Property,
+  Title
 }
 import com.innovenso.townplanner.model.meta.Key
+
+import scala.collection.immutable.Map
 
 case class Influence(
     key: Key = Key("influencing"),
     source: Key,
     target: Key,
-    title: String = "influences",
     bidirectional: Boolean = false,
-    properties: Map[Key, Property] = Map.empty[Key, Property]
+    properties: Map[Key, Property] = Map(
+      Key.fromString("title") -> Title("influences")
+    )
 ) extends Relationship {
   val relationshipType: RelationshipType = RelationshipType(
     "influences",
@@ -46,7 +50,9 @@ trait CanConfigureInfluenceSource[ModelComponentType <: CanInfluence] {
       title: String = "influences"
   ): Relationship =
     relationshipAdder.hasRelationship(
-      Influence(source = modelComponent.key, target = target.key, title = title)
+      Influence(source = modelComponent.key, target = target.key)
+        .withTitle(Title(title))
+        .asInstanceOf[Influence]
     )
 }
 
@@ -69,6 +75,8 @@ trait CanConfigureInfluenceTarget[ModelComponentType <: CanBeInfluenced] {
       title: String = "influences"
   ): Relationship =
     relationshipAdder.hasRelationship(
-      Influence(source = target.key, target = modelComponent.key, title = title)
+      Influence(source = target.key, target = modelComponent.key)
+        .withTitle(Title(title))
+        .asInstanceOf[Influence]
     )
 }

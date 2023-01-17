@@ -2,19 +2,23 @@ package com.innovenso.townplanner.model.concepts.relationships
 
 import com.innovenso.townplanner.model.concepts.properties.{
   CanAddProperties,
-  Property
+  Property,
+  Title
 }
 import com.innovenso.townplanner.model.meta.Key
+
+import scala.collection.immutable.Map
 
 case class DataRelationship(
     key: Key = Key("data relationship"),
     source: Key,
     target: Key,
-    title: String = "has",
     left: Cardinality = One,
     right: Cardinality,
     bidirectional: Boolean = false,
-    properties: Map[Key, Property] = Map.empty[Key, Property]
+    properties: Map[Key, Property] = Map(
+      Key.fromString("title") -> Title("has")
+    )
 ) extends Relationship {
   val relationshipType: RelationshipType = RelationshipType(
     "data",
@@ -50,10 +54,9 @@ trait CanConfigureDataRelationships[
       DataRelationship(
         source = modelComponent.key,
         target = target.key,
-        title = title,
         left = left,
         right = right
-      )
+      ).withTitle(Title(title)).asInstanceOf[DataRelationship]
     )
 }
 

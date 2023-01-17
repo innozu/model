@@ -27,7 +27,6 @@ sealed trait Technology
 
 case class Technique(
     key: Key = Key("technique"),
-    title: String,
     properties: Map[Key, Property] = Map.empty[Key, Property]
 ) extends Technology {
   val technologyType: String = "Techniques"
@@ -42,7 +41,6 @@ trait LanguageOrFramework extends Technology {
 
 case class Language(
     key: Key = Key("language"),
-    title: String,
     properties: Map[Key, Property] = Map.empty[Key, Property]
 ) extends LanguageOrFramework {
   def withProperty(property: Property): Language =
@@ -51,7 +49,6 @@ case class Language(
 
 case class Framework(
     key: Key = Key("framework"),
-    title: String,
     properties: Map[Key, Property] = Map.empty[Key, Property]
 ) extends LanguageOrFramework {
   def withProperty(property: Property): Framework =
@@ -60,7 +57,6 @@ case class Framework(
 
 case class Platform(
     key: Key = Key("platform"),
-    title: String,
     properties: Map[Key, Property] = Map.empty[Key, Property]
 ) extends Technology {
   val technologyType: String = "Platforms"
@@ -71,7 +67,6 @@ case class Platform(
 
 case class Tool(
     key: Key = Key("tool"),
-    title: String,
     properties: Map[Key, Property] = Map.empty[Key, Property]
 ) extends Technology {
   val technologyType: String = "Tools"
@@ -158,7 +153,8 @@ case class TechnologyRadarConfigurer[TechnologyType <: Technology](
     modelComponent: TechnologyType,
     propertyAdder: CanAddProperties,
     relationshipAdder: CanAddRelationships
-) extends CanConfigureDescription[Technology]
+) extends CanConfigureTitle[Technology]
+    with CanConfigureDescription[Technology]
     with CanConfigureLinks[Technology]
     with CanConfigureSWOT[Technology]
     with CanConfigureArchitectureVerdict[Technology]
