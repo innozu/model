@@ -18,6 +18,7 @@ object Dependencies {
       final val * = Seq(commonsText)
     }
   }
+
   object GeniusFish {
     final val config = "fish.genius" % "config_2.13" % "1.0.6"
     final val logging = "fish.genius" % "logging_2.13" % "1.0.3"

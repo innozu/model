@@ -1,6 +1,6 @@
 package com.innovenso.townplanner.model.meta
 
-trait Aspect {
+sealed trait Aspect {
   def name: String
   def description: String
 }

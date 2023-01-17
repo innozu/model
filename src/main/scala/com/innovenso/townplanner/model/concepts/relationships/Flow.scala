@@ -1,16 +1,7 @@
 package com.innovenso.townplanner.model.concepts.relationships
 
-import com.innovenso.townplanner.model.concepts.properties.{
-  CanAddProperties,
-  CanConfigureDescription,
-  CanConfigureFatherTime,
-  CanConfigureTitle,
-  Property,
-  Title
-}
+import com.innovenso.townplanner.model.concepts.properties._
 import com.innovenso.townplanner.model.meta.Key
-
-import scala.collection.immutable.Map
 
 case class Flow(
     key: Key = Key("flowing"),

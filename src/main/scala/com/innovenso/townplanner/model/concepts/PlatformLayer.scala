@@ -1,13 +1,6 @@
 package com.innovenso.townplanner.model.concepts
 
-import com.innovenso.townplanner.model.concepts.properties.{
-  CanAddProperties,
-  CanConfigureDescription,
-  CanConfigureTitle,
-  HasDescription,
-  HasTitle,
-  Property
-}
+import com.innovenso.townplanner.model.concepts.properties._
 import com.innovenso.townplanner.model.language.{Concept, HasModelComponents}
 import com.innovenso.townplanner.model.meta._
 

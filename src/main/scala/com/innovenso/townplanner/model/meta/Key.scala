@@ -1,7 +1,5 @@
 package com.innovenso.townplanner.model.meta
 
-import com.innovenso.townplanner.model.meta.Key.cleanString
-import com.innovenso.townplanner.model.meta.SortKey.value
 import org.apache.commons.text.WordUtils
 
 import java.util.UUID
@@ -53,4 +51,5 @@ object Key {
     case Some(string) if !string.isBlank => string
     case _                               => UUID.randomUUID().toString
   }
+
 }

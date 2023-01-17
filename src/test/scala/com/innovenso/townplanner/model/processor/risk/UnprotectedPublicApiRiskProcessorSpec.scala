@@ -1,7 +1,7 @@
 package com.innovenso.townplanner.model.processor.risk
 
-import com.innovenso.townplanner.model.concepts.properties._
 import com.innovenso.townplanner.model.concepts._
+import com.innovenso.townplanner.model.concepts.properties._
 import org.scalatest.GivenWhenThen
 import org.scalatest.flatspec.AnyFlatSpec
 

@@ -1,10 +1,6 @@
 package com.innovenso.townplanner.model.concepts
 
-import com.innovenso.townplanner.model.concepts.properties.{
-  Description,
-  Title,
-  Website
-}
+import com.innovenso.townplanner.model.concepts.properties.{Description, Title, Website}
 import com.innovenso.townplanner.model.concepts.relationships.Composition
 import org.scalatest.GivenWhenThen
 import org.scalatest.flatspec.AnyFlatSpec

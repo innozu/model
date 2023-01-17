@@ -1,10 +1,6 @@
 package com.innovenso.townplanner.model.concepts
 
-import com.innovenso.townplanner.model.concepts.properties.{
-  BeInvestedIn,
-  Description,
-  Title
-}
+import com.innovenso.townplanner.model.concepts.properties.{BeInvestedIn, Description, Title}
 import org.scalatest.GivenWhenThen
 import org.scalatest.flatspec.AnyFlatSpec
 

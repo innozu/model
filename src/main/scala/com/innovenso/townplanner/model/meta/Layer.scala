@@ -1,6 +1,6 @@
 package com.innovenso.townplanner.model.meta
 
-trait Layer {
+sealed trait Layer {
   def name: String
 
   override def toString: String = name
@@ -15,6 +15,7 @@ object Layer {
     ImplementationLayer,
     MotivationLayer
   )
+
 }
 
 case object StrategyLayer extends Layer {

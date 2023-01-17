@@ -2,16 +2,9 @@ package com.innovenso.townplanner.model.concepts.views
 
 import com.innovenso.townplanner.model.concepts._
 import com.innovenso.townplanner.model.concepts.properties._
-import com.innovenso.townplanner.model.concepts.relationships.{
-  CanAddRelationships,
-  Composition,
-  HasRelationships,
-  Implementation
-}
+import com.innovenso.townplanner.model.concepts.relationships.{CanAddRelationships, Composition, HasRelationships, Implementation}
 import com.innovenso.townplanner.model.language._
 import com.innovenso.townplanner.model.meta._
-
-import scala.collection.immutable.Map
 
 case class FlowView(
     key: Key = Key("view"),

@@ -1,7 +1,6 @@
 package com.innovenso.townplanner.model.concepts
 
-import com.innovenso.townplanner.model.concepts.properties.{BeInvestedIn, Catastrophic, Description, ResilienceMeasure, Title}
-import com.innovenso.townplanner.model.meta.Color
+import com.innovenso.townplanner.model.concepts.properties._
 import org.scalatest.GivenWhenThen
 import org.scalatest.flatspec.AnyFlatSpec
 

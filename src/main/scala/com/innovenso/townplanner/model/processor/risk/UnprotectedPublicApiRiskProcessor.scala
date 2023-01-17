@@ -1,22 +1,8 @@
 package com.innovenso.townplanner.model.processor.risk
 
 import com.innovenso.townplanner.model.EnterpriseArchitecture
-import com.innovenso.townplanner.model.concepts.{
-  ItContainer,
-  Risk,
-  SecurityVulnerability
-}
-import com.innovenso.townplanner.model.concepts.properties.{
-  CounterMeasure,
-  Description,
-  Hazardous,
-  Major,
-  NoAuthentication,
-  NoDDosProtection,
-  NoRateLimiting,
-  PublicScope,
-  Title
-}
+import com.innovenso.townplanner.model.concepts.properties._
+import com.innovenso.townplanner.model.concepts.{ItContainer, Risk, SecurityVulnerability}
 import com.innovenso.townplanner.model.processor.TownPlanProcessor
 import fish.genius.logging.Loggable
 

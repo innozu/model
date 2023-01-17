@@ -1,7 +1,6 @@
 package com.innovenso.townplanner.model.concepts
 
 import com.innovenso.townplanner.model.concepts.properties.{Description, Title}
-import com.innovenso.townplanner.model.meta.Color
 import org.scalatest.GivenWhenThen
 import org.scalatest.flatspec.AnyFlatSpec
 

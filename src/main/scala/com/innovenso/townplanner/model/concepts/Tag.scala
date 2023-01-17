@@ -1,11 +1,7 @@
 package com.innovenso.townplanner.model.concepts
 
 import com.innovenso.townplanner.model.concepts.properties._
-import com.innovenso.townplanner.model.language.{
-  Concept,
-  HasModelComponents,
-  ModelComponent
-}
+import com.innovenso.townplanner.model.language.{Concept, HasModelComponents, ModelComponent}
 import com.innovenso.townplanner.model.meta._
 
 case class Tag(

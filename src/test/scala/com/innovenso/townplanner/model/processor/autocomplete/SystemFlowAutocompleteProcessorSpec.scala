@@ -1,7 +1,7 @@
 package com.innovenso.townplanner.model.processor.autocomplete
 
-import com.innovenso.townplanner.model.concepts.relationships.Flow
 import com.innovenso.townplanner.model.concepts._
+import com.innovenso.townplanner.model.concepts.relationships.Flow
 import org.scalatest.GivenWhenThen
 import org.scalatest.flatspec.AnyFlatSpec
 

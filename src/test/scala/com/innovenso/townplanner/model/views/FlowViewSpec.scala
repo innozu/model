@@ -1,16 +1,8 @@
 package com.innovenso.townplanner.model.views
 
-import com.innovenso.townplanner.model.concepts.properties.{
-  Message,
-  Request,
-  Response,
-  Title
-}
-import com.innovenso.townplanner.model.concepts.views.{
-  CompiledFlowView,
-  FlowView
-}
 import com.innovenso.townplanner.model.concepts._
+import com.innovenso.townplanner.model.concepts.properties.{Message, Request, Response, Title}
+import com.innovenso.townplanner.model.concepts.views.{CompiledFlowView, FlowView}
 import org.scalatest.GivenWhenThen
 import org.scalatest.flatspec.AnyFlatSpec
 

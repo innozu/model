@@ -4,7 +4,7 @@ import org.apache.commons.lang3.StringUtils
 
 import java.security.SecureRandom
 
-case class Color(red: Int, green: Int, blue: Int)(name: String) {
+case class Color(red: Int, green: Int, blue: Int)(val name: String) {
   val hex: String = String.format("#%02x%02x%02x", red, green, blue)
   val tuple: (String, Color) =
     ("innovenso" + StringUtils.capitalize(name), this)
@@ -39,4 +39,5 @@ object Color {
     Integer.valueOf(hex.substring(3, 5), 16),
     Integer.valueOf(hex.substring(5, 7), 16)
   )(name)
+
 }

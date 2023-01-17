@@ -5,7 +5,7 @@ import com.innovenso.townplanner.model.concepts.relationships._
 import com.innovenso.townplanner.model.language.{Element, HasModelComponents}
 import com.innovenso.townplanner.model.meta._
 
-trait ItContainer
+sealed trait ItContainer
     extends Element
     with HasDescription
     with HasAPI
@@ -419,7 +419,7 @@ trait CanAddItContainers extends CanAddProperties with CanAddRelationships {
     ItContainerConfigurer(has(container), this, this)
 }
 
-trait ItContainerLayer {
+sealed trait ItContainerLayer {
   def title: String
   def order: Int
 }

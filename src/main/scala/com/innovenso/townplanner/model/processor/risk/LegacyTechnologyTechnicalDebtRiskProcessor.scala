@@ -1,8 +1,8 @@
 package com.innovenso.townplanner.model.processor.risk
 
 import com.innovenso.townplanner.model.EnterpriseArchitecture
+import com.innovenso.townplanner.model.concepts.properties._
 import com.innovenso.townplanner.model.concepts.{ItContainer, Risk, TechnicalDebt, Technology}
-import com.innovenso.townplanner.model.concepts.properties.{BeEliminated, CounterMeasure, Description, Minor, Title}
 import com.innovenso.townplanner.model.processor.TownPlanProcessor
 import fish.genius.logging.Loggable
 
