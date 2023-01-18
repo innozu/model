@@ -51,12 +51,12 @@ object ArchitectureVerdict {
   def fromString(
       value: String,
       description: Option[String] = None
-  ): ArchitectureVerdict = value match {
-    case "Tolerate"  => BeTolerated(description.getOrElse(""))
-    case "Eliminate" => BeEliminated(description.getOrElse(""))
-    case "Migrate"   => BeMigrated(description.getOrElse(""))
-    case "Invest"    => BeInvestedIn(description.getOrElse(""))
-    case _           => UnknownArchitectureVerdict(description.getOrElse(""))
+  ): ArchitectureVerdict = Option(value).map(_.toLowerCase) match {
+    case Some("tolerate")  => BeTolerated(description.getOrElse(""))
+    case Some("eliminate") => BeEliminated(description.getOrElse(""))
+    case Some("migrate")   => BeMigrated(description.getOrElse(""))
+    case Some("invest")    => BeInvestedIn(description.getOrElse(""))
+    case _ => UnknownArchitectureVerdict(description.getOrElse(""))
   }
 }
 
