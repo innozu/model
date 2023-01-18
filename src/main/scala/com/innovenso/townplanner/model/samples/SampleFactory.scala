@@ -205,8 +205,8 @@ case class SampleFactory(ea: EnterpriseArchitecture) extends Loggable {
         it has Opportunity(description = description)
       )
       (1 to randomInt(5)).foreach(_ => it has Threat(description = description))
-      it has ExternalId(id, name)
-      it has ExternalId(id, name)
+      it isIdentifiedAs id on name
+      it isIdentifiedAs id on name
       it should verdict
     }
 
