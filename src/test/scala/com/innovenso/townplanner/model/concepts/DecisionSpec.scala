@@ -7,12 +7,20 @@ import org.scalatest.flatspec.AnyFlatSpec
 
 class DecisionSpec extends AnyFlatSpec with GivenWhenThen {
   "Decisions" can "be added to the town plan" in new EnterpriseArchitectureContext {
-    val innovenso: Enterprise = samples.enterprise
-    val jurgen: Person = samples.person
-    val virginie: Person = samples.person
-    val paymentsCapability: BusinessCapability = samples.capability(Some(innovenso))
-    val psp: ArchitectureBuildingBlock = samples.buildingBlock(Some(paymentsCapability))
-    val paypal: ItSystem = samples.system(realizedBuildingBlock = Some(psp))
+    val innovenso: Enterprise = ea hasRandomEnterprise ()
+    val jurgen: Person = ea hasRandomPerson ()
+    val virginie: Person = ea hasRandomPerson ()
+    val paymentsCapability: BusinessCapability =
+      ea hasRandomBusinessCapability { it =>
+        it serves innovenso
+      }
+    val psp: ArchitectureBuildingBlock = ea hasRandomArchitectureBuildingBlock {
+      it =>
+        it realizes paymentsCapability
+    }
+    val paypal: ItSystem = ea hasRandomItSystem { it =>
+      it realizes psp
+    }
 
     val pspSelection: Decision =
       ea describes Decision() as { it =>

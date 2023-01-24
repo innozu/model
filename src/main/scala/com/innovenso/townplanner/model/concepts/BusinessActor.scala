@@ -187,4 +187,60 @@ trait CanAddBusinessActors extends CanAddProperties with CanAddRelationships {
       this
     )
 
+  def hasRandomOrganisation(
+      configuration: BusinessActorConfigurer[Organisation] => Any = _ => ()
+  ): Organisation =
+    describes(Organisation()) as { it =>
+      it has Title.random
+      Description.randoms.foreach(it.has)
+      Link.randoms.foreach(it.has)
+      ExternalId.randoms.foreach(r =>
+        it isIdentifiedAs (r.id) on r.externalSystemName
+      )
+      SWOT.randoms.foreach(it.has)
+      configuration.apply(it)
+    }
+
+  def hasRandomTeam(
+      configuration: BusinessActorConfigurer[Team] => Any = _ => ()
+  ): Team =
+    describes(Team()) as { it =>
+      it has Title.random
+      Description.randoms.foreach(it.has)
+      Link.randoms.foreach(it.has)
+      ExternalId.randoms.foreach(r =>
+        it isIdentifiedAs (r.id) on r.externalSystemName
+      )
+      SWOT.randoms.foreach(it.has)
+      configuration.apply(it)
+    }
+
+  def hasRandomPerson(
+      configuration: BusinessActorConfigurer[Person] => Any = _ => ()
+  ): Person =
+    describes(Person()) as { it =>
+      it has Title.random
+      Description.randoms.foreach(it.has)
+      Link.randoms.foreach(it.has)
+      ExternalId.randoms.foreach(r =>
+        it isIdentifiedAs (r.id) on r.externalSystemName
+      )
+      SWOT.randoms.foreach(it.has)
+      configuration.apply(it)
+    }
+
+  def hasRandomActor(
+      configuration: BusinessActorConfigurer[Actor] => Any = _ => ()
+  ): Actor =
+    describes(Actor()) as { it =>
+      it has Title.random
+      Description.randoms.foreach(it.has)
+      Link.randoms.foreach(it.has)
+      ExternalId.randoms.foreach(r =>
+        it isIdentifiedAs (r.id) on r.externalSystemName
+      )
+      SWOT.randoms.foreach(it.has)
+      configuration.apply(it)
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.innovenso.townplanner.model.concepts.properties
 
 import com.innovenso.townplanner.model.meta.{Key, SortKey}
+import com.innovenso.townplanner.model.samples
 
 case class ResilienceMeasure(
     description: String
@@ -8,6 +9,14 @@ case class ResilienceMeasure(
   val key: Key = Key("resilience")
   val sortKey: SortKey = SortKey.next
   val canBePlural: Boolean = true
+}
+
+object ResilienceMeasure {
+  def apply(description: String): ResilienceMeasure = new ResilienceMeasure(
+    description
+  )
+
+  def random: ResilienceMeasure = apply(samples.description)
 }
 
 trait HasResilienceMeasures extends HasProperties {

@@ -1,6 +1,8 @@
 package com.innovenso.townplanner.model.concepts.properties
 
 import com.innovenso.townplanner.model.meta.{Key, SortKey}
+import com.innovenso.townplanner.model.samples
+import com.innovenso.townplanner.model.samples.{description, randomInt}
 
 abstract class Criticality extends Property {
   val key: Key = Key("criticality")
@@ -66,6 +68,14 @@ object Criticality {
     case "Hazardous" | "B"    => Hazardous(consequences.getOrElse(""))
     case "Catastrophic" | "A" => Catastrophic(consequences.getOrElse(""))
     case _                    => UnknownCriticality(consequences.getOrElse(""))
+  }
+
+  def random: Criticality = randomInt(5) match {
+    case 1 => Catastrophic(samples.description)
+    case 2 => Hazardous(samples.description)
+    case 3 => Major(samples.description)
+    case 4 => Minor(samples.description)
+    case 5 => NoEffect(samples.description)
   }
 }
 

@@ -11,8 +11,8 @@ import scala.language.postfixOps
 class RelationshipSpec extends AnyFlatSpec with GivenWhenThen {
   "relationships" can "be configured with description and father time" in new EnterpriseArchitectureContext {
     Given("some systems")
-    val system1: ItSystem = samples.system()
-    val system2: ItSystem = samples.system()
+    val system1: ItSystem = ea hasRandomItSystem ()
+    val system2: ItSystem = ea hasRandomItSystem ()
     When("a system has a relationship with other systems")
     val system3: ItSystem = ea describes ItSystem() as { it =>
       it has Title("3rd system")

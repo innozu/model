@@ -14,8 +14,6 @@ trait EnterpriseArchitectureContext {
     ea.townPlan.has(modelComponent)
   }
 
-  val samples: SampleFactory = SampleFactory(ea)
-
   def townPlan: TownPlan = ea.townPlan
 
   def process(processor: TownPlanProcessor): Unit = processor.process()

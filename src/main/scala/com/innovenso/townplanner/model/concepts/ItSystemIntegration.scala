@@ -116,4 +116,29 @@ trait CanAddItSystemIntegrations
       integration: ItSystemIntegration
   ): ItSystemIntegrationConfigurer =
     ItSystemIntegrationConfigurer(integration, this, this)
+
+  def hasRandomItSystemIntegration(
+      source: ItSystem,
+      target: ItSystem,
+      configuration: ItSystemIntegrationConfigurer => Any = _ => ()
+  ): ItSystemIntegration =
+    describes(
+      ItSystemIntegration(source = source.key, target = target.key)
+    ) as { it =>
+      it has Title.random
+      Description.randoms.foreach(it.has)
+      Link.randoms.foreach(it.has)
+      ExternalId.randoms.foreach(r =>
+        it isIdentifiedAs (r.id) on r.externalSystemName
+      )
+      it should ArchitectureVerdict.random
+      it ratesImpactAs Criticality.random
+      FatherTime.randoms.foreach(it.is)
+      it provides ResilienceMeasure.random
+      it has Throughput.randomFrequency
+      it has Throughput.randomVolume
+      SWOT.randoms.foreach(it.has)
+      configuration.apply(it)
+    }
+
 }

@@ -8,21 +8,26 @@ import org.scalatest.flatspec.AnyFlatSpec
 class ItProjectSpec extends AnyFlatSpec with GivenWhenThen {
   "IT Projects" can "be added to the town plan" in new EnterpriseArchitectureContext {
     Given("an enterprise")
-    val innovenso: Enterprise = samples.enterprise
+    val innovenso: Enterprise = ea hasRandomEnterprise ()
     And("some individuals")
-    val jurgen: Person = samples.person
-    val virginie: Person = samples.person
+    val jurgen: Person = ea hasRandomPerson()
+    val virginie: Person = ea hasRandomPerson()
     And("some capabilities")
 
     val paymentsCapability: BusinessCapability =
-      samples.capability(Some(innovenso))
+      ea hasRandomBusinessCapability { it =>
+        it serves innovenso
+      }
     And("some architecture building blocks")
 
     val psp: ArchitectureBuildingBlock =
-      samples.buildingBlock(Some(paymentsCapability))
+      ea hasRandomArchitectureBuildingBlock { it =>
+        it realizes paymentsCapability
+      }
     And("a system")
-    val paypal: ItSystem =
-      samples.system(withContainers = false, realizedBuildingBlock = Some(psp))
+    val paypal: ItSystem = ea hasRandomItSystem { it =>
+      it realizes psp
+    }
 
     When("a project is added to the town plan")
     val pspImplementationProject: ItProject =

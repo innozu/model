@@ -10,26 +10,17 @@ class UnprotectedPublicApiRiskProcessorSpec
     with GivenWhenThen {
   "unprotected API" should "result in risks being created" in new EnterpriseArchitectureContext {
     Given("platforms and their systems")
-    val platform1: ItPlatform = samples.platform(name = Some("platform 1"))
-    val platform2: ItPlatform = samples.platform(name = Some("platform 2"))
-    val system1: ItSystem =
-      samples.system(
-        withContainers = false,
-        name = Some("system 1"),
-        containingPlatform = Some(platform1)
-      )
-    val system2: ItSystem =
-      samples.system(
-        withContainers = false,
-        name = Some("system 2"),
-        containingPlatform = Some(platform2)
-      )
-    val system3: ItSystem =
-      samples.system(
-        withContainers = false,
-        name = Some("system 3"),
-        containingPlatform = Some(platform2)
-      )
+    val platform1: ItPlatform = ea hasRandomItPlatform ()
+    val platform2: ItPlatform = ea hasRandomItPlatform ()
+    val system1: ItSystem = ea hasRandomItSystem { it =>
+      it isPartOf platform1
+    }
+    val system2: ItSystem = ea hasRandomItSystem { it =>
+      it isPartOf platform2
+    }
+    val system3: ItSystem = ea hasRandomItSystem { it =>
+      it isPartOf platform2
+    }
     And("containers with API")
     val container1: ItContainer =
       ea describes Microservice() as { it =>

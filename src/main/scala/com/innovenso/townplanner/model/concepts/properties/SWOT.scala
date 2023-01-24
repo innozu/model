@@ -1,6 +1,8 @@
 package com.innovenso.townplanner.model.concepts.properties
 
 import com.innovenso.townplanner.model.meta.{Key, SortKey}
+import com.innovenso.townplanner.model.samples
+import com.innovenso.townplanner.model.samples.randomInt
 
 abstract class SWOT extends Property {
   val key: Key = Key("swot")
@@ -35,6 +37,15 @@ object SWOT {
       case Some("threat")      => Threat(description)
       case _                   => Weakness(description)
     }
+
+  def random: SWOT = samples.randomInt(4) match {
+    case 1 => Strength(samples.description)
+    case 2 => Weakness(samples.description)
+    case 3 => Opportunity(samples.description)
+    case 4 => Threat(samples.description)
+  }
+
+  def randoms: List[SWOT] = samples.times(10, i => random)
 }
 
 trait HasSWOT extends HasProperties {

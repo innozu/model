@@ -1,6 +1,10 @@
 package com.innovenso.townplanner.model.concepts
 
-import com.innovenso.townplanner.model.concepts.properties.{Description, Title, Website}
+import com.innovenso.townplanner.model.concepts.properties.{
+  Description,
+  Title,
+  Website
+}
 import com.innovenso.townplanner.model.concepts.relationships.Composition
 import org.scalatest.GivenWhenThen
 import org.scalatest.flatspec.AnyFlatSpec
@@ -14,7 +18,7 @@ class EnterpriseSpec extends AnyFlatSpec with GivenWhenThen {
         it has Website(url = "https://innovenso.com")
       }
 
-    val geniusfish: Enterprise = samples.enterprise
+    val geniusfish: Enterprise = ea hasRandomEnterprise ()
 
     val innovensogroup: Enterprise =
       ea describes Enterprise() as { it =>

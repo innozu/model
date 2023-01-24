@@ -1,54 +1,77 @@
 package com.innovenso.townplanner.model.views
 
 import com.innovenso.townplanner.model.concepts._
-import com.innovenso.townplanner.model.concepts.properties.{Message, Request, Response, Title}
-import com.innovenso.townplanner.model.concepts.views.{CompiledFlowView, FlowView}
+import com.innovenso.townplanner.model.concepts.properties.{
+  Message,
+  Request,
+  Response,
+  Title
+}
+import com.innovenso.townplanner.model.concepts.relationships.Flow
+import com.innovenso.townplanner.model.concepts.views.{
+  CompiledFlowView,
+  FlowView
+}
 import org.scalatest.GivenWhenThen
 import org.scalatest.flatspec.AnyFlatSpec
 
 class FlowViewSpec extends AnyFlatSpec with GivenWhenThen {
   "A flow view" should "have the correct number of container layers for each system context" in new EnterpriseArchitectureContext {
     Given("3 system contexts")
-    val platform: ItPlatform = samples.platform()
-    val system1: ItSystem = samples.system(
-      withContainers = false,
-      containingPlatform = Some(platform)
-    )
-    val microservice: Microservice = samples.microservice(system1)
-    val database: Database = samples.database(system1)
+    val platform: ItPlatform = ea hasRandomItPlatform ()
+    val system1: ItSystem = ea hasRandomItSystem { it =>
+      it isPartOf platform
+    }
+    val microservice: Microservice =
+      ea hasRandomContainer (Microservice(), { it =>
+        it isPartOf system1
+      })
+    val database: Database = ea hasRandomContainer (Database(), { it =>
+      it isPartOf system1
+    })
 
-    samples.flow(microservice, database)
+    ea hasRelationship Flow(source = microservice.key, target = database.key)
 
-    val system2: ItSystem = samples.system(
-      withContainers = false,
-      containingPlatform = Some(platform)
-    )
+    val system2: ItSystem = ea hasRandomItSystem { it =>
+      it isPartOf platform
+    }
 
-    val ms2: Microservice = samples.microservice(system2)
-    val ms3: Microservice = samples.microservice(system2)
-    val db2: Database = samples.database(system2)
+    val ms2: Microservice = ea hasRandomContainer (Microservice(), { it =>
+      it isPartOf system2
+    })
+    val ms3: Microservice = ea hasRandomContainer (Microservice(), { it =>
+      it isPartOf system2
+    })
+    val db2: Database = ea hasRandomContainer (Database(), { it =>
+      it isPartOf system1
+    })
 
-    samples.flow(ms2, database)
-    samples.flow(ms3, database)
-    samples.flow(ms2, microservice)
+    ea hasRelationship Flow(source = ms2.key, target = database.key)
+    ea hasRelationship Flow(source = ms3.key, target = database.key)
+    ea hasRelationship Flow(source = ms2.key, target = microservice.key)
 
-    val system3: ItSystem = samples.system(
-      withContainers = false,
-      containingPlatform = Some(platform)
-    )
+    val system3: ItSystem = ea hasRandomItSystem { it =>
+      it isPartOf platform
+    }
 
-    val stream: Queue = samples.queue(system3)
-    val ui1: WebUI = samples.ui(system3)
-    val ms4: Microservice = samples.microservice(system3)
+    val stream: Queue = ea hasRandomContainer (Queue(), { it =>
+      it isPartOf system3
+    })
+    val ui1: WebUI = ea hasRandomContainer (WebUI(), { it =>
+      it isPartOf system3
+    })
+    val ms4: Microservice = ea hasRandomContainer (Microservice(), { it =>
+      it isPartOf system3
+    })
 
-    samples.flow(ui1, ms4)
-    samples.flow(ms4, stream)
-    samples.flow(stream, ms3)
-    samples.flow(stream, microservice)
+    ea hasRelationship Flow(source = ui1.key, target = ms4.key)
+    ea hasRelationship Flow(source = ms4.key, target = stream.key)
+    ea hasRelationship Flow(source = stream.key, target = ms3.key)
+    ea hasRelationship Flow(source = stream.key, target = microservice.key)
 
-    val query: Query = samples.query
-    val tech1: Technology = samples.language
-    val tech2: Technology = samples.framework
+    val query: Query = ea hasRandomQuery ()
+    val tech1: Technology = ea hasRandomLanguage ()
+    val tech2: Technology = ea hasRandomTool ()
 
     When("a flow fiew is requested")
     val flowView: FlowView = ea needs FlowView() and { that =>
@@ -85,10 +108,10 @@ class FlowViewSpec extends AnyFlatSpec with GivenWhenThen {
 
   "A flow view" can "be added to the town plan" in new EnterpriseArchitectureContext {
     Given("some systems")
-    val system1: ItSystem = samples.system()
-    val system2: ItSystem = samples.system()
+    val system1: ItSystem = ea hasRandomItSystem ()
+    val system2: ItSystem = ea hasRandomItSystem ()
     And("a user")
-    val user: Actor = samples.actor
+    val user: Actor = ea hasRandomActor ()
     And("a container")
     val container1: Microservice =
       ea describes Microservice() as { it =>

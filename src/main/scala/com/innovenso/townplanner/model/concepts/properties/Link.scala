@@ -1,6 +1,8 @@
 package com.innovenso.townplanner.model.concepts.properties
 
 import com.innovenso.townplanner.model.meta.{Key, SortKey}
+import com.innovenso.townplanner.model.samples
+import com.innovenso.townplanner.model.samples.randomInt
 
 abstract class Link extends Property {
   val key: Key = Key("link")
@@ -80,6 +82,21 @@ object Link {
       ApiDocumentation(url = url, title = title.getOrElse(""))
     case _ => Website(url, title.getOrElse(""))
   }
+
+  def random: Link = randomInt(10) match {
+    case 1  => Website(samples.url, samples.title)
+    case 2  => ApiDocumentation(samples.url, samples.title)
+    case 3  => FunctionalDocumentation(samples.url, samples.title)
+    case 4  => TechnicalDocumentation(samples.url, samples.title)
+    case 5  => ArchitectureDocumentation(samples.url, samples.title)
+    case 6  => Website(samples.url, samples.title)
+    case 7  => Wiki(samples.url, samples.title)
+    case 9  => ProductionUrl(samples.url, samples.title)
+    case 8  => PreProductionUrl(samples.url, samples.title)
+    case 10 => DevelopmentUrl(samples.url, samples.title)
+  }
+
+  def randoms: List[Link] = samples.times(10, i => random)
 }
 trait HasLinks extends HasProperties {
   def links: List[Link] =

@@ -56,4 +56,16 @@ case class EnterpriseConfigurer(
 trait CanAddEnterprises extends CanAddProperties with CanAddRelationships {
   def describes(enterprise: Enterprise): EnterpriseConfigurer =
     EnterpriseConfigurer(has(enterprise), this, this)
+
+  def hasRandomEnterprise(
+      configuration: EnterpriseConfigurer => Any = _ => ()
+  ): Enterprise =
+    describes(Enterprise()) as { it =>
+      it has Title.random
+      Description.randoms.foreach(it.has)
+      Link.randoms.foreach(it.has)
+      SWOT.randoms.foreach(it.has)
+      configuration.apply(it)
+    }
+
 }

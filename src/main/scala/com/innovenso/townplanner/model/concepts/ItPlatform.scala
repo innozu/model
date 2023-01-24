@@ -96,4 +96,23 @@ case class ItPlatformConfigurer(
 trait CanAddItPlatforms extends CanAddProperties with CanAddRelationships {
   def describes(platform: ItPlatform): ItPlatformConfigurer =
     ItPlatformConfigurer(has(platform), this, this)
+
+  def hasRandomItPlatform(
+      configuration: ItPlatformConfigurer => Any = _ => ()
+  ): ItPlatform =
+    describes(ItPlatform()) as { it =>
+      it has Title.random
+      Description.randoms.foreach(it.has)
+      Link.randoms.foreach(it.has)
+      ExternalId.randoms.foreach(r =>
+        it isIdentifiedAs (r.id) on r.externalSystemName
+      )
+      it should ArchitectureVerdict.random
+      it ratesImpactAs Criticality.random
+      FatherTime.randoms.foreach(it.is)
+      it provides ResilienceMeasure.random
+      SWOT.randoms.foreach(it.has)
+      configuration.apply(it)
+    }
+
 }

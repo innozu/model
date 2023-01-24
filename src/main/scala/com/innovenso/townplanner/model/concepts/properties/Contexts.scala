@@ -2,6 +2,7 @@ package com.innovenso.townplanner.model.concepts.properties
 
 import com.innovenso.townplanner.model.language.View
 import com.innovenso.townplanner.model.meta.{Key, SortKey}
+import com.innovenso.townplanner.model.samples
 
 case class CurrentState(
     sortKey: SortKey,
@@ -21,6 +22,10 @@ object CurrentState {
     description = description,
     illustratedByView = illustratedBy.map(_.key)
   )
+
+  def random: CurrentState =
+    apply(title = samples.title, description = samples.description)
+
 }
 case class Goal(
     sortKey: SortKey,
@@ -40,6 +45,10 @@ object Goal {
     description = description,
     illustratedByView = illustratedBy.map(_.key)
   )
+
+  def random: Goal =
+    apply(title = samples.title, description = samples.description)
+
 }
 
 case class Assumption(
@@ -60,6 +69,10 @@ object Assumption {
     description = description,
     illustratedByView = illustratedBy.map(_.key)
   )
+
+  def random: Assumption =
+    apply(title = samples.title, description = samples.description)
+
 }
 
 case class OpenQuestion(
@@ -80,6 +93,10 @@ object OpenQuestion {
     description = description,
     illustratedByView = illustratedBy.map(_.key)
   )
+
+  def random: OpenQuestion =
+    apply(title = samples.title, description = samples.description)
+
 }
 
 case class Solution(
@@ -103,6 +120,13 @@ object Solution {
     forProblemOrRequirement = forProblemOrRequirement,
     illustratedByView = illustratedBy.map(_.key)
   )
+
+  def random: Solution = apply(
+    title = samples.title,
+    description = samples.description,
+    forProblemOrRequirement = Some(samples.title)
+  )
+
 }
 
 case class CounterMeasure(
@@ -126,6 +150,13 @@ object CounterMeasure {
     description = description,
     illustratedByView = illustratedBy.map(_.key)
   )
+
+  def random: CounterMeasure = apply(
+    title = samples.title,
+    description = samples.description,
+    against = samples.title
+  )
+
 }
 
 case class Consequence(
@@ -146,6 +177,9 @@ object Consequence {
     description = description,
     illustratedByView = illustratedBy.map(_.key)
   )
+
+  def random: Consequence =
+    apply(title = samples.title, description = samples.description)
 }
 
 trait Context extends Property {
@@ -154,6 +188,20 @@ trait Context extends Property {
   def title: String
   def description: String
   def illustratedByView: Option[Key]
+}
+
+object Context {
+  def random: Context = samples.randomInt(7) match {
+    case 1 => OpenQuestion.random
+    case 2 => CurrentState.random
+    case 3 => Goal.random
+    case 4 => Consequence.random
+    case 5 => CounterMeasure.random
+    case 6 => Solution.random
+    case 7 => Assumption.random
+  }
+
+  def randoms: List[Context] = samples.times(15, i => random)
 }
 
 trait HasContext extends HasProperties {

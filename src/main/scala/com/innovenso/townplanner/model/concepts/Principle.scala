@@ -79,4 +79,23 @@ trait CanAddPrinciples extends CanAddProperties with CanAddRelationships {
       principle: DesignPrinciple
   ): PrincipleConfigurer[DesignPrinciple] =
     PrincipleConfigurer(has(principle), this, this)
+
+  private def describesPrinciple[PrincipleType <: Principle](
+      principle: PrincipleType
+  ): PrincipleConfigurer[PrincipleType] =
+    PrincipleConfigurer(has(principle), this, this)
+
+  def hasRandomPrinciple[PrincipleType <: Principle](
+      principle: PrincipleType,
+      configuration: PrincipleConfigurer[PrincipleType] => Any =
+        (_: PrincipleConfigurer[PrincipleType]) => ()
+  ): PrincipleType =
+    describesPrinciple(principle) as { it =>
+      it has Title.random
+      Description.randoms.foreach(it.has)
+      Link.randoms.foreach(it.has)
+      SWOT.randoms.foreach(it.has)
+      configuration.apply(it)
+    }
+
 }

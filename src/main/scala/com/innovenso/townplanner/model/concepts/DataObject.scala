@@ -185,6 +185,119 @@ trait CanAddDataObjects extends CanAddProperties with CanAddRelationships {
       dataObject: DataObjectType
   ): DataObjectConfigurer[DataObjectType] =
     DataObjectConfigurer(has(dataObject), this, this)
+
+  def hasRandomEntity(
+      configuration: DataObjectConfigurer[Entity] => Any = _ => ()
+  ): Entity =
+    describes(Entity()) as { it =>
+      it has Title.random
+      Description.randoms.foreach(it.has)
+      Link.randoms.foreach(it.has)
+      ExternalId.randoms.foreach(r =>
+        it isIdentifiedAs (r.id) on r.externalSystemName
+      )
+      DataAttribute.randoms.foreach(it.has)
+      it has DataClassification.random
+      FatherTime.randoms.foreach(it.is)
+      configuration.apply(it)
+    }
+
+  def hasRandomValueObject(
+      configuration: DataObjectConfigurer[ValueObject] => Any = _ => ()
+  ): ValueObject =
+    describes(ValueObject()) as { it =>
+      it has Title.random
+      Description.randoms.foreach(it.has)
+      Link.randoms.foreach(it.has)
+      ExternalId.randoms.foreach(r =>
+        it isIdentifiedAs (r.id) on r.externalSystemName
+      )
+      DataAttribute.randoms.foreach(it.has)
+      it has DataClassification.random
+      FatherTime.randoms.foreach(it.is)
+      configuration.apply(it)
+    }
+
+  def hasRandomAggregateRoot(
+      configuration: DataObjectConfigurer[AggregateRoot] => Any = _ => ()
+  ): AggregateRoot =
+    describes(AggregateRoot()) as { it =>
+      it has Title.random
+      Description.randoms.foreach(it.has)
+      Link.randoms.foreach(it.has)
+      ExternalId.randoms.foreach(r =>
+        it isIdentifiedAs (r.id) on r.externalSystemName
+      )
+      DataAttribute.randoms.foreach(it.has)
+      it has DataClassification.random
+      FatherTime.randoms.foreach(it.is)
+      configuration.apply(it)
+    }
+
+  def hasRandomEvent(
+      configuration: DataObjectConfigurer[Event] => Any = _ => ()
+  ): Event =
+    describes(Event()) as { it =>
+      it has Title.random
+      Description.randoms.foreach(it.has)
+      Link.randoms.foreach(it.has)
+      ExternalId.randoms.foreach(r =>
+        it isIdentifiedAs (r.id) on r.externalSystemName
+      )
+      DataAttribute.randoms.foreach(it.has)
+      it has DataClassification.random
+      FatherTime.randoms.foreach(it.is)
+      configuration.apply(it)
+    }
+
+  def hasRandomCommand(
+      configuration: DataObjectConfigurer[Command] => Any = _ => ()
+  ): Command =
+    describes(Command()) as { it =>
+      it has Title.random
+      Description.randoms.foreach(it.has)
+      Link.randoms.foreach(it.has)
+      ExternalId.randoms.foreach(r =>
+        it isIdentifiedAs (r.id) on r.externalSystemName
+      )
+      DataAttribute.randoms.foreach(it.has)
+      it has DataClassification.random
+      FatherTime.randoms.foreach(it.is)
+      configuration.apply(it)
+    }
+
+  def hasRandomQuery(
+      configuration: DataObjectConfigurer[Query] => Any = _ => ()
+  ): Query =
+    describes(Query()) as { it =>
+      it has Title.random
+      Description.randoms.foreach(it.has)
+      Link.randoms.foreach(it.has)
+      ExternalId.randoms.foreach(r =>
+        it isIdentifiedAs (r.id) on r.externalSystemName
+      )
+      DataAttribute.randoms.foreach(it.has)
+      it has DataClassification.random
+      FatherTime.randoms.foreach(it.is)
+      configuration.apply(it)
+    }
+
+  def hasRandomProjection(
+      configuration: DataObjectConfigurer[Projection] => Any = _ => ()
+  ): Projection =
+    describes(Projection()) as { it =>
+      it has Title.random
+      Description.randoms.foreach(it.has)
+      Link.randoms.foreach(it.has)
+      ExternalId.randoms.foreach(r =>
+        it isIdentifiedAs (r.id) on r.externalSystemName
+      )
+      DataAttribute.randoms.foreach(it.has)
+      it has DataClassification.random
+      FatherTime.randoms.foreach(it.is)
+      configuration.apply(it)
+    }
+
 }
 
 trait CanInteractWithDataObjects

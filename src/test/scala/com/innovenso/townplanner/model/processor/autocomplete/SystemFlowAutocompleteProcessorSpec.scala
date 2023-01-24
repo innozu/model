@@ -10,48 +10,44 @@ class SystemFlowAutocompleteProcessorSpec
     with GivenWhenThen {
   "flows between containers of different systems" should "result in flows between the systems and the platforms" in new EnterpriseArchitectureContext {
     Given("some systems")
-    val platform1: ItPlatform = samples.platform(name = Some("platform 1"))
-    val platform2: ItPlatform = samples.platform(name = Some("platform 2"))
-    val system1: ItSystem =
-      samples.system(
-        withContainers = false,
-        name = Some("system 1"),
-        containingPlatform = Some(platform1)
-      )
-    val system2: ItSystem =
-      samples.system(
-        withContainers = false,
-        name = Some("system 2"),
-        containingPlatform = Some(platform2)
-      )
-    val system3: ItSystem =
-      samples.system(
-        withContainers = false,
-        name = Some("system 3"),
-        containingPlatform = Some(platform2)
-      )
+    val platform1: ItPlatform = ea hasRandomItPlatform ()
+    val platform2: ItPlatform = ea hasRandomItPlatform ()
+    val system1: ItSystem = ea hasRandomItSystem { it =>
+      it isPartOf platform1
+    }
+    val system2: ItSystem = ea hasRandomItSystem { it =>
+      it isPartOf platform2
+    }
+    val system3: ItSystem = ea hasRandomItSystem { it =>
+      it isPartOf platform2
+    }
     And("some containers in each system")
     val container11: Microservice =
-      samples.microservice(system1, name = Some("microservice 1"))
-    val container12: Database =
-      samples.database(system1, name = Some("database 1"))
+      ea hasRandomContainer (Microservice(), { it =>
+        it isPartOf system1
+      })
+    val container12: Database = ea hasRandomContainer (Database(), { it =>
+      it isPartOf system1
+    })
     val container21: Microservice =
-      samples.microservice(system2, name = Some("microservice 2"))
-    val container22: WebUI = samples.ui(system2, name = Some("ui 1"))
+      ea hasRandomContainer (Microservice(), { it =>
+        it isPartOf system2
+      })
+    val container22: WebUI = ea hasRandomContainer (WebUI(), { it =>
+      it isPartOf system2
+    })
     val container31: Microservice =
-      samples.microservice(system3, name = Some("microservice 3"))
+      ea hasRandomContainer (Microservice(), { it =>
+        it isPartOf system3
+      })
 
     And("relationships between the containers")
-    samples.flow(container21, container22, name = Some("pushes notifications"))
-    samples.flow(container11, container12, name = Some("stores data"))
-    samples.flow(container21, container11, name = Some("uses"))
-    samples.flow(
-      container21,
-      container12,
-      name = Some("stores data in other microservice")
-    )
-    samples.flow(container21, container31, name = Some("updates"))
-    samples.flow(system2, system3, name = Some("system to system"))
+    ea hasRelationship Flow(source = container21.key, target = container22.key)
+    ea hasRelationship Flow(source = container11.key, target = container12.key)
+    ea hasRelationship Flow(source = container21.key, target = container11.key)
+    ea hasRelationship Flow(source = container21.key, target = container12.key)
+    ea hasRelationship Flow(source = container21.key, target = container31.key)
+    ea hasRelationship Flow(source = system2.key, target = system3.key)
 
     And("a system flow autocomplete processor")
     val systemAutoComplete: SystemFlowAutocompleteProcessor =

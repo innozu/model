@@ -1,6 +1,7 @@
 package com.innovenso.townplanner.model.concepts.properties
 
 import com.innovenso.townplanner.model.meta.{Key, SortKey}
+import com.innovenso.townplanner.model.samples
 
 case class Description(
     value: String
@@ -10,6 +11,14 @@ case class Description(
   val canBePlural: Boolean = true
 
   override def toString: String = value
+}
+
+object Description {
+  def apply(value: String): Description = new Description(value)
+
+  def random: Description = new Description(samples.description)
+  def randoms: List[Description] =
+    samples.times(5, i => random)
 }
 
 trait HasDescription extends HasProperties {

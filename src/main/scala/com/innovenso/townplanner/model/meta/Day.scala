@@ -1,9 +1,18 @@
 package com.innovenso.townplanner.model.meta
 
+import com.innovenso.townplanner.model.samples
+
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 case class Day(year: Int, month: Int, day: Int) extends ADay
+
+object Day {
+  def apply(year: Int, month: Int, day: Int): Day = new Day(year, month, day)
+
+  def random: Day =
+    apply(samples.randomInt(3000), samples.randomInt(12), samples.randomInt(28))
+}
 
 object Today extends ADay {
   val todayLocalDate: LocalDate = LocalDate.now()

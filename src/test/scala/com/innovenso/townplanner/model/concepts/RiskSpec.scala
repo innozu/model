@@ -7,12 +7,15 @@ import org.scalatest.flatspec.AnyFlatSpec
 class RiskSpec extends AnyFlatSpec with GivenWhenThen {
   "risks" can "be added to the town plan" in new EnterpriseArchitectureContext {
     When("risks are added to the town plan")
-    val system: ItSystem = samples.system()
-    val microservice: Microservice = samples.microservice(system)
-    val technicalDebt: Risk = samples.technicalDebt(
-      List(system, microservice),
-      Some("some technical debt")
-    )
+    val system: ItSystem = ea hasRandomItSystem ()
+    val microservice: Microservice =
+      ea hasRandomContainer (Microservice(), { it =>
+        it isPartOf system
+      })
+    val technicalDebt: Risk = ea hasRandomRisk { it =>
+      it isAssociatedWith system
+      it isAssociatedWith microservice
+    }
     Then("The risks exist")
     assert(exists(technicalDebt))
     assert(townPlan.relationships.count(_.isInstanceOf[Association]) == 2)

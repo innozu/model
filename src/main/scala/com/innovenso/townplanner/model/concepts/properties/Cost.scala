@@ -1,6 +1,7 @@
 package com.innovenso.townplanner.model.concepts.properties
 
 import com.innovenso.townplanner.model.meta._
+import com.innovenso.townplanner.model.samples
 
 import java.util.Currency
 
@@ -40,6 +41,34 @@ trait Cost extends Property {
     numberOfUnits.count * costPerUnit.amount,
     costPerUnit.currency
   )
+}
+
+object Cost {
+  def randomCapex: Capex = Capex(
+    title = samples.title,
+    description = samples.description,
+    category = Category.random,
+    fiscalYear = Year.random,
+    numberOfUnits = UnitCount.random,
+    unitOfMeasure = UnitOfMeasure.random,
+    costPerUnit = MonetaryAmount.random
+  )
+  def randomOpex: Opex = Opex(
+    title = samples.title,
+    description = samples.description,
+    category = Category.random,
+    fiscalYear = Year.random,
+    numberOfUnits = UnitCount.random,
+    unitOfMeasure = UnitOfMeasure.random,
+    costPerUnit = MonetaryAmount.random
+  )
+
+  def random: Cost = samples.randomInt(2) match {
+    case 1 => randomCapex
+    case 2 => randomOpex
+  }
+
+  def randoms: List[Cost] = samples.times(6, i => random)
 }
 
 trait HasCosts extends HasProperties {

@@ -1,14 +1,19 @@
 package com.innovenso.townplanner.model.concepts.relationships
 
-import com.innovenso.townplanner.model.concepts.properties.{CanAddProperties, Property, Title}
+import com.innovenso.townplanner.model.concepts.properties.{
+  CanAddProperties,
+  Property,
+  Title
+}
 import com.innovenso.townplanner.model.meta.Key
+import org.scalactic.Many
 
 case class DataRelationship(
     key: Key = Key("data relationship"),
     source: Key,
     target: Key,
     left: Cardinality = One,
-    right: Cardinality,
+    right: Cardinality = ZeroOrMore,
     bidirectional: Boolean = false,
     properties: Map[Key, Property] = Map(
       Key.fromString("title") -> Title("has")

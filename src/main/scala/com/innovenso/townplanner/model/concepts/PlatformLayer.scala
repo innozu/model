@@ -47,4 +47,13 @@ case class PlatformLayerConfigurer(
 trait CanAddPlatformLayers extends CanAddProperties {
   def describes(platformLayer: PlatformLayer): PlatformLayerConfigurer =
     PlatformLayerConfigurer(has(platformLayer), this)
+
+  def hasRandomPlatformLayer(
+                              configuration: PlatformLayerConfigurer => Any = _ => ()
+                            ): PlatformLayer =
+    describes(PlatformLayer()) as { it =>
+      it has Title.random
+      Description.randoms.foreach(it.has)
+      configuration.apply(it)
+    }
 }

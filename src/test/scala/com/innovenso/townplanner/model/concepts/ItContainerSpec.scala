@@ -7,11 +7,11 @@ import org.scalatest.flatspec.AnyFlatSpec
 class ItContainerSpec extends AnyFlatSpec with GivenWhenThen {
   "IT Containers" can "be added to the town plan" in new EnterpriseArchitectureContext {
     Given("a system")
-    val itSystem: ItSystem = samples.system(withContainers = false)
+    val itSystem: ItSystem = ea hasRandomItSystem()
     And("a technology")
-    val java: LanguageOrFramework = samples.language
+    val java: LanguageOrFramework = ea hasRandomLanguage()
     And("a delivery team")
-    val team: Team = samples.team
+    val team: Team = ea hasRandomTeam()
     When("a microservice is added to the town plan")
     val ms: Microservice = ea describes Microservice() as { it =>
       it has Title("BFF")

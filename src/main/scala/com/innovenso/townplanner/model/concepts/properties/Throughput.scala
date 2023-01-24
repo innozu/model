@@ -1,12 +1,20 @@
 package com.innovenso.townplanner.model.concepts.properties
 
 import com.innovenso.townplanner.model.meta.{Key, SortKey}
+import com.innovenso.townplanner.model.samples
 
 abstract class Throughput extends Property {
   val key: Key = Key("throughput")
   val sortKey: SortKey = SortKey.next
   val canBePlural: Boolean = false
   def description: String
+}
+
+object Throughput {
+  def randomVolume: Volume = Volume(samples.description)
+  def randomFrequency: Frequency = Frequency(samples.description)
+
+  def randoms: List[Throughput] = List(randomVolume, randomFrequency)
 }
 
 case class Volume(

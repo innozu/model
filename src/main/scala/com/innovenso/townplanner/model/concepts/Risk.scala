@@ -4,6 +4,7 @@ import com.innovenso.townplanner.model.concepts.properties._
 import com.innovenso.townplanner.model.concepts.relationships._
 import com.innovenso.townplanner.model.language.{Element, HasModelComponents}
 import com.innovenso.townplanner.model.meta._
+import com.innovenso.townplanner.model.samples
 
 case class Risk(
     key: Key = Key("risk"),
@@ -44,6 +45,14 @@ case object ComplianceRisk extends TypeOfRisk {
   val name: String = "Compliance Risk"
 }
 
+object TypeOfRisk {
+  def random: TypeOfRisk = samples.randomInt(3) match {
+    case 1 => TechnicalDebt
+    case 2 => SecurityVulnerability
+    case 3 => ComplianceRisk
+  }
+}
+
 trait HasRisks extends HasModelComponents with HasRelationships {
   def risks: List[Risk] = components(classOf[Risk])
   def risk(key: Key): Option[Risk] =
@@ -74,4 +83,17 @@ trait CanAddRisks extends CanAddProperties with CanAddRelationships {
   def describes(
       risk: Risk
   ): RiskConfigurer = RiskConfigurer(has(risk), this, this)
+
+  def hasRandomRisk(
+      configuration: RiskConfigurer => Any = _ => ()
+  ): Risk =
+    describes(Risk(typeOfRisk = TypeOfRisk.random)) as { it =>
+      it has Title.random
+      Description.randoms.foreach(it.has)
+      Link.randoms.foreach(it.has)
+      it ratesImpactAs Criticality.random
+      Context.randoms.foreach(it.has)
+      configuration.apply(it)
+    }
+
 }

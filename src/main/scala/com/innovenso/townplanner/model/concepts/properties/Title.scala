@@ -1,6 +1,7 @@
 package com.innovenso.townplanner.model.concepts.properties
 
 import com.innovenso.townplanner.model.meta.{Key, SortKey}
+import com.innovenso.townplanner.model.samples
 
 case class Title(
     value: String
@@ -12,8 +13,15 @@ case class Title(
   override def toString: String = value
 }
 
+object Title {
+  def apply(value: String) = new Title(value)
+
+  def random: Title = new Title(samples.title)
+}
+
 trait HasTitle extends HasProperties {
-  def title: Title = prop(Key.fromString("title"), classOf[Title]).getOrElse(Title(""))
+  def title: Title =
+    prop(Key.fromString("title"), classOf[Title]).getOrElse(Title(""))
   def withTitle(title: Title): HasProperties =
     withProperty(title)
 }

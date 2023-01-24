@@ -1,17 +1,38 @@
 package com.innovenso.townplanner.model.concepts.properties
 
 import com.innovenso.townplanner.model.meta.{Key, SortKey}
+import com.innovenso.townplanner.model.samples
+import com.innovenso.townplanner.model.samples.{description, randomInt}
+import com.sun.source.tree.WhileLoopTree
 
 case class API(
-    authentication: AuthenticationType = NoAuthentication(),
+    authentication: AuthenticationType,
     style: ApiStyle,
     scope: ApiScope,
-    ddoSProtection: DDoSProtection = NoDDosProtection(),
-    rateLimiting: RateLimiting = NoRateLimiting()
+    ddoSProtection: DDoSProtection,
+    rateLimiting: RateLimiting
 ) extends Property {
   val key: Key = Key("api")
   val sortKey: SortKey = SortKey.next
   val canBePlural: Boolean = false
+}
+
+object API {
+  def apply(
+      authentication: AuthenticationType = NoAuthentication(),
+      style: ApiStyle,
+      scope: ApiScope,
+      ddoSProtection: DDoSProtection = NoDDosProtection(),
+      rateLimiting: RateLimiting = NoRateLimiting()
+  ): API = new API(authentication, style, scope, ddoSProtection, rateLimiting)
+
+  def random: API = new API(
+    authentication = AuthenticationType.random,
+    style = ApiStyle.random,
+    scope = ApiScope.random,
+    ddoSProtection = DDoSProtection.random,
+    rateLimiting = RateLimiting.random
+  )
 }
 
 trait HasAPI extends HasProperties {
@@ -46,6 +67,13 @@ object AuthenticationType {
       case Some(t)                      => Authentication(t, description)
       case None                         => NoAuthentication(description)
     }
+
+  def random: AuthenticationType = randomInt(4) match {
+    case 1 => ApiKey(Some(samples.description))
+    case 2 => BasicAuth(Some(samples.description))
+    case 3 => OAuth(Some(samples.description))
+    case 4 => Authentication(samples.title, Some(samples.description))
+  }
 }
 
 case class ApiKey(override val description: Option[String] = None)
@@ -87,6 +115,14 @@ object ApiStyle {
       case Some(t)      => OtherAPI(t, description)
       case None         => NoAPI(description)
     }
+
+  def random: ApiStyle = randomInt(5) match {
+    case 1 => RestAPI(Some(samples.description))
+    case 2 => SoapAPI(Some(samples.description))
+    case 3 => GrpcAPI(Some(samples.description))
+    case 4 => OtherAPI(samples.title, Some(samples.description))
+    case 5 => NoAPI(Some(samples.description))
+  }
 }
 case class RestAPI(override val description: Option[String] = None)
     extends ApiStyle {
@@ -126,6 +162,14 @@ object ApiScope {
       case Some(t)                => OtherScope(t, description)
       case None                   => PublicScope(description)
     }
+
+  def random: ApiScope = randomInt(5) match {
+    case 1 => PublicScope(Some(samples.description))
+    case 2 => PrivateScope(Some(samples.description))
+    case 3 => VpnScope(Some(samples.description))
+    case 4 => WhitelistingScope(Some(samples.description))
+    case 5 => OtherScope(samples.title, Some(samples.description))
+  }
 }
 
 case class PublicScope(override val description: Option[String] = None)
@@ -168,6 +212,11 @@ object DDoSProtection {
       case Some(t)      => OtherDDoSProtection(t, description)
       case None         => NoDDosProtection(description)
     }
+
+  def random: DDoSProtection = randomInt(2) match {
+    case 1 => NoDDosProtection(Some(samples.description))
+    case 2 => OtherDDoSProtection(samples.title, Some(samples.description))
+  }
 }
 
 case class NoDDosProtection(override val description: Option[String] = None)
@@ -196,6 +245,12 @@ object RateLimiting {
       case Some(t)                     => OtherRateLimiting(t, description)
       case None                        => NoRateLimiting(description)
     }
+
+  def random: RateLimiting = randomInt(3) match {
+    case 1 => NoRateLimiting(Some(samples.description))
+    case 2 => ApiGatewayRateLimiting(Some(samples.description))
+    case 3 => OtherRateLimiting(samples.title, Some(samples.description))
+  }
 }
 
 case class NoRateLimiting(override val description: Option[String] = None)

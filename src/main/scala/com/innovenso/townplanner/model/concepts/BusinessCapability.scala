@@ -171,4 +171,20 @@ trait CanAddBusinessCapabilities
       this,
       this
     )
+
+  def hasRandomBusinessCapability(
+      configuration: BusinessCapabilityMapConfigurerConfigurer => Any = _ => ()
+  ): BusinessCapability =
+    describes(BusinessCapability()) as { it =>
+      it has Title.random
+      Description.randoms.foreach(it.has)
+      Link.randoms.foreach(it.has)
+      ExternalId.randoms.foreach(r =>
+        it isIdentifiedAs (r.id) on r.externalSystemName
+      )
+      it should ArchitectureVerdict.random
+      SWOT.randoms.foreach(it.has)
+      configuration.apply(it)
+    }
+
 }

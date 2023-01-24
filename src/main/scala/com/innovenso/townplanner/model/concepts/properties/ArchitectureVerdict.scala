@@ -1,6 +1,8 @@
 package com.innovenso.townplanner.model.concepts.properties
 
 import com.innovenso.townplanner.model.meta.{Key, SortKey}
+import com.innovenso.townplanner.model.samples
+import com.innovenso.townplanner.model.samples.randomInt
 
 sealed trait ArchitectureVerdict extends Property {
   val key: Key = Key("verdict")
@@ -57,6 +59,13 @@ object ArchitectureVerdict {
     case Some("migrate")   => BeMigrated(description.getOrElse(""))
     case Some("invest")    => BeInvestedIn(description.getOrElse(""))
     case _ => UnknownArchitectureVerdict(description.getOrElse(""))
+  }
+
+  def random: ArchitectureVerdict = randomInt(4) match {
+    case 1 => BeInvestedIn(samples.description)
+    case 2 => BeEliminated(samples.description)
+    case 3 => BeTolerated(samples.description)
+    case 4 => BeMigrated(samples.description)
   }
 }
 

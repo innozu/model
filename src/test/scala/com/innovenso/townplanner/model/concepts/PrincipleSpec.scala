@@ -7,7 +7,7 @@ import org.scalatest.flatspec.AnyFlatSpec
 class PrincipleSpec extends AnyFlatSpec with GivenWhenThen {
   "principles" can "be added to the town plan" in new EnterpriseArchitectureContext {
     Given("an enterprise")
-    val innovenso: Enterprise = samples.enterprise
+    val innovenso: Enterprise = ea hasRandomEnterprise ()
     When("a principle is added to it")
     val doItRight: CorporatePrinciple = ea describes CorporatePrinciple() as {
       it =>

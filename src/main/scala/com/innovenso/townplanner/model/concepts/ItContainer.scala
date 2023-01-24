@@ -417,6 +417,28 @@ trait CanAddItContainers extends CanAddProperties with CanAddRelationships {
       container: ContainerType
   ): ItContainerConfigurer[ContainerType] =
     ItContainerConfigurer(has(container), this, this)
+
+  def hasRandomContainer[ContainerType <: ItContainer](
+      container: ContainerType,
+      configuration: ItContainerConfigurer[ContainerType] => Any =
+        (_: ItContainerConfigurer[ContainerType]) => ()
+  ): ContainerType =
+    describesContainer(container) as { it =>
+      it has Title.random
+      Description.randoms.foreach(it.has)
+      Link.randoms.foreach(it.has)
+      ExternalId.randoms.foreach(r =>
+        it isIdentifiedAs (r.id) on r.externalSystemName
+      )
+      it should ArchitectureVerdict.random
+      it has API.random
+      it ratesImpactAs Criticality.random
+      FatherTime.randoms.foreach(it.is)
+      it provides ResilienceMeasure.random
+      SWOT.randoms.foreach(it.has)
+      configuration.apply(it)
+    }
+
 }
 
 sealed trait ItContainerLayer {

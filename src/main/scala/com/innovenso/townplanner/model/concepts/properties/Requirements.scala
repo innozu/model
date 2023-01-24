@@ -1,6 +1,7 @@
 package com.innovenso.townplanner.model.concepts.properties
 
 import com.innovenso.townplanner.model.meta.{Key, SortKey}
+import com.innovenso.townplanner.model.samples
 
 case class Constraint(
     key: Key = Key("constraint"),
@@ -9,6 +10,7 @@ case class Constraint(
     description: String = "",
     weight: RequirementWeight = ShouldHave
 ) extends Requirement
+
 case class FunctionalRequirement(
     key: Key = Key("functional requirement"),
     sortKey: SortKey = SortKey.next,
@@ -50,6 +52,39 @@ trait Requirement extends Property {
   def weight: RequirementWeight
 }
 
+object Requirement {
+  def randomFunctionalRequirement: FunctionalRequirement =
+    FunctionalRequirement(
+      title = samples.title,
+      description = samples.description,
+      weight = RequirementWeight.random
+    )
+  def randomQualityAttributeRequirement: QualityAttributeRequirement =
+    QualityAttributeRequirement(
+      title = samples.title,
+      sourceOfStimulus = samples.title,
+      stimulus = samples.title,
+      response = samples.title,
+      environment = samples.title,
+      responseMeasure = samples.title,
+      weight = RequirementWeight.random
+    )
+
+  def randomConstraint: Constraint = Constraint(
+    title = samples.title,
+    description = samples.description,
+    weight = RequirementWeight.random
+  )
+
+  def random: Requirement = samples.randomInt(3) match {
+    case 1 => randomFunctionalRequirement
+    case 2 => randomQualityAttributeRequirement
+    case 3 => randomConstraint
+  }
+
+  def randoms: List[Requirement] = samples.times(10, i => random)
+}
+
 trait HasRequirements extends HasProperties {
   def requirements: List[Requirement] = props(classOf[Requirement])
   def constraints: List[Constraint] = props(classOf[Constraint])
@@ -75,6 +110,16 @@ trait RequirementWeight {
   def name: String
   def description: String
   def weight: Int
+}
+
+object RequirementWeight {
+  def random: RequirementWeight = samples.randomInt(5) match {
+    case 1 => MustHave
+    case 2 => ShouldHave
+    case 3 => WouldHave
+    case 4 => CouldHave
+    case 5 => UnknownRequirementWeight
+  }
 }
 
 case object MustHave extends RequirementWeight {

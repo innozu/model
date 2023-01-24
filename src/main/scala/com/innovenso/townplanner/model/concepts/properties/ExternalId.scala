@@ -1,6 +1,7 @@
 package com.innovenso.townplanner.model.concepts.properties
 
 import com.innovenso.townplanner.model.meta.{Key, SortKey}
+import com.innovenso.townplanner.model.samples
 
 case class ExternalId(
     id: String,
@@ -9,6 +10,16 @@ case class ExternalId(
   val key: Key = Key("external ID")
   val sortKey: SortKey = SortKey.next
   val canBePlural: Boolean = true
+}
+
+object ExternalId {
+  def apply(
+      id: String,
+      externalSystemName: String
+  ): ExternalId = new ExternalId(id, externalSystemName)
+
+  def random: ExternalId = new ExternalId(samples.id, samples.word)
+  def randoms: List[ExternalId] = samples.times(5, i => random)
 }
 
 trait HasExternalIds extends HasProperties {

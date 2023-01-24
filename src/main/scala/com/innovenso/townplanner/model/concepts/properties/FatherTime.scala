@@ -1,6 +1,7 @@
 package com.innovenso.townplanner.model.concepts.properties
 
 import com.innovenso.townplanner.model.meta._
+import com.innovenso.townplanner.model.samples
 
 trait FatherTime extends Property {
   val key: Key = Key("lifecycle")
@@ -150,6 +151,24 @@ case class LifecycleEvent(
   val canBePlural = true
 
   override def withDate(newDate: ADay): FatherTime = copy(date = newDate)
+}
+
+object FatherTime {
+  def random: FatherTime = samples.randomInt(11) match {
+    case 1  => LifecycleEvent(Day.random, samples.description)
+    case 2  => Decommissioned(Day.random, samples.description)
+    case 3  => Retired(Day.random, samples.description)
+    case 4  => Active(Day.random, samples.description)
+    case 5  => GoneToProduction(Day.random, samples.description)
+    case 6  => GoneToPreproduction(Day.random, samples.description)
+    case 7  => StartedDevelopment(Day.random, samples.description)
+    case 8  => Done(Day.random, samples.description)
+    case 9  => Started(Day.random, samples.description)
+    case 10 => Due(Day.random, samples.description)
+    case 11 => Conceived(Day.random, samples.description)
+  }
+
+  def randoms: List[FatherTime] = samples.times(10, i => random)
 }
 
 trait HasFatherTime extends HasProperties {

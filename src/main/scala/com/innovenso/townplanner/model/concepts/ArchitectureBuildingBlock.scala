@@ -4,6 +4,7 @@ import com.innovenso.townplanner.model.concepts.properties._
 import com.innovenso.townplanner.model.concepts.relationships._
 import com.innovenso.townplanner.model.language.{Element, HasModelComponents}
 import com.innovenso.townplanner.model.meta._
+import com.innovenso.townplanner.model.samples
 
 case class ArchitectureBuildingBlock(
     key: Key = Key("building block"),
@@ -111,4 +112,21 @@ trait CanAddArchitectureBuildingBlocks
       this,
       this
     )
+
+  def hasRandomArchitectureBuildingBlock(
+      configuration: ArchitectureBuildingBlockConfigurer => Any = _ => ()
+  ): ArchitectureBuildingBlock =
+    describes(ArchitectureBuildingBlock()) as { it =>
+      it has Title.random
+      Description.randoms.foreach(it.has)
+      Link.randoms.foreach(it.has)
+      ExternalId.randoms.foreach(r =>
+        it isIdentifiedAs (r.id) on r.externalSystemName
+      )
+      it should ArchitectureVerdict.random
+      it ratesImpactAs Criticality.random
+      SWOT.randoms.foreach(it.has)
+      FatherTime.randoms.foreach(it.is)
+      configuration.apply(it)
+    }
 }

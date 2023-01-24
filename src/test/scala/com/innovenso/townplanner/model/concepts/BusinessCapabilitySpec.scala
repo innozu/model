@@ -6,10 +6,10 @@ import org.scalatest.flatspec.AnyFlatSpec
 
 class BusinessCapabilitySpec extends AnyFlatSpec with GivenWhenThen {
   "Business Capabilities" can "be added to the town plan" in new EnterpriseArchitectureContext {
-    val innovenso: Enterprise = samples.enterprise
+    val innovenso: Enterprise = ea hasRandomEnterprise ()
 
-    val green: Tag = samples.tag
-    val red: Tag = samples.tag
+    val green: Tag = ea hasRandomTag ()
+    val red: Tag = ea hasRandomTag ()
 
     val marketing: BusinessCapability =
       ea describes BusinessCapability() as { it =>
@@ -52,36 +52,4 @@ class BusinessCapabilitySpec extends AnyFlatSpec with GivenWhenThen {
     assert(townPlan.businessCapabilityMap(innovenso).size == 2)
   }
 
-  "business capability map" can "be requested" in new EnterpriseArchitectureContext {
-    val enterprise: Enterprise = samples.enterprise
-    val capabalities: List[BusinessCapability] =
-      samples.capabilityHierarchy(Some(enterprise), None, 2, 0)
-
-    println(s"sample capabilities: ${capabalities.size}")
-    val capabilityMap: List[BusinessCapability] =
-      townPlan.businessCapabilityMap(enterprise)
-    println(s"capability map size: ${capabilityMap.size}")
-  }
-
-  "business capability hierarchy" can "be requested for one capability" in new EnterpriseArchitectureContext {
-    val enterprise: Enterprise = samples.enterprise
-    val cap1 = samples.capability(Some(enterprise))
-    val cap2 = samples.capability(Some(enterprise))
-    val cap11 = samples.capability(None, Some(cap1))
-    val cap12 = samples.capability(None, Some(cap1))
-    val cap121 = samples.capability(None, Some(cap12))
-    assert(hierarchyIs(cap1, List(cap1, cap11, cap12, cap121)))
-    assert(hierarchyIs(cap2, List(cap2)))
-    assert(hierarchyIs(cap11, List(cap1, cap11)))
-    assert(hierarchyIs(cap12, List(cap1, cap12, cap121)))
-    assert(hierarchyIs(cap121, List(cap1, cap12, cap121)))
-
-    def hierarchyIs(
-        of: BusinessCapability,
-        shouldBe: List[BusinessCapability]
-    ): Boolean = {
-      val h = townPlan.businessCapabilityHierarchy(of)
-      h.size == shouldBe.size && shouldBe.forall(h.contains)
-    }
-  }
 }

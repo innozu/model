@@ -1,10 +1,11 @@
 package com.innovenso.townplanner.model.concepts.properties
 
 import com.innovenso.townplanner.model.meta.{Key, SortKey}
+import com.innovenso.townplanner.model.samples
 
 case class DataClassification(
     level: DataClassificationLevel,
-    description: Option[String] = None
+    description: Option[String]
 ) extends Property {
   val key: Key = Key("data classification")
   val sortKey: SortKey = SortKey.next
@@ -37,6 +38,12 @@ case object PersonalData extends DataClassificationLevel {
 }
 
 object DataClassification {
+
+  def apply(
+      level: DataClassificationLevel,
+      description: Option[String] = None
+  ): DataClassification = new DataClassification(level, description)
+
   def fromString(
       level: String,
       description: Option[String] = None
@@ -50,6 +57,29 @@ object DataClassification {
     },
     description = description
   )
+
+  def random: DataClassification = samples.randomInt(4) match {
+    case 1 =>
+      new DataClassification(
+        level = PublicData,
+        description = Some(samples.description)
+      )
+    case 2 =>
+      new DataClassification(
+        level = ConfidentialData,
+        description = Some(samples.description)
+      )
+    case 3 =>
+      new DataClassification(
+        level = SensitiveData,
+        description = Some(samples.description)
+      )
+    case 4 =>
+      new DataClassification(
+        level = PersonalData,
+        description = Some(samples.description)
+      )
+  }
 }
 
 trait HasDataClassification extends HasProperties {
