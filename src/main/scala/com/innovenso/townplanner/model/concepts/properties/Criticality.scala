@@ -61,12 +61,12 @@ object Criticality {
   def fromString(
       value: String,
       consequences: Option[String] = None
-  ): Criticality = value match {
-    case "No Effect" | "E"    => NoEffect(consequences.getOrElse(""))
-    case "Minor" | "D"        => Minor(consequences.getOrElse(""))
-    case "Major" | "C"        => Major(consequences.getOrElse(""))
-    case "Hazardous" | "B"    => Hazardous(consequences.getOrElse(""))
-    case "Catastrophic" | "A" => Catastrophic(consequences.getOrElse(""))
+  ): Criticality = Option(value).map(_.toLowerCase).getOrElse("") match {
+    case "no effect" | "noeffect" | "e" => NoEffect(consequences.getOrElse(""))
+    case "minor" | "d"                  => Minor(consequences.getOrElse(""))
+    case "major" | "c"                  => Major(consequences.getOrElse(""))
+    case "hazardous" | "b"              => Hazardous(consequences.getOrElse(""))
+    case "catastrophic" | "a" => Catastrophic(consequences.getOrElse(""))
     case _                    => UnknownCriticality(consequences.getOrElse(""))
   }
 
