@@ -178,64 +178,23 @@ trait CanAddTechnologies extends CanAddProperties with CanAddRelationships {
   ): TechnologyRadarConfigurer[TechnologyType] =
     TechnologyRadarConfigurer(has(technology), this, this)
 
-  def hasRandomTechnique(
-      configuration: TechnologyRadarConfigurer[Technique] => Any = _ => ()
-  ): Technique =
-    describes(Technique()) as { it =>
+  def hasRandomTech[TechnologyType <: Technology](
+      technology: TechnologyType
+  ): TechnologyType = describesRandomTech(technology) as { _ => }
+  def describesRandomTech[TechnologyType <: Technology](
+      technology: TechnologyType
+  ): TechnologyRadarConfigurer[TechnologyType] = {
+    val configurer = TechnologyRadarConfigurer(has(technology), this, this)
+    val body = { it: TechnologyRadarConfigurer[TechnologyType] =>
       it has Title.random
       Description.randoms.foreach(it.has)
       Link.randoms.foreach(it.has)
       it should ArchitectureVerdict.random
       SWOT.randoms.foreach(it.has)
-      configuration.apply(it)
-    }
 
-  def hasRandomLanguage(
-      configuration: TechnologyRadarConfigurer[Language] => Any = _ => ()
-  ): Language =
-    describes(Language()) as { it =>
-      it has Title.random
-      Description.randoms.foreach(it.has)
-      Link.randoms.foreach(it.has)
-      it should ArchitectureVerdict.random
-      SWOT.randoms.foreach(it.has)
-      configuration.apply(it)
     }
-
-  def hasRandomFramework(
-      configuration: TechnologyRadarConfigurer[Framework] => Any = _ => ()
-  ): Framework =
-    describes(Framework()) as { it =>
-      it has Title.random
-      Description.randoms.foreach(it.has)
-      Link.randoms.foreach(it.has)
-      it should ArchitectureVerdict.random
-      SWOT.randoms.foreach(it.has)
-      configuration.apply(it)
-    }
-
-  def hasRandomTool(
-      configuration: TechnologyRadarConfigurer[Tool] => Any = _ => ()
-  ): Tool =
-    describes(Tool()) as { it =>
-      it has Title.random
-      Description.randoms.foreach(it.has)
-      Link.randoms.foreach(it.has)
-      it should ArchitectureVerdict.random
-      SWOT.randoms.foreach(it.has)
-      configuration.apply(it)
-    }
-
-  def hasRandomPlatform(
-      configuration: TechnologyRadarConfigurer[Platform] => Any = _ => ()
-  ): Platform =
-    describes(Platform()) as { it =>
-      it has Title.random
-      Description.randoms.foreach(it.has)
-      Link.randoms.foreach(it.has)
-      it should ArchitectureVerdict.random
-      SWOT.randoms.foreach(it.has)
-      configuration.apply(it)
-    }
+    body.apply(configurer)
+    configurer
+  }
 
 }

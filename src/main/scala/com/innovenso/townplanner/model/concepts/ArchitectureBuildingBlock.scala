@@ -4,7 +4,6 @@ import com.innovenso.townplanner.model.concepts.properties._
 import com.innovenso.townplanner.model.concepts.relationships._
 import com.innovenso.townplanner.model.language.{Element, HasModelComponents}
 import com.innovenso.townplanner.model.meta._
-import com.innovenso.townplanner.model.samples
 
 case class ArchitectureBuildingBlock(
     key: Key = Key("building block"),
@@ -113,13 +112,16 @@ trait CanAddArchitectureBuildingBlocks
       this
     )
 
-  def hasRandomArchitectureBuildingBlock(): ArchitectureBuildingBlock =
-    describesRandomArchitectureBuildingBlock() as { it => }
+  def hasRandom(
+      architectureBuildingBlock: ArchitectureBuildingBlock
+  ): ArchitectureBuildingBlock =
+    describesRandom(architectureBuildingBlock) as { it => }
 
-  def describesRandomArchitectureBuildingBlock()
-      : ArchitectureBuildingBlockConfigurer = {
+  def describesRandom(
+      architectureBuildingBlock: ArchitectureBuildingBlock
+  ): ArchitectureBuildingBlockConfigurer = {
     val configurer = ArchitectureBuildingBlockConfigurer(
-      has(ArchitectureBuildingBlock()),
+      has(architectureBuildingBlock),
       this,
       this
     )

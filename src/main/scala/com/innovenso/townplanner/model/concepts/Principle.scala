@@ -86,16 +86,20 @@ trait CanAddPrinciples extends CanAddProperties with CanAddRelationships {
     PrincipleConfigurer(has(principle), this, this)
 
   def hasRandomPrinciple[PrincipleType <: Principle](
-      principle: PrincipleType,
-      configuration: PrincipleConfigurer[PrincipleType] => Any =
-        (_: PrincipleConfigurer[PrincipleType]) => ()
-  ): PrincipleType =
-    describesPrinciple(principle) as { it =>
+      principle: PrincipleType
+  ): PrincipleType = describesRandomPrinciple(principle) as { _ => }
+  def describesRandomPrinciple[PrincipleType <: Principle](
+      principle: PrincipleType
+  ): PrincipleConfigurer[PrincipleType] = {
+    val configurer = PrincipleConfigurer(has(principle), this, this)
+    val body = { it: PrincipleConfigurer[PrincipleType] =>
       it has Title.random
       Description.randoms.foreach(it.has)
       Link.randoms.foreach(it.has)
       SWOT.randoms.foreach(it.has)
-      configuration.apply(it)
     }
+    body.apply(configurer)
+    configurer
+  }
 
 }

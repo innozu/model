@@ -84,16 +84,18 @@ trait CanAddRisks extends CanAddProperties with CanAddRelationships {
       risk: Risk
   ): RiskConfigurer = RiskConfigurer(has(risk), this, this)
 
-  def hasRandomRisk(
-      configuration: RiskConfigurer => Any = _ => ()
-  ): Risk =
-    describes(Risk(typeOfRisk = TypeOfRisk.random)) as { it =>
+  def hasRandom(risk: Risk): Risk = describesRandom(risk) as { _ => }
+  def describesRandom(risk: Risk): RiskConfigurer = {
+    val configurer = RiskConfigurer(has(risk), this, this)
+    val body = { it: RiskConfigurer =>
       it has Title.random
       Description.randoms.foreach(it.has)
       Link.randoms.foreach(it.has)
       it ratesImpactAs Criticality.random
       Context.randoms.foreach(it.has)
-      configuration.apply(it)
     }
+    body.apply(configurer)
+    configurer
+  }
 
 }

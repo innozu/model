@@ -9,8 +9,8 @@ import org.scalatest.flatspec.AnyFlatSpec
 class ItSystemIntegrationSpec extends AnyFlatSpec with GivenWhenThen {
   "IT System Integrations" can "be added to the townplan" in new EnterpriseArchitectureContext {
     Given("some systems")
-    val system1: ItSystem = ea hasRandomItSystem()
-    val system2: ItSystem = ea hasRandomItSystem()
+    val system1: ItSystem = ea hasRandom ItSystem()
+    val system2: ItSystem = ea hasRandom ItSystem()
 
     val flowView1: FlowView = ea needs FlowView() and { it =>
       it has Title("Flow View 1")
@@ -19,7 +19,7 @@ class ItSystemIntegrationSpec extends AnyFlatSpec with GivenWhenThen {
     }
 
     And("an integration platform")
-    val integrationPlatform: ItSystem = ea hasRandomItSystem()
+    val integrationPlatform: ItSystem = ea hasRandom ItSystem()
     When("an integration is added to the town plan")
     val integration: ItSystemIntegration =
       ea describes ItSystemIntegration() between system1 and system2 as { it =>

@@ -7,10 +7,10 @@ import org.scalatest.flatspec.AnyFlatSpec
 class ItSystemSpec extends AnyFlatSpec with GivenWhenThen {
   "IT Systems" can "be added to the town plan" in new EnterpriseArchitectureContext {
     Given("a platform")
-    val platform: ItPlatform = ea hasRandomItPlatform ()
+    val platform: ItPlatform = ea hasRandom ItPlatform()
     And("some layers")
-    val green: PlatformLayer = ea hasRandomPlatformLayer ()
-    val red: PlatformLayer = ea hasRandomPlatformLayer ()
+    val green: PlatformLayer = ea hasRandom PlatformLayer()
+    val red: PlatformLayer = ea hasRandom PlatformLayer()
 
     When("a system is described")
     val itSystem: ItSystem = ea describes ItSystem() as { it =>

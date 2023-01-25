@@ -2,7 +2,6 @@ package com.innovenso.townplanner.model.concepts
 
 import com.innovenso.townplanner.model.language.ModelComponent
 import com.innovenso.townplanner.model.processor.TownPlanProcessor
-import com.innovenso.townplanner.model.samples.SampleFactory
 import com.innovenso.townplanner.model.{EnterpriseArchitecture, TownPlan}
 
 trait EnterpriseArchitectureContext {

@@ -119,12 +119,19 @@ trait CanAddItSystemIntegrations
 
   def hasRandomItSystemIntegration(
       source: ItSystem,
-      target: ItSystem,
-      configuration: ItSystemIntegrationConfigurer => Any = _ => ()
+      target: ItSystem
   ): ItSystemIntegration =
-    describes(
-      ItSystemIntegration(source = source.key, target = target.key)
-    ) as { it =>
+    describesRandomItSystemIntegration(source, target) as { _ => }
+  def describesRandomItSystemIntegration(
+      source: ItSystem,
+      target: ItSystem
+  ): ItSystemIntegrationConfigurer = {
+    val configurer = ItSystemIntegrationConfigurer(
+      ItSystemIntegration(source = source.key, target = target.key),
+      this,
+      this
+    )
+    val body = { it: ItSystemIntegrationConfigurer =>
       it has Title.random
       Description.randoms.foreach(it.has)
       Link.randoms.foreach(it.has)
@@ -138,7 +145,9 @@ trait CanAddItSystemIntegrations
       it has Throughput.randomFrequency
       it has Throughput.randomVolume
       SWOT.randoms.foreach(it.has)
-      configuration.apply(it)
     }
+    body.apply(configurer)
+    configurer
+  }
 
 }

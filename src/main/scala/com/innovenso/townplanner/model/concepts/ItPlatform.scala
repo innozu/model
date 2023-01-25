@@ -97,9 +97,10 @@ trait CanAddItPlatforms extends CanAddProperties with CanAddRelationships {
   def describes(platform: ItPlatform): ItPlatformConfigurer =
     ItPlatformConfigurer(has(platform), this, this)
 
-  def hasRandomPlatform(): ItPlatform = describesRandomPlatform() as { it => }
-  def describesRandomPlatform(): ItPlatformConfigurer = {
-    val configurer = ItPlatformConfigurer(has(ItPlatform()), this, this)
+  def hasRandom(itPlatform: ItPlatform): ItPlatform =
+    describesRandom(itPlatform) as { _ => }
+  def describesRandom(itPlatform: ItPlatform): ItPlatformConfigurer = {
+    val configurer = ItPlatformConfigurer(has(itPlatform), this, this)
     val body = { it: ItPlatformConfigurer =>
       it has Title.random
       Description.randoms.foreach(it.has)

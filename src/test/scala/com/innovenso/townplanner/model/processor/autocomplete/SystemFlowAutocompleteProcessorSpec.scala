@@ -10,36 +10,37 @@ class SystemFlowAutocompleteProcessorSpec
     with GivenWhenThen {
   "flows between containers of different systems" should "result in flows between the systems and the platforms" in new EnterpriseArchitectureContext {
     Given("some systems")
-    val platform1: ItPlatform = ea hasRandomItPlatform ()
-    val platform2: ItPlatform = ea hasRandomItPlatform ()
-    val system1: ItSystem = ea hasRandomItSystem { it =>
+    val platform1: ItPlatform = ea hasRandom ItPlatform()
+    val platform2: ItPlatform = ea hasRandom ItPlatform()
+    val system1: ItSystem = ea describesRandom ItSystem() as { it =>
       it isPartOf platform1
     }
-    val system2: ItSystem = ea hasRandomItSystem { it =>
+    val system2: ItSystem = ea describesRandom ItSystem() as { it =>
       it isPartOf platform2
     }
-    val system3: ItSystem = ea hasRandomItSystem { it =>
+    val system3: ItSystem = ea describesRandom ItSystem() as { it =>
       it isPartOf platform2
     }
     And("some containers in each system")
     val container11: Microservice =
-      ea hasRandomContainer (Microservice(), { it =>
+      ea describesRandomContainer Microservice() as { it =>
         it isPartOf system1
-      })
-    val container12: Database = ea hasRandomContainer (Database(), { it =>
-      it isPartOf system1
-    })
+      }
+    val container12: Database = ea describesRandomContainer Database() as {
+      it =>
+        it isPartOf system1
+    }
     val container21: Microservice =
-      ea hasRandomContainer (Microservice(), { it =>
+      ea describesRandomContainer Microservice() as { it =>
         it isPartOf system2
-      })
-    val container22: WebUI = ea hasRandomContainer (WebUI(), { it =>
+      }
+    val container22: WebUI = ea describesRandomContainer WebUI() as { it =>
       it isPartOf system2
-    })
+    }
     val container31: Microservice =
-      ea hasRandomContainer (Microservice(), { it =>
+      ea describesRandomContainer Microservice() as { it =>
         it isPartOf system3
-      })
+      }
 
     And("relationships between the containers")
     ea hasRelationship Flow(source = container21.key, target = container22.key)

@@ -2,7 +2,6 @@ package com.innovenso.townplanner.model.concepts.properties
 
 import com.innovenso.townplanner.model.meta.{Key, SortKey}
 import com.innovenso.townplanner.model.samples
-import com.innovenso.townplanner.model.samples.randomInt
 
 abstract class SWOT extends Property {
   val key: Key = Key("swot")

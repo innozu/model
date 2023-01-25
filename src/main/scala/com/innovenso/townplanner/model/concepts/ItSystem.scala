@@ -119,10 +119,13 @@ trait CanAddItSystems extends CanAddProperties with CanAddRelationships {
   def describes(system: ItSystem): ItSystemConfigurer =
     ItSystemConfigurer(has(system), this, this)
 
-  def hasRandomItSystem(
-      configuration: ItSystemConfigurer => Any = _ => ()
-  ): ItSystem =
-    describes(ItSystem()) as { it =>
+  def hasRandom(itSystem: ItSystem): ItSystem = describesRandom(itSystem) as {
+    _ =>
+  }
+
+  def describesRandom(itSystem: ItSystem): ItSystemConfigurer = {
+    val configurer = ItSystemConfigurer(has(itSystem), this, this)
+    val body = { it: ItSystemConfigurer =>
       it has Title.random
       Description.randoms.foreach(it.has)
       Link.randoms.foreach(it.has)
@@ -134,7 +137,9 @@ trait CanAddItSystems extends CanAddProperties with CanAddRelationships {
       FatherTime.randoms.foreach(it.is)
       it provides ResilienceMeasure.random
       SWOT.randoms.foreach(it.has)
-      configuration.apply(it)
     }
+    body.apply(configurer)
+    configurer
+  }
 
 }

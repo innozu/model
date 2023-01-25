@@ -172,10 +172,18 @@ trait CanAddBusinessCapabilities
       this
     )
 
-  def hasRandomBusinessCapability(
-      configuration: BusinessCapabilityMapConfigurerConfigurer => Any = _ => ()
-  ): BusinessCapability =
-    describes(BusinessCapability()) as { it =>
+  def hasRandom(businessCapability: BusinessCapability): BusinessCapability =
+    describesRandom(businessCapability) as { _ => }
+
+  def describesRandom(
+      businessCapability: BusinessCapability
+  ): BusinessCapabilityMapConfigurerConfigurer = {
+    val configurer = BusinessCapabilityMapConfigurerConfigurer(
+      has(businessCapability),
+      this,
+      this
+    )
+    val body = { it: BusinessCapabilityMapConfigurerConfigurer =>
       it has Title.random
       Description.randoms.foreach(it.has)
       Link.randoms.foreach(it.has)
@@ -184,7 +192,9 @@ trait CanAddBusinessCapabilities
       )
       it should ArchitectureVerdict.random
       SWOT.randoms.foreach(it.has)
-      configuration.apply(it)
     }
+    body.apply(configurer)
+    configurer
+  }
 
 }

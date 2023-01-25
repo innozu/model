@@ -2,8 +2,7 @@ package com.innovenso.townplanner.model.concepts.properties
 
 import com.innovenso.townplanner.model.meta.{Key, SortKey}
 import com.innovenso.townplanner.model.samples
-import com.innovenso.townplanner.model.samples.{description, randomInt}
-import com.sun.source.tree.WhileLoopTree
+import com.innovenso.townplanner.model.samples.randomInt
 
 case class API(
     authentication: AuthenticationType,

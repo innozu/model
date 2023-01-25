@@ -57,15 +57,20 @@ trait CanAddEnterprises extends CanAddProperties with CanAddRelationships {
   def describes(enterprise: Enterprise): EnterpriseConfigurer =
     EnterpriseConfigurer(has(enterprise), this, this)
 
-  def hasRandomEnterprise(
-      configuration: EnterpriseConfigurer => Any = _ => ()
-  ): Enterprise =
-    describes(Enterprise()) as { it =>
+  def hasRandom(enterprise: Enterprise): Enterprise =
+    describesRandom(enterprise) as { it => }
+  def describesRandom(
+      enterprise: Enterprise
+  ): EnterpriseConfigurer = {
+    val configurer = EnterpriseConfigurer(has(enterprise), this, this)
+    val body = { it: EnterpriseConfigurer =>
       it has Title.random
       Description.randoms.foreach(it.has)
       Link.randoms.foreach(it.has)
       SWOT.randoms.foreach(it.has)
-      configuration.apply(it)
     }
+    body.apply(configurer)
+    configurer
+  }
 
 }

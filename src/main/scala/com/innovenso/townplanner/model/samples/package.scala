@@ -1,11 +1,7 @@
 package com.innovenso.townplanner.model
 
 import com.innovenso.townplanner.model.concepts.properties._
-import com.innovenso.townplanner.model.meta.{
-  MonetaryAmount,
-  UnitCount,
-  UnitOfMeasure
-}
+import com.innovenso.townplanner.model.meta.{MonetaryAmount, UnitCount, UnitOfMeasure}
 import com.thedeanda.lorem.LoremIpsum
 
 import java.security.SecureRandom
@@ -70,4 +66,5 @@ package object samples {
     configurer.has(Frequency(description))
     configurer.has(Volume(description))
   }
+
 }

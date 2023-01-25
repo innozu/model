@@ -187,24 +187,19 @@ trait CanAddBusinessActors extends CanAddProperties with CanAddRelationships {
       this
     )
 
-  def hasRandomOrganisation(
-      configuration: BusinessActorConfigurer[Organisation] => Any = _ => ()
-  ): Organisation =
-    describes(Organisation()) as { it =>
-      it has Title.random
-      Description.randoms.foreach(it.has)
-      Link.randoms.foreach(it.has)
-      ExternalId.randoms.foreach(r =>
-        it isIdentifiedAs (r.id) on r.externalSystemName
-      )
-      SWOT.randoms.foreach(it.has)
-      configuration.apply(it)
-    }
+  def hasRandomActor[ActorType <: BusinessActor](
+      businessActor: ActorType
+  ): ActorType = describesRandomActor(businessActor) as { _ => }
 
-  def hasRandomTeam(
-      configuration: BusinessActorConfigurer[Team] => Any = _ => ()
-  ): Team =
-    describes(Team()) as { it =>
+  def describesRandomActor[ActorType <: BusinessActor](
+      businessActor: ActorType
+  ): BusinessActorConfigurer[ActorType] = {
+    val configurer = BusinessActorConfigurer(
+      has(businessActor),
+      this,
+      this
+    )
+    val body = { it: BusinessActorConfigurer[ActorType] =>
       it has Title.random
       Description.randoms.foreach(it.has)
       Link.randoms.foreach(it.has)
@@ -212,36 +207,9 @@ trait CanAddBusinessActors extends CanAddProperties with CanAddRelationships {
         it isIdentifiedAs (r.id) on r.externalSystemName
       )
       SWOT.randoms.foreach(it.has)
-      configuration.apply(it)
     }
-
-  def hasRandomPerson(
-      configuration: BusinessActorConfigurer[Person] => Any = _ => ()
-  ): Person =
-    describes(Person()) as { it =>
-      it has Title.random
-      Description.randoms.foreach(it.has)
-      Link.randoms.foreach(it.has)
-      ExternalId.randoms.foreach(r =>
-        it isIdentifiedAs (r.id) on r.externalSystemName
-      )
-      SWOT.randoms.foreach(it.has)
-      configuration.apply(it)
-    }
-
-  def hasRandomActor(
-      configuration: BusinessActorConfigurer[Actor] => Any =
-        (c: BusinessActorConfigurer[Actor]) => ()
-  ): Actor =
-    describes(Actor()) as { it =>
-      it has Title.random
-      Description.randoms.foreach(it.has)
-      Link.randoms.foreach(it.has)
-      ExternalId.randoms.foreach(r =>
-        it isIdentifiedAs (r.id) on r.externalSystemName
-      )
-      SWOT.randoms.foreach(it.has)
-      configuration.apply(it)
-    }
+    body.apply(configurer)
+    configurer
+  }
 
 }
