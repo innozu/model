@@ -230,7 +230,8 @@ trait CanAddBusinessActors extends CanAddProperties with CanAddRelationships {
     }
 
   def hasRandomActor(
-      configuration: BusinessActorConfigurer[Actor] => Any = _ => ()
+      configuration: BusinessActorConfigurer[Actor] => Any =
+        (c: BusinessActorConfigurer[Actor]) => ()
   ): Actor =
     describes(Actor()) as { it =>
       it has Title.random

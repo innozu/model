@@ -318,110 +318,190 @@ trait CanAddItContainers extends CanAddProperties with CanAddRelationships {
   ): ItContainerConfigurer[GenericContainer] =
     describesContainer[GenericContainer](container)
 
+  def hasRandom(container: GenericContainer)(
+      configurer: ItContainerConfigurer[GenericContainer] => Any
+  ): GenericContainer = hasRandomContainer(container)(configurer)
+
   def describes(
       container: Microservice
   ): ItContainerConfigurer[Microservice] =
     describesContainer[Microservice](container)
+
+  def hasRandom(container: Microservice)(
+      configurer: ItContainerConfigurer[Microservice] => Any
+  ): Microservice = hasRandomContainer(container)(configurer)
 
   def describes(
       container: Database
   ): ItContainerConfigurer[Database] =
     describesContainer[Database](container)
 
+  def hasRandom(container: Database)(
+      configurer: ItContainerConfigurer[Database] => Any
+  ): Database = hasRandomContainer(container)(configurer)
+
   def describes(
       container: Queue
   ): ItContainerConfigurer[Queue] =
     describesContainer[Queue](container)
+
+  def hasRandom(container: Queue)(
+      configurer: ItContainerConfigurer[Queue] => Any
+  ): Queue = hasRandomContainer(container)(configurer)
 
   def describes(
       container: Topic
   ): ItContainerConfigurer[Topic] =
     describesContainer[Topic](container)
 
+  def hasRandom(container: Topic)(
+      configurer: ItContainerConfigurer[Topic] => Any
+  ): Topic = hasRandomContainer(container)(configurer)
+
   def describes(
       container: EventStream
   ): ItContainerConfigurer[EventStream] =
     describesContainer[EventStream](container)
+
+  def hasRandom(container: EventStream)(
+      configurer: ItContainerConfigurer[EventStream] => Any
+  ): EventStream = hasRandomContainer(container)(configurer)
 
   def describes(
       container: Filesystem
   ): ItContainerConfigurer[Filesystem] =
     describesContainer[Filesystem](container)
 
+  def hasRandom(container: Filesystem)(
+      configurer: ItContainerConfigurer[Filesystem] => Any
+  ): Filesystem = hasRandomContainer(container)(configurer)
+
   def describes(
       container: Service
   ): ItContainerConfigurer[Service] =
     describesContainer[Service](container)
+
+  def hasRandom(container: Service)(
+      configurer: ItContainerConfigurer[Service] => Any
+  ): Service = hasRandomContainer(container)(configurer)
 
   def describes(
       container: Function
   ): ItContainerConfigurer[Function] =
     describesContainer[Function](container)
 
+  def hasRandom(container: Function)(
+      configurer: ItContainerConfigurer[Function] => Any
+  ): Function = hasRandomContainer(container)(configurer)
+
   def describes(
       container: Gateway
   ): ItContainerConfigurer[Gateway] =
     describesContainer[Gateway](container)
+
+  def hasRandom(container: Gateway)(
+      configurer: ItContainerConfigurer[Gateway] => Any
+  ): Gateway = hasRandomContainer(container)(configurer)
 
   def describes(
       container: Proxy
   ): ItContainerConfigurer[Proxy] =
     describesContainer[Proxy](container)
 
+  def hasRandom(container: Proxy)(
+      configurer: ItContainerConfigurer[Proxy] => Any
+  ): Proxy = hasRandomContainer(container)(configurer)
+
   def describes(
       container: Firewall
   ): ItContainerConfigurer[Firewall] =
     describesContainer[Firewall](container)
+
+  def hasRandom(container: Firewall)(
+      configurer: ItContainerConfigurer[Firewall] => Any
+  ): Firewall = hasRandomContainer(container)(configurer)
 
   def describes(
       container: WebUI
   ): ItContainerConfigurer[WebUI] =
     describesContainer[WebUI](container)
 
+  def hasRandom(container: WebUI)(
+      configurer: ItContainerConfigurer[WebUI] => Any
+  ): WebUI = hasRandomContainer(container)(configurer)
+
   def describes(
       container: MobileUI
   ): ItContainerConfigurer[MobileUI] =
     describesContainer[MobileUI](container)
+
+  def hasRandom(container: MobileUI)(
+      configurer: ItContainerConfigurer[MobileUI] => Any
+  ): MobileUI = hasRandomContainer(container)(configurer)
 
   def describes(
       container: WatchUI
   ): ItContainerConfigurer[WatchUI] =
     describesContainer[WatchUI](container)
 
+  def hasRandom(container: WatchUI)(
+      configurer: ItContainerConfigurer[WatchUI] => Any
+  ): WatchUI = hasRandomContainer(container)(configurer)
+
   def describes(
       container: DesktopUI
   ): ItContainerConfigurer[DesktopUI] =
     describesContainer[DesktopUI](container)
+
+  def hasRandom(container: DesktopUI)(
+      configurer: ItContainerConfigurer[DesktopUI] => Any
+  ): DesktopUI = hasRandomContainer(container)(configurer)
 
   def describes(
       container: SmartTVUI
   ): ItContainerConfigurer[SmartTVUI] =
     describesContainer[SmartTVUI](container)
 
+  def hasRandom(container: SmartTVUI)(
+      configurer: ItContainerConfigurer[SmartTVUI] => Any
+  ): SmartTVUI = hasRandomContainer(container)(configurer)
+
   def describes(
       container: TerminalUI
   ): ItContainerConfigurer[TerminalUI] =
     describesContainer[TerminalUI](container)
+
+  def hasRandom(container: TerminalUI)(
+      configurer: ItContainerConfigurer[TerminalUI] => Any
+  ): TerminalUI = hasRandomContainer(container)(configurer)
 
   def describes(
       container: Batch
   ): ItContainerConfigurer[Batch] =
     describesContainer[Batch](container)
 
+  def hasRandom(container: Batch)(
+      configurer: ItContainerConfigurer[Batch] => Any
+  ): Batch = hasRandomContainer(container)(configurer)
+
   def describes(
       container: Cache
   ): ItContainerConfigurer[Cache] =
     describesContainer[Cache](container)
+
+  def hasRandom(container: Cache)(
+      configurer: ItContainerConfigurer[Cache] => Any
+  ): Cache = hasRandomContainer(container)(configurer)
 
   private def describesContainer[ContainerType <: ItContainer](
       container: ContainerType
   ): ItContainerConfigurer[ContainerType] =
     ItContainerConfigurer(has(container), this, this)
 
-  def hasRandomContainer[ContainerType <: ItContainer](
-      container: ContainerType,
-      configuration: ItContainerConfigurer[ContainerType] => Any =
-        (_: ItContainerConfigurer[ContainerType]) => ()
+  private def hasRandomContainer[ContainerType <: ItContainer](
+      container: ContainerType
+  )(
+      configuration: ItContainerConfigurer[ContainerType] => Any
   ): ContainerType =
     describesContainer(container) as { it =>
       it has Title.random

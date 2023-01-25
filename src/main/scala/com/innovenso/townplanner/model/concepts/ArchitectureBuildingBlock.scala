@@ -113,10 +113,17 @@ trait CanAddArchitectureBuildingBlocks
       this
     )
 
-  def hasRandomArchitectureBuildingBlock(
-      configuration: ArchitectureBuildingBlockConfigurer => Any = _ => ()
-  ): ArchitectureBuildingBlock =
-    describes(ArchitectureBuildingBlock()) as { it =>
+  def hasRandomArchitectureBuildingBlock(): ArchitectureBuildingBlock =
+    describesRandomArchitectureBuildingBlock() as { it => }
+
+  def describesRandomArchitectureBuildingBlock()
+      : ArchitectureBuildingBlockConfigurer = {
+    val configurer = ArchitectureBuildingBlockConfigurer(
+      has(ArchitectureBuildingBlock()),
+      this,
+      this
+    )
+    val body = { it: ArchitectureBuildingBlockConfigurer =>
       it has Title.random
       Description.randoms.foreach(it.has)
       Link.randoms.foreach(it.has)
@@ -127,6 +134,8 @@ trait CanAddArchitectureBuildingBlocks
       it ratesImpactAs Criticality.random
       SWOT.randoms.foreach(it.has)
       FatherTime.randoms.foreach(it.is)
-      configuration.apply(it)
     }
+    body.apply(configurer)
+    configurer
+  }
 }

@@ -97,10 +97,10 @@ trait CanAddItPlatforms extends CanAddProperties with CanAddRelationships {
   def describes(platform: ItPlatform): ItPlatformConfigurer =
     ItPlatformConfigurer(has(platform), this, this)
 
-  def hasRandomItPlatform(
-      configuration: ItPlatformConfigurer => Any = _ => ()
-  ): ItPlatform =
-    describes(ItPlatform()) as { it =>
+  def hasRandomPlatform(): ItPlatform = describesRandomPlatform() as { it => }
+  def describesRandomPlatform(): ItPlatformConfigurer = {
+    val configurer = ItPlatformConfigurer(has(ItPlatform()), this, this)
+    val body = { it: ItPlatformConfigurer =>
       it has Title.random
       Description.randoms.foreach(it.has)
       Link.randoms.foreach(it.has)
@@ -112,7 +112,9 @@ trait CanAddItPlatforms extends CanAddProperties with CanAddRelationships {
       FatherTime.randoms.foreach(it.is)
       it provides ResilienceMeasure.random
       SWOT.randoms.foreach(it.has)
-      configuration.apply(it)
     }
+    body.apply(configurer)
+    configurer
+  }
 
 }
