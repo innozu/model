@@ -219,7 +219,7 @@ trait CanAddDataObjects extends CanAddProperties with CanAddRelationships {
       )
       DataAttribute.randoms.foreach(it.has)
       it has DataClassification.random
-      FatherTime.randoms.foreach(it.is)
+      FatherTime.randoms.foreach(ft => it is ft on ft.date)
     }
     body.apply(configurer)
     configurer

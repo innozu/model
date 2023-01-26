@@ -134,7 +134,7 @@ trait CanAddItSystems extends CanAddProperties with CanAddRelationships {
       )
       it should ArchitectureVerdict.random
       it ratesImpactAs Criticality.random
-      FatherTime.randoms.foreach(it.is)
+      FatherTime.randoms.foreach(ft => it is ft on ft.date)
       it provides ResilienceMeasure.random
       SWOT.randoms.foreach(it.has)
     }
