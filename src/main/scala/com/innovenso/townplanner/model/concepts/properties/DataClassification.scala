@@ -48,12 +48,12 @@ object DataClassification {
       level: String,
       description: Option[String] = None
   ): DataClassification = DataClassification(
-    level = level match {
-      case "Public" | "public" | "0"             => PublicData
-      case "Confidential" | "confidential" | "1" => ConfidentialData
-      case "Sensitive" | "sensitive" | "2"       => SensitiveData
-      case "Personal" | "personal" | "3"         => PersonalData
-      case _                                     => SensitiveData
+    level = Option(level).map(_.toLowerCase).map(_.trim).getOrElse("") match {
+      case "public" | "0"       => PublicData
+      case "confidential" | "1" => ConfidentialData
+      case "sensitive" | "2"    => SensitiveData
+      case "personal" | "3"     => PersonalData
+      case _                    => SensitiveData
     },
     description = description
   )
