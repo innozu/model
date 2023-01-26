@@ -171,7 +171,7 @@ object FatherTime {
   def randoms: List[FatherTime] = samples.times(10, i => random)
 
   def fromString(name: String, day: ADay, description: String): FatherTime =
-    Option(name).map(_.toLowerCase).map(_.trim) match {
+    Option(name).map(_.toLowerCase).map(_.trim).getOrElse("") match {
       case "conceived"        => Conceived(day, description)
       case "decommissioned"   => Decommissioned(day, description)
       case "retired"          => Retired(day, description)
