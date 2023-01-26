@@ -25,4 +25,10 @@ class ArchitectureBuildingBlockSpec extends AnyFlatSpec with GivenWhenThen {
     )
   }
 
+  "random" should "generate a random Architecture Building Block" in new EnterpriseArchitectureContext {
+    val buildingBlock = ea hasRandom ArchitectureBuildingBlock()
+    println(s"random building block: $buildingBlock")
+    assert(buildingBlock.lifeEvents.nonEmpty)
+  }
+
 }

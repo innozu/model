@@ -135,7 +135,7 @@ trait CanAddArchitectureBuildingBlocks
       it should ArchitectureVerdict.random
       it ratesImpactAs Criticality.random
       SWOT.randoms.foreach(it.has)
-      FatherTime.randoms.foreach(it.is)
+      FatherTime.randoms.foreach(ft => it is ft on ft.date)
     }
     body.apply(configurer)
     configurer
