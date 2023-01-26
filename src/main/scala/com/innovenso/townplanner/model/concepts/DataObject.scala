@@ -109,6 +109,23 @@ case class Projection(
     copy(properties = this.properties + (property.key -> property))
 }
 
+object DataObject {
+  def fromString(
+      dataObjectType: String,
+      key: Key = Key("dataobject"),
+      sortKey: SortKey = SortKey.next
+  ): Option[DataObject] =
+    Option(dataObjectType).map(_.toLowerCase).map(_.trim).map {
+      case "projection"     => Projection(key, sortKey)
+      case "query"          => Query(key, sortKey)
+      case "event"          => Event(key, sortKey)
+      case "command"        => Command(key, sortKey)
+      case "aggregate root" => AggregateRoot(key, sortKey)
+      case "value object"   => ValueObject(key, sortKey)
+      case "entity"         => Entity(key, sortKey)
+    }
+}
+
 trait HasDataObjects extends HasModelComponents with HasRelationships {
   def dataObjects: List[DataObject] = components(classOf[DataObject])
   def dataObject(key: Key): Option[DataObject] =
