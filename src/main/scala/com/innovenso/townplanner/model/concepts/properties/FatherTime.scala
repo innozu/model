@@ -169,6 +169,22 @@ object FatherTime {
   }
 
   def randoms: List[FatherTime] = samples.times(10, i => random)
+
+  def fromString(name: String, day: ADay, description: String): FatherTime =
+    Option(name).map(_.toLowerCase).map(_.trim) match {
+      case "conceived"        => Conceived(day, description)
+      case "decommissioned"   => Decommissioned(day, description)
+      case "retired"          => Retired(day, description)
+      case "active"           => Active(day, description)
+      case "in production"    => GoneToProduction(day, description)
+      case "in preproduction" => GoneToPreproduction(day, description)
+      case "in development"   => StartedDevelopment(day, description)
+      case "done"             => Done(day, description)
+      case "due"              => Due(day, description)
+      case "started"          => Started(day, description)
+      case _                  => LifecycleEvent(day, description)
+    }
+
 }
 
 trait HasFatherTime extends HasProperties {

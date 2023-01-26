@@ -4,11 +4,19 @@ import com.innovenso.townplanner.model.samples
 
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import scala.util.Try
 
 case class Day(year: Int, month: Int, day: Int) extends ADay
 
 object Day {
   def apply(year: Int, month: Int, day: Int): Day = new Day(year, month, day)
+
+  def apply(date: LocalDate): Day =
+    new Day(date.getYear, date.getMonthValue, date.getDayOfMonth)
+
+  def fromString(input: String): Day = Try {
+    LocalDate.parse(input, DateTimeFormatter.ISO_LOCAL_DATE)
+  }.map(apply).getOrElse(Today)
 
   def random: Day =
     apply(samples.randomInt(3000), samples.randomInt(12), samples.randomInt(28))
