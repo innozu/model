@@ -14,7 +14,7 @@ object Day {
   def apply(date: LocalDate): Day =
     new Day(date.getYear, date.getMonthValue, date.getDayOfMonth)
 
-  def fromString(input: String): Day = Try {
+  def fromString(input: String): ADay = Try {
     LocalDate.parse(input, DateTimeFormatter.ISO_LOCAL_DATE)
   }.map(apply).getOrElse(Today)
 
