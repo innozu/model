@@ -55,4 +55,9 @@ trait CanConfigurePlatformLayerProperties[
       modelComponent,
       PlatformLayerProperty(platformLayer)
     )
+
+  def isOn(key: Key): HasPlatformLayerProperties = propertyAdder.withProperty(
+    modelComponent,
+    PlatformLayerProperty(platformLayerKey = key)
+  )
 }
