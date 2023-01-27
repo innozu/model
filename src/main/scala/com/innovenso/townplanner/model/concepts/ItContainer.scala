@@ -38,6 +38,36 @@ sealed trait ItContainer
   def containerLayer: ItContainerLayer
 }
 
+object ItContainer {
+  def fromString(
+      containerType: String,
+      key: Key = Key("container"),
+      sortKey: SortKey = SortKey.next
+  ): Option[ItContainer] =
+    Option(containerType).map(_.toLowerCase).map(_.trim).map {
+      case "microservice" => Microservice(key, sortKey)
+      case "database"     => Database(key, sortKey)
+      case "function"     => Function(key, sortKey)
+      case "service"      => Service(key, sortKey)
+      case "filesystem"   => Filesystem(key, sortKey)
+      case "queue"        => Queue(key, sortKey)
+      case "topic"        => Topic(key, sortKey)
+      case "event stream" => EventStream(key, sortKey)
+      case "gateway"      => Gateway(key, sortKey)
+      case "proxy"        => Proxy(key, sortKey)
+      case "firewall"     => Firewall(key, sortKey)
+      case "cache"        => Cache(key, sortKey)
+      case "web ui"       => WebUI(key, sortKey)
+      case "mobile ui"    => MobileUI(key, sortKey)
+      case "watch ui"     => WatchUI(key, sortKey)
+      case "desktop ui"   => DesktopUI(key, sortKey)
+      case "terminal ui"  => TerminalUI(key, sortKey)
+      case "smart tv ui"  => SmartTVUI(key, sortKey)
+      case "batch"        => Batch(key, sortKey)
+      case other => GenericContainer(key, sortKey, containerType = other)
+    }
+}
+
 case class Microservice(
     key: Key = Key("microservice"),
     sortKey: SortKey = SortKey.next,
