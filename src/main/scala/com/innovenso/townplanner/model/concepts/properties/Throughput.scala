@@ -3,11 +3,12 @@ package com.innovenso.townplanner.model.concepts.properties
 import com.innovenso.townplanner.model.meta.{Key, SortKey}
 import com.innovenso.townplanner.model.samples
 
-abstract class Throughput extends Property {
+trait Throughput extends Property {
   val key: Key = Key("throughput")
   val sortKey: SortKey = SortKey.next
   val canBePlural: Boolean = false
   def description: String
+  def name: String
 }
 
 object Throughput {
@@ -15,15 +16,25 @@ object Throughput {
   def randomFrequency: Frequency = Frequency(samples.description)
 
   def randoms: List[Throughput] = List(randomVolume, randomFrequency)
+
+  def fromString(name: String, description: String = ""): Option[Throughput] =
+    Option(name).map(_.toLowerCase).map(_.trim).map {
+      case "frequency" => Frequency(description)
+      case "volume"    => Volume(description)
+    }
 }
 
 case class Volume(
     description: String
-) extends Throughput
+) extends Throughput {
+  override val name: String = "volume"
+}
 
 case class Frequency(
     description: String
-) extends Throughput
+) extends Throughput {
+  override val name: String = "frequency"
+}
 
 trait HasThroughput extends HasProperties {
   def volume: Option[Volume] = props(classOf[Volume]).headOption
