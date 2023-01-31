@@ -66,7 +66,7 @@ trait Cardinality {
 
 object Cardinality {
   def fromString(value: String): Cardinality =
-    Option(value).map(_.toLowerCase).map(_.trim) match {
+    Option(value).map(_.toLowerCase).map(_.trim).getOrElse("") match {
       case "1" | "one"             => One
       case "0..1" | "zero or one"  => ZeroOrOne
       case "0..*" | "zero or more" => ZeroOrMore
