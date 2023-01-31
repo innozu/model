@@ -1,6 +1,10 @@
 package com.innovenso.townplanner.model.concepts.relationships
 
-import com.innovenso.townplanner.model.concepts.properties.{CanAddProperties, Property, Title}
+import com.innovenso.townplanner.model.concepts.properties.{
+  CanAddProperties,
+  Property,
+  Title
+}
 import com.innovenso.townplanner.model.meta.Key
 
 case class DataRelationship(
@@ -58,6 +62,17 @@ trait Cardinality {
   def value: String
 
   override def toString: String = value
+}
+
+object Cardinality {
+  def fromString(value: String): Cardinality =
+    Option(value).map(_.toLowerCase).map(_.trim) match {
+      case "1" | "one"             => One
+      case "0..1" | "zero or one"  => ZeroOrOne
+      case "0..*" | "zero or more" => ZeroOrMore
+      case "1..*" | "one or more"  => OneOrMore
+      case _                       => ZeroOrMore
+    }
 }
 
 case object One extends Cardinality {
