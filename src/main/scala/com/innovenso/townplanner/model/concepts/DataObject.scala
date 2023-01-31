@@ -59,7 +59,7 @@ case class AggregateRoot(
     sortKey: SortKey = SortKey.next,
     properties: Map[Key, Property] = Map.empty[Key, Property]
 ) extends DataObject {
-  val dataObjectType: String = "aggretate root"
+  val dataObjectType: String = "aggregate root"
 
   def withProperty(property: Property): AggregateRoot =
     copy(properties = this.properties + (property.key -> property))
