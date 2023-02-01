@@ -22,6 +22,20 @@ sealed trait Technology
   val layer: Layer = TechnologyLayer
   val sortKey: SortKey = SortKey.next
   def technologyType: String
+}
+
+object Technology {
+  def fromString(
+      technologyType: String,
+      key: Key = Key("technology")
+  ): Option[Technology] =
+    Option(technologyType).map(_.toLowerCase).map(_.trim).map {
+      case "technique" => Technique(key)
+      case "language"  => Language(key)
+      case "framework" => Framework(key)
+      case "platform"  => Platform(key)
+      case "tool"      => Tool(key)
+    }
 
 }
 
