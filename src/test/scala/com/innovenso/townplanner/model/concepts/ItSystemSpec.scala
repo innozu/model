@@ -19,6 +19,8 @@ class ItSystemSpec extends AnyFlatSpec with GivenWhenThen {
       it should BeInvestedIn()
       it ratesFailureAs Catastrophic(consequences = "people die")
       it provides ResilienceMeasure("circuit breaker")
+      it provides EncryptionAtRest("using AES-256")
+      it provides EncryptionInTransit("using AES-256")
       it isPartOf platform
       it isIdentifiedAs "abc" on "Sparx"
       it isOn green

@@ -4,6 +4,7 @@ import com.innovenso.townplanner.model.concepts.properties._
 import com.innovenso.townplanner.model.concepts.relationships._
 import com.innovenso.townplanner.model.language.{Element, HasModelComponents}
 import com.innovenso.townplanner.model.meta._
+import com.innovenso.townplanner.model.samples
 
 case class ItSystemIntegration(
     key: Key = Key("integration"),
@@ -20,6 +21,7 @@ case class ItSystemIntegration(
     with HasSWOT
     with HasFatherTime
     with HasResilienceMeasures
+    with HasSecurityMeasures
     with HasThroughput
     with HasInteractions
     with CanBeIllustrated
@@ -86,6 +88,7 @@ case class ItSystemIntegrationConfigurer(
     with CanConfigureSWOT[ItSystemIntegration]
     with CanConfigureFatherTime[ItSystemIntegration]
     with CanConfigureResilienceMeasures[ItSystemIntegration]
+    with CanConfigureSecurityMeasures[ItSystemIntegration]
     with CanConfigureThroughput[ItSystemIntegration]
     with CanConfigureInteractions[ItSystemIntegration]
     with CanConfigureAssociations[ItSystemIntegration]
@@ -142,6 +145,7 @@ trait CanAddItSystemIntegrations
       it ratesImpactAs Criticality.random
       FatherTime.randoms.foreach(ft => it is ft on ft.date)
       it provides ResilienceMeasure.random
+      samples.times(5, i => it provides SecurityMeasure.random)
       it has Throughput.randomFrequency
       it has Throughput.randomVolume
       SWOT.randoms.foreach(it.has)

@@ -4,6 +4,7 @@ import com.innovenso.townplanner.model.concepts.properties._
 import com.innovenso.townplanner.model.concepts.relationships._
 import com.innovenso.townplanner.model.language.{Element, HasModelComponents}
 import com.innovenso.townplanner.model.meta._
+import com.innovenso.townplanner.model.samples
 
 case class ItSystem(
     key: Key = Key("it system"),
@@ -20,6 +21,7 @@ case class ItSystem(
     with HasResilienceMeasures
     with HasPlatformLayerProperties
     with HasTagProperties
+    with HasSecurityMeasures
     with CanBeFlowSource
     with CanBeFlowTarget
     with CanTrigger
@@ -104,6 +106,7 @@ case class ItSystemConfigurer(
     with CanConfigureKnowledgeTarget[ItSystem]
     with CanConfigurePlatformLayerProperties[ItSystem]
     with CanConfigureTagProperties[ItSystem]
+    with CanConfigureSecurityMeasures[ItSystem]
     with CanConfigureDataObjectInteractionSource[ItSystem] {
   def as(
       body: ItSystemConfigurer => Any
@@ -136,6 +139,7 @@ trait CanAddItSystems extends CanAddProperties with CanAddRelationships {
       it ratesImpactAs Criticality.random
       FatherTime.randoms.foreach(ft => it is ft on ft.date)
       it provides ResilienceMeasure.random
+      samples.times(5, i => it provides SecurityMeasure.random)
       SWOT.randoms.foreach(it.has)
     }
     body.apply(configurer)
