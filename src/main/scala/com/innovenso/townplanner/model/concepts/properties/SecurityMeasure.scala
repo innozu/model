@@ -83,12 +83,17 @@ object SecurityMeasure {
   ): SecurityMeasure = Option(value).map(_.toLowerCase).getOrElse("") match {
     case "sast" => StaticApplicationSecurityTesting(description.getOrElse(""))
     case "dast" => DynamicApplicationSecurityTesting(description.getOrElse(""))
-    case "antivirus"    => Antivirus(description.getOrElse(""))
-    case "physical"     => PhysicalSecurity(description.getOrElse(""))
-    case "segregation"  => NetworkSegregation(description.getOrElse(""))
-    case "segmentation" => NetworkSegmentation(description.getOrElse(""))
-    case "monitoring"   => PrivilegedAccessMonitoring(description.getOrElse(""))
-    case "access"       => StrictAccessControls(description.getOrElse(""))
+    case "antivirus" => Antivirus(description.getOrElse(""))
+    case "physical" | "physical security" =>
+      PhysicalSecurity(description.getOrElse(""))
+    case "segregation" | "network segregation" =>
+      NetworkSegregation(description.getOrElse(""))
+    case "segmentation" | "network segmentation" =>
+      NetworkSegmentation(description.getOrElse(""))
+    case "monitoring" | "privileged Access monitoring" =>
+      PrivilegedAccessMonitoring(description.getOrElse(""))
+    case "access" | "strict access controls" =>
+      StrictAccessControls(description.getOrElse(""))
     case "encryptionintransit" | "encryption in transit" =>
       EncryptionInTransit(description.getOrElse(""))
     case "encryptionatrest" | "encryption at rest" =>
