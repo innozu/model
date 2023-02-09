@@ -33,6 +33,17 @@ trait DataObject
   def dataObjectType: String
 }
 
+case class ConceptualDataObject(
+    key: Key = Key("conceptual"),
+    sortKey: SortKey = SortKey.next,
+    properties: Map[Key, Property] = Map.empty[Key, Property]
+) extends DataObject {
+  val dataObjectType: String = "conceptual"
+
+  def withProperty(property: Property): ConceptualDataObject =
+    copy(properties = this.properties + (property.key -> property))
+}
+
 case class Entity(
     key: Key = Key("entity"),
     sortKey: SortKey = SortKey.next,
@@ -123,6 +134,7 @@ object DataObject {
       case "aggregate root" => AggregateRoot(key, sortKey)
       case "value object"   => ValueObject(key, sortKey)
       case "entity"         => Entity(key, sortKey)
+      case "conceptual"     => ConceptualDataObject(key, sortKey)
     }
 }
 
@@ -162,6 +174,11 @@ case class DataObjectConfigurer[DataObjectType <: DataObject](
 }
 
 trait CanAddDataObjects extends CanAddProperties with CanAddRelationships {
+
+  def describes(
+      dataObject: ConceptualDataObject
+  ): DataObjectConfigurer[ConceptualDataObject] =
+    describesDataObject[ConceptualDataObject](dataObject)
 
   def describes(
       dataObject: Entity
