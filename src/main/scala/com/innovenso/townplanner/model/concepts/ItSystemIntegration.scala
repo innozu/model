@@ -10,6 +10,7 @@ case class ItSystemIntegration(
     key: Key = Key("integration"),
     source: Key = Key(),
     target: Key = Key(),
+    dataObject: Key = Key(),
     sortKey: SortKey = SortKey.next,
     properties: Map[Key, Property] = Map.empty[Key, Property]
 ) extends Element
@@ -44,7 +45,11 @@ case class ItSystemIntegration(
   def hasSystem(system: ItSystem): Boolean =
     source == system.key || target == system.key
 
+  def hasDataObject(theDataObject: DataObject): Boolean =
+    dataObject == theDataObject.key
+
   def participants: Set[Key] = Set(source, target)
+
 }
 
 trait HasItSystemIntegrations extends HasModelComponents with HasRelationships {
@@ -60,6 +65,9 @@ trait HasItSystemIntegrations extends HasModelComponents with HasRelationships {
   ): List[ItSystemIntegration] = systemIntegrations.filter(it =>
     it.hasSystem(source) && it.hasSystem(target)
   )
+
+  def systemIntegrations(dataObject: DataObject): List[ItSystemIntegration] =
+    systemIntegrations.filter(_.hasDataObject(dataObject))
 
   def systemIntegrations: List[ItSystemIntegration] = components(
     classOf[ItSystemIntegration]
@@ -78,7 +86,10 @@ trait HasItSystemIntegrations extends HasModelComponents with HasRelationships {
 case class ItSystemIntegrationConfigurer(
     modelComponent: ItSystemIntegration,
     propertyAdder: CanAddProperties,
-    relationshipAdder: CanAddRelationships
+    relationshipAdder: CanAddRelationships,
+    source: Option[ItSystem] = None,
+    target: Option[ItSystem] = None,
+    dataObject: Option[DataObject] = None
 ) extends CanConfigureTitle[ItSystemIntegration]
     with CanConfigureDescription[ItSystemIntegration]
     with CanConfigureArchitectureVerdict[ItSystemIntegration]
@@ -97,14 +108,32 @@ case class ItSystemIntegrationConfigurer(
     with CanConfigureKnowledgeTarget[ItSystemIntegration]
     with CanConfigureIllustrations[ItSystemIntegration]
     with CanConfigureDataObjectInteractionSource[ItSystemIntegration] {
+
+  def carrying(dataObject: DataObject): ItSystemIntegrationConfigurer =
+    copy(
+      modelComponent = modelComponent.copy(dataObject = dataObject.key),
+      dataObject = Some(dataObject)
+    )
   def between(system: ItSystem): ItSystemIntegrationConfigurer =
-    copy(modelComponent = modelComponent.copy(source = system.key))
+    copy(
+      modelComponent = modelComponent.copy(source = system.key),
+      source = Some(system)
+    )
   def and(system: ItSystem): ItSystemIntegrationConfigurer =
-    copy(modelComponent = modelComponent.copy(target = system.key))
+    copy(
+      modelComponent = modelComponent.copy(target = system.key),
+      target = Some(system)
+    )
   def as(
       body: ItSystemIntegrationConfigurer => Any
   ): ItSystemIntegration = {
-    propertyAdder.has(modelComponent)
+    propertyAdder.has(
+      modelComponent.withTitle(
+        Title(s"${source.map(_.title).getOrElse(s"?")} - ${target
+            .map(_.title)
+            .getOrElse("?")}: ${dataObject.map(_.title).getOrElse("?")}")
+      )
+    )
     body.apply(this)
     propertyAdder.townPlan
       .systemIntegration(modelComponent.key)
@@ -122,15 +151,21 @@ trait CanAddItSystemIntegrations
 
   def hasRandomItSystemIntegration(
       source: ItSystem,
-      target: ItSystem
+      target: ItSystem,
+      dataObject: Option[DataObject] = None
   ): ItSystemIntegration =
-    describesRandomItSystemIntegration(source, target) as { _ => }
+    describesRandomItSystemIntegration(source, target, dataObject) as { _ => }
   def describesRandomItSystemIntegration(
       source: ItSystem,
-      target: ItSystem
+      target: ItSystem,
+      dataObject: Option[DataObject] = None
   ): ItSystemIntegrationConfigurer = {
     val configurer = ItSystemIntegrationConfigurer(
-      ItSystemIntegration(source = source.key, target = target.key),
+      ItSystemIntegration(
+        source = source.key,
+        target = target.key,
+        dataObject = dataObject.map(_.key).getOrElse(Key())
+      ),
       this,
       this
     )

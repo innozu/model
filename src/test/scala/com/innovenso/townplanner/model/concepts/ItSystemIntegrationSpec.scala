@@ -11,6 +11,8 @@ class ItSystemIntegrationSpec extends AnyFlatSpec with GivenWhenThen {
     Given("some systems")
     val system1: ItSystem = ea hasRandom ItSystem()
     val system2: ItSystem = ea hasRandom ItSystem()
+    val dataObject: ConceptualDataObject =
+      ea hasRandomDataObject ConceptualDataObject()
 
     val flowView1: FlowView = ea needs FlowView() and { it =>
       it has Title("Flow View 1")
@@ -22,21 +24,21 @@ class ItSystemIntegrationSpec extends AnyFlatSpec with GivenWhenThen {
     val integrationPlatform: ItSystem = ea hasRandom ItSystem()
     When("an integration is added to the town plan")
     val integration: ItSystemIntegration =
-      ea describes ItSystemIntegration() between system1 and system2 as { it =>
-        it has Title("Integration 1")
-        it has Description("This is an integration")
-        it should BeInvestedIn()
-        it ratesFailureAs Catastrophic(consequences = "people die")
-        it provides ResilienceMeasure("circuit breaker")
-        it has Volume("thousands per day")
-        it has Frequency("every second")
-        it isImplementedBy integrationPlatform
-        it isIllustratedBy FlowViewIllustration(flowView = flowView1)
+      ea describes ItSystemIntegration() between system1 and system2 carrying dataObject as {
+        it =>
+          it has Description("This is an integration")
+          it should BeInvestedIn()
+          it ratesFailureAs Catastrophic(consequences = "people die")
+          it provides ResilienceMeasure("circuit breaker")
+          it has Volume("thousands per day")
+          it has Frequency("every second")
+          it isImplementedBy integrationPlatform
+          it isIllustratedBy FlowViewIllustration(flowView = flowView1)
 
-        it has Message("step 1") from system1 to integrationPlatform
-        it has Request("step 2") from integrationPlatform to system2
-        it has Response("step 3") from system2 to integrationPlatform
-        it has Message("step 4") from integrationPlatform to system1
+          it has Message("step 1") from system1 to integrationPlatform
+          it has Request("step 2") from integrationPlatform to system2
+          it has Response("step 3") from system2 to integrationPlatform
+          it has Message("step 4") from integrationPlatform to system1
       }
 
     Then("the integration exists")

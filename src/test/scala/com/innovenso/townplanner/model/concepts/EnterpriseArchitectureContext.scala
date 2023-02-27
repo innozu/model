@@ -3,14 +3,17 @@ package com.innovenso.townplanner.model.concepts
 import com.innovenso.townplanner.model.language.ModelComponent
 import com.innovenso.townplanner.model.processor.TownPlanProcessor
 import com.innovenso.townplanner.model.{EnterpriseArchitecture, TownPlan}
+import fish.genius.logging.Loggable
 
-trait EnterpriseArchitectureContext {
+trait EnterpriseArchitectureContext extends Loggable {
   val ea: EnterpriseArchitecture = EnterpriseArchitecture()
 
   def exists[ModelComponentType <: ModelComponent](
       modelComponent: ModelComponentType
   ): Boolean = {
-    ea.townPlan.has(modelComponent)
+    def e = ea.townPlan.has(modelComponent)
+    info(s"does $modelComponent exist? $e")
+    e
   }
 
   def townPlan: TownPlan = ea.townPlan
