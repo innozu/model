@@ -1,8 +1,8 @@
 package com.innovenso.townplanner.model.meta
 
-import org.apache.commons.lang3.StringUtils
-
 import java.security.SecureRandom
+
+import org.apache.commons.lang3.StringUtils
 
 case class Color(red: Int, green: Int, blue: Int)(val name: String) {
   val hex: String = String.format("#%02x%02x%02x", red, green, blue)

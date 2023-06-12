@@ -1,6 +1,7 @@
 package com.innovenso.townplanner.model.concepts.properties
 
-import com.innovenso.townplanner.model.meta.{Key, SortKey}
+import com.innovenso.townplanner.model.meta.Key
+import com.innovenso.townplanner.model.meta.SortKey
 
 abstract class SecurityImpact extends Property {
   val key: Key = Key("security impact")

@@ -2,7 +2,8 @@ package com.innovenso.townplanner.model.concepts
 
 import com.innovenso.townplanner.model.concepts.properties._
 import com.innovenso.townplanner.model.concepts.relationships._
-import com.innovenso.townplanner.model.language.{Element, HasModelComponents}
+import com.innovenso.townplanner.model.language.Element
+import com.innovenso.townplanner.model.language.HasModelComponents
 import com.innovenso.townplanner.model.meta._
 import com.innovenso.townplanner.model.samples
 
@@ -169,7 +170,7 @@ trait CanAddItSystemIntegrations
       this,
       this
     )
-    val body = { it: ItSystemIntegrationConfigurer =>
+    val body = { (it: ItSystemIntegrationConfigurer) =>
       it has Title.random
       Description.randoms.foreach(it.has)
       Link.randoms.foreach(it.has)

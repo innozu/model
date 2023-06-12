@@ -1,8 +1,8 @@
 package com.innovenso.townplanner.model.meta
 
-import org.apache.commons.text.WordUtils
-
 import java.util.UUID
+
+import org.apache.commons.text.WordUtils
 
 case class Key(value: String) {
   def camelCased: String = WordUtils

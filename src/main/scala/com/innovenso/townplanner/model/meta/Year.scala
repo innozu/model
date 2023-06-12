@@ -1,8 +1,8 @@
 package com.innovenso.townplanner.model.meta
 
-import com.innovenso.townplanner.model.samples
-
 import java.time.LocalDate
+
+import com.innovenso.townplanner.model.samples
 
 case class SomeYear(value: Int) extends Year
 

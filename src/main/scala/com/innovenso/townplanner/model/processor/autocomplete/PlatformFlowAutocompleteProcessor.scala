@@ -1,9 +1,10 @@
 package com.innovenso.townplanner.model.processor.autocomplete
 
 import com.innovenso.townplanner.model.EnterpriseArchitecture
+import com.innovenso.townplanner.model.concepts.ItPlatform
+import com.innovenso.townplanner.model.concepts.ItSystem
 import com.innovenso.townplanner.model.concepts.properties.Title
 import com.innovenso.townplanner.model.concepts.relationships.Flow
-import com.innovenso.townplanner.model.concepts.{ItPlatform, ItSystem}
 import com.innovenso.townplanner.model.language.Element
 import com.innovenso.townplanner.model.meta.Key
 import com.innovenso.townplanner.model.processor.TownPlanProcessor

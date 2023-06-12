@@ -1,11 +1,12 @@
 package com.innovenso.townplanner.model.concepts
 
+import scala.annotation.tailrec
+
 import com.innovenso.townplanner.model.concepts.properties._
 import com.innovenso.townplanner.model.concepts.relationships._
-import com.innovenso.townplanner.model.language.{Element, HasModelComponents}
+import com.innovenso.townplanner.model.language.Element
+import com.innovenso.townplanner.model.language.HasModelComponents
 import com.innovenso.townplanner.model.meta._
-
-import scala.annotation.tailrec
 
 case class BusinessCapability(
     key: Key = Key("capability"),
@@ -183,7 +184,7 @@ trait CanAddBusinessCapabilities
       this,
       this
     )
-    val body = { it: BusinessCapabilityMapConfigurerConfigurer =>
+    val body = { (it: BusinessCapabilityMapConfigurerConfigurer) =>
       it has Title.random
       Description.randoms.foreach(it.has)
       Link.randoms.foreach(it.has)

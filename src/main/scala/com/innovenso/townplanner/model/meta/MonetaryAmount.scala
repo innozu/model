@@ -1,8 +1,8 @@
 package com.innovenso.townplanner.model.meta
 
-import com.innovenso.townplanner.model.samples
-
 import java.util.Currency
+
+import com.innovenso.townplanner.model.samples
 
 case class MonetaryAmount(
     amount: Double,

@@ -1,7 +1,8 @@
 package com.innovenso.townplanner.model.concepts.properties
 
 import com.innovenso.townplanner.model.concepts.Tag
-import com.innovenso.townplanner.model.meta.{Key, SortKey}
+import com.innovenso.townplanner.model.meta.Key
+import com.innovenso.townplanner.model.meta.SortKey
 
 case class TagProperty(
     key: Key = Key("tag property"),

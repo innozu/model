@@ -1,10 +1,11 @@
 ThisBuild / organization := "com.innovenso"
 ThisBuild / organizationName := "Innovenso"
 ThisBuild / organizationHomepage := Some(url("https://innovenso.com"))
-ThisBuild / scalaVersion := "2.13.10"
+ThisBuild / scalaVersion := "3.3.0"
+ThisBuild / semanticdbEnabled := true
+ThisBuild / semanticdbVersion := scalafixSemanticdb.revision
 ThisBuild / resolvers += Resolver.mavenLocal
-ThisBuild / resolvers += "Config Maven Repo" at "https://maven.pkg.github.com/genius-fish/config"
-ThisBuild / resolvers += "Logging Maven Repo" at "https://maven.pkg.github.com/genius-fish/logging"
+ThisBuild / resolvers += "Genius Fish SDK Maven Repo" at "https://maven.pkg.github.com/genius-fish/sdk"
 ThisBuild / versionScheme := Some("early-semver")
 ThisBuild / developers := List(
   Developer(
@@ -38,9 +39,9 @@ lazy val root = project
   .settings(
     name := "innozu-model",
     libraryDependencies ++= Dependencies.Testing.*,
-    libraryDependencies ++= Dependencies.Lorem.*,
     libraryDependencies ++= Dependencies.GeniusFish.*,
     libraryDependencies ++= Dependencies.Apache.Commons.*
   )
 
-addCommandAlias("deploy", "publishLocal;publish")
+addCommandAlias("build", "compile;scalafix")
+addCommandAlias("deploy", "publishLocal;publishM2;publish")

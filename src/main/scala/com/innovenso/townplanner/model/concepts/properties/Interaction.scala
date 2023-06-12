@@ -1,8 +1,10 @@
 package com.innovenso.townplanner.model.concepts.properties
 
-import com.innovenso.townplanner.model.concepts.{DataObject, Technology}
+import com.innovenso.townplanner.model.concepts.DataObject
+import com.innovenso.townplanner.model.concepts.Technology
 import com.innovenso.townplanner.model.language.Element
-import com.innovenso.townplanner.model.meta.{Key, SortKey}
+import com.innovenso.townplanner.model.meta.Key
+import com.innovenso.townplanner.model.meta.SortKey
 
 abstract class Interaction extends Property {
   val key: Key = Key("interation")

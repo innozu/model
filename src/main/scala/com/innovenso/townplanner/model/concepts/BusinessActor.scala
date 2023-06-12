@@ -2,7 +2,8 @@ package com.innovenso.townplanner.model.concepts
 
 import com.innovenso.townplanner.model.concepts.properties._
 import com.innovenso.townplanner.model.concepts.relationships._
-import com.innovenso.townplanner.model.language.{Element, HasModelComponents}
+import com.innovenso.townplanner.model.language.Element
+import com.innovenso.townplanner.model.language.HasModelComponents
 import com.innovenso.townplanner.model.meta._
 
 sealed trait BusinessActor
@@ -199,7 +200,7 @@ trait CanAddBusinessActors extends CanAddProperties with CanAddRelationships {
       this,
       this
     )
-    val body = { it: BusinessActorConfigurer[ActorType] =>
+    val body = { (it: BusinessActorConfigurer[ActorType]) =>
       it has Title.random
       Description.randoms.foreach(it.has)
       Link.randoms.foreach(it.has)

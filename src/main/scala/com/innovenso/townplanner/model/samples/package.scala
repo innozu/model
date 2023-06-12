@@ -1,11 +1,15 @@
 package com.innovenso.townplanner.model
 
-import com.innovenso.townplanner.model.concepts.properties._
-import com.innovenso.townplanner.model.meta.{MonetaryAmount, UnitCount, UnitOfMeasure}
-import com.thedeanda.lorem.LoremIpsum
-
 import java.security.SecureRandom
-import java.util.{Currency, Locale, UUID}
+import java.util.Currency
+import java.util.Locale
+import java.util.UUID
+
+import com.innovenso.townplanner.model.concepts.properties._
+import com.innovenso.townplanner.model.meta.MonetaryAmount
+import com.innovenso.townplanner.model.meta.UnitCount
+import com.innovenso.townplanner.model.meta.UnitOfMeasure
+import com.thedeanda.lorem.LoremIpsum
 
 package object samples {
   private val random = new SecureRandom()

@@ -1,7 +1,9 @@
 package com.innovenso.townplanner.model.concepts
 
 import com.innovenso.townplanner.model.concepts.properties._
-import com.innovenso.townplanner.model.language.{Concept, HasModelComponents, ModelComponent}
+import com.innovenso.townplanner.model.language.Concept
+import com.innovenso.townplanner.model.language.HasModelComponents
+import com.innovenso.townplanner.model.language.ModelComponent
 import com.innovenso.townplanner.model.meta._
 
 case class Tag(
@@ -56,7 +58,7 @@ trait CanAddTags extends CanAddProperties {
   def hasRandom(tag: Tag): Tag = describesRandom(tag) as { _ => }
   def describesRandom(tag: Tag): TagConfigurer = {
     val configurer = TagConfigurer(has(tag), this)
-    val body = { it: TagConfigurer =>
+    val body = { (it: TagConfigurer) =>
       it has Title.random
       Description.randoms.foreach(it.has)
     }

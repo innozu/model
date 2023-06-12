@@ -2,7 +2,10 @@ package com.innovenso.townplanner.model.concepts.views
 
 import com.innovenso.townplanner.model.concepts._
 import com.innovenso.townplanner.model.concepts.properties._
-import com.innovenso.townplanner.model.concepts.relationships.{CanAddRelationships, Composition, HasRelationships, Implementation}
+import com.innovenso.townplanner.model.concepts.relationships.CanAddRelationships
+import com.innovenso.townplanner.model.concepts.relationships.Composition
+import com.innovenso.townplanner.model.concepts.relationships.HasRelationships
+import com.innovenso.townplanner.model.concepts.relationships.Implementation
 import com.innovenso.townplanner.model.language._
 import com.innovenso.townplanner.model.meta._
 

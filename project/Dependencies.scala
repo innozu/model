@@ -2,15 +2,11 @@ import sbt._
 
 object Dependencies {
   object Testing {
-    private val _version = "3.2.14"
+    private val _version = "3.2.16"
     final val * = Seq(
       "org.scalactic" %% "scalactic" % _version,
       "org.scalatest" %% "scalatest" % _version % Test
     )
-  }
-  object Lorem {
-    private val _version = "2.1"
-    final val * = Seq("com.thedeanda" % "lorem" % _version)
   }
   object Apache {
     object Commons {
@@ -20,8 +16,10 @@ object Dependencies {
   }
 
   object GeniusFish {
-    final val config = "fish.genius" % "config_2.13" % "1.0.6"
-    final val logging = "fish.genius" % "logging_2.13" % "1.0.3"
-    final val * = Seq(config, logging)
+    val _version = "2.1.3"
+    final val config = "fish.genius" %% "config" % _version
+    final val logging = "fish.genius" %% "logging" % _version
+    final val lorem = "fish.genius" %% "lorem" % _version
+    final val * = Seq(config, logging, lorem)
   }
 }

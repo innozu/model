@@ -1,7 +1,8 @@
 package com.innovenso.townplanner.model.concepts
 
 import com.innovenso.townplanner.model.concepts.properties._
-import com.innovenso.townplanner.model.language.{Concept, HasModelComponents}
+import com.innovenso.townplanner.model.language.Concept
+import com.innovenso.townplanner.model.language.HasModelComponents
 import com.innovenso.townplanner.model.meta._
 
 case class PlatformLayer(
@@ -54,7 +55,7 @@ trait CanAddPlatformLayers extends CanAddProperties {
       platformLayer: PlatformLayer
   ): PlatformLayerConfigurer = {
     val configurer = PlatformLayerConfigurer(has(platformLayer), this)
-    val body = { it: PlatformLayerConfigurer =>
+    val body = { (it: PlatformLayerConfigurer) =>
       it has Title.random
       Description.randoms.foreach(it.has)
     }

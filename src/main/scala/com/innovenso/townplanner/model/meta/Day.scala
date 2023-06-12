@@ -1,10 +1,11 @@
 package com.innovenso.townplanner.model.meta
 
-import com.innovenso.townplanner.model.samples
-
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+
 import scala.util.Try
+
+import com.innovenso.townplanner.model.samples
 
 case class Day(year: Int, month: Int, day: Int) extends ADay
 

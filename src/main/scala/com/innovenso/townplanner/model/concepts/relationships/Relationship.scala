@@ -2,7 +2,10 @@ package com.innovenso.townplanner.model.concepts.relationships
 
 import com.innovenso.townplanner.model.concepts.CanBeImplementedByTechnologies
 import com.innovenso.townplanner.model.concepts.properties._
-import com.innovenso.townplanner.model.language.{CanAddModelComponents, Concept, Element, HasModelComponents}
+import com.innovenso.townplanner.model.language.CanAddModelComponents
+import com.innovenso.townplanner.model.language.Concept
+import com.innovenso.townplanner.model.language.Element
+import com.innovenso.townplanner.model.language.HasModelComponents
 import com.innovenso.townplanner.model.meta._
 
 trait Relationship

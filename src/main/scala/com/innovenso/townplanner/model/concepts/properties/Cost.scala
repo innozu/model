@@ -1,9 +1,9 @@
 package com.innovenso.townplanner.model.concepts.properties
 
+import java.util.Currency
+
 import com.innovenso.townplanner.model.meta._
 import com.innovenso.townplanner.model.samples
-
-import java.util.Currency
 
 case class Capex(
     sortKey: SortKey = SortKey.next,

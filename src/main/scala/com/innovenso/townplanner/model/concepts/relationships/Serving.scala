@@ -1,6 +1,8 @@
 package com.innovenso.townplanner.model.concepts.relationships
 
-import com.innovenso.townplanner.model.concepts.properties.{CanAddProperties, Property, Title}
+import com.innovenso.townplanner.model.concepts.properties.CanAddProperties
+import com.innovenso.townplanner.model.concepts.properties.Property
+import com.innovenso.townplanner.model.concepts.properties.Title
 import com.innovenso.townplanner.model.meta.Key
 
 case class Serving(

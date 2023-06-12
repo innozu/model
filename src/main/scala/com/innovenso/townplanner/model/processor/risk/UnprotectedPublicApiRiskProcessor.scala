@@ -1,8 +1,10 @@
 package com.innovenso.townplanner.model.processor.risk
 
 import com.innovenso.townplanner.model.EnterpriseArchitecture
+import com.innovenso.townplanner.model.concepts.ItContainer
+import com.innovenso.townplanner.model.concepts.Risk
+import com.innovenso.townplanner.model.concepts.SecurityVulnerability
 import com.innovenso.townplanner.model.concepts.properties._
-import com.innovenso.townplanner.model.concepts.{ItContainer, Risk, SecurityVulnerability}
 import com.innovenso.townplanner.model.processor.TownPlanProcessor
 import fish.genius.logging.Loggable
 

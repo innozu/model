@@ -1,6 +1,7 @@
 package com.innovenso.townplanner.model.concepts.properties
 
-import com.innovenso.townplanner.model.meta.{Key, SortKey}
+import com.innovenso.townplanner.model.meta.Key
+import com.innovenso.townplanner.model.meta.SortKey
 import com.innovenso.townplanner.model.samples
 
 case class Constraint(

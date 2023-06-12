@@ -2,7 +2,8 @@ package com.innovenso.townplanner.model.concepts
 
 import com.innovenso.townplanner.model.concepts.properties._
 import com.innovenso.townplanner.model.concepts.relationships._
-import com.innovenso.townplanner.model.language.{Element, HasModelComponents}
+import com.innovenso.townplanner.model.language.Element
+import com.innovenso.townplanner.model.language.HasModelComponents
 import com.innovenso.townplanner.model.meta._
 import com.innovenso.townplanner.model.samples
 
@@ -128,7 +129,7 @@ trait CanAddItSystems extends CanAddProperties with CanAddRelationships {
 
   def describesRandom(itSystem: ItSystem): ItSystemConfigurer = {
     val configurer = ItSystemConfigurer(has(itSystem), this, this)
-    val body = { it: ItSystemConfigurer =>
+    val body = { (it: ItSystemConfigurer) =>
       it has Title.random
       Description.randoms.foreach(it.has)
       Link.randoms.foreach(it.has)

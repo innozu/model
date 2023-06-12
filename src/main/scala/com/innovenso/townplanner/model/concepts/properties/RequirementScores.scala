@@ -1,6 +1,7 @@
 package com.innovenso.townplanner.model.concepts.properties
 
-import com.innovenso.townplanner.model.meta.{Key, SortKey}
+import com.innovenso.townplanner.model.meta.Key
+import com.innovenso.townplanner.model.meta.SortKey
 
 sealed trait RequirementScore extends Property {
   val canBePlural: Boolean = true

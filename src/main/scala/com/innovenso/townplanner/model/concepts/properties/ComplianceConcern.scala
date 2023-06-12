@@ -1,6 +1,7 @@
 package com.innovenso.townplanner.model.concepts.properties
 
-import com.innovenso.townplanner.model.meta.{Key, SortKey}
+import com.innovenso.townplanner.model.meta.Key
+import com.innovenso.townplanner.model.meta.SortKey
 
 abstract class ComplianceConcern extends Property {
   val key: Key = Key("compliance")

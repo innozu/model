@@ -1,7 +1,9 @@
 package com.innovenso.townplanner.model.language
 
 import com.innovenso.townplanner.model.TownPlan
-import com.innovenso.townplanner.model.meta.{Key, ModelComponentType, SortKey}
+import com.innovenso.townplanner.model.meta.Key
+import com.innovenso.townplanner.model.meta.ModelComponentType
+import com.innovenso.townplanner.model.meta.SortKey
 
 trait ModelComponent {
   def key: Key

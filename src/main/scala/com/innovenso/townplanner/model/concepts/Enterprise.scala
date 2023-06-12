@@ -2,7 +2,8 @@ package com.innovenso.townplanner.model.concepts
 
 import com.innovenso.townplanner.model.concepts.properties._
 import com.innovenso.townplanner.model.concepts.relationships._
-import com.innovenso.townplanner.model.language.{Element, HasModelComponents}
+import com.innovenso.townplanner.model.language.Element
+import com.innovenso.townplanner.model.language.HasModelComponents
 import com.innovenso.townplanner.model.meta._
 
 case class Enterprise(
@@ -63,7 +64,7 @@ trait CanAddEnterprises extends CanAddProperties with CanAddRelationships {
       enterprise: Enterprise
   ): EnterpriseConfigurer = {
     val configurer = EnterpriseConfigurer(has(enterprise), this, this)
-    val body = { it: EnterpriseConfigurer =>
+    val body = { (it: EnterpriseConfigurer) =>
       it has Title.random
       Description.randoms.foreach(it.has)
       Link.randoms.foreach(it.has)
